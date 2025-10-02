@@ -1,0 +1,16 @@
+.loginPage{ 
+    min-height: 100vh;
+}
+
+.input{
+    width: 500px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+.imageDa{
+    height: 172px;
+    width: 172px;
+
+}
+
