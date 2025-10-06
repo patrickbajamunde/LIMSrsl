@@ -23,14 +23,14 @@ const styles = StyleSheet.create({
     headerContainer: {
         flexDirection: 'row', // horizontal layout
         alignItems: 'center', // vertical alignment       
-        paddingRight: 160,
-        gap: 76,
+        paddingRight: 50,
+        gap: 117,
     },
 
     boldFont:{
         fontFamily: 'Cambria',
         fontWeight: 'bold',
-        fontSize: 11
+        fontSize: 10
     },
     italicFont:{
         fontFamily:'Cambria',
@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
     titleBold:{
         fontFamily:'Cambria',
         fontWeight: 'bold',
-        fontSize:11
+        fontSize:11,
+        backgroundColor: '#d8d8d8',
     },
     contentNormal:{
         fontFamily:'Cambria',
@@ -64,9 +65,9 @@ const styles = StyleSheet.create({
         padding: 72,
     },
     image:{
-        marginLeft:48,
-        width: 96.39,
-        height: 86.5,
+        marginLeft:28,
+        width: 64,
+        height: 54,
     },
     header:{
         fontFamily:'Cambria',
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderLeftWidth: 0,
         borderTopWidth: 0,
-        backgroundColor: '#D9D9D9',
+        backgroundColor: '#F2F2F2',
         textAlign:'center',
         paddingBottom:0
     },
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
         fontFamily:'Cambria',
         fontSize:11,
         width: '20%', // You can adjust widths here
-        height: 155,
+        height:154,
         borderStyle: 'solid',
         borderWidth: 1,
         borderLeftWidth: 0,
@@ -92,16 +93,26 @@ const styles = StyleSheet.create({
         borderBottomWidth:1,
         textAlign:'center',
     },
+    cellTwo:{
+        fontFamily:'Cambria',
+        fontSize:11,
+        width: '20%', // You can adjust widths here
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderLeftWidth: 0,
+        borderTopWidth: 0,
+        borderBottomWidth:1,
+    },
 
     table:{
         display: 'table',
-        width: '81%',
-        marginTop: 20,
+        marginTop: 15,
         borderStyle: 'solid',
         borderWidth: 1,
         borderRightWidth: 0,
         borderBottomWidth: 0,
-        marginLeft:67,
+        marginLeft:14,
+        marginRight:14,
     },
 
     row:{
@@ -124,6 +135,11 @@ const styles = StyleSheet.create({
     ukas:{
         width:135,
         height:85,
+        backgroundColor: 'white',
+    },
+    ukasTwo:{
+        width:85,
+        height:45,
         backgroundColor: 'white',
     },
 

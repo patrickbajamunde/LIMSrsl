@@ -73,7 +73,7 @@ function Arf() {
 
   const requestIdGenerator = (clientType) => {
     const getCategoryId = customerCategory(clientType)
-    if (!getCategoryId) return '';
+    if (!getCategoryId) return '';  
 
     const now = new Date();
     const year = now.getFullYear();
