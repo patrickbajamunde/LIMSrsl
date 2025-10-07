@@ -59,7 +59,10 @@ const clientSchema = new mongoose.Schema ({
 
     clientEmail: {
         type: String,
-       
+    },
+
+    clientContact: {
+        type: Number
     },
 
     clientGender: {
@@ -69,7 +72,10 @@ const clientSchema = new mongoose.Schema ({
 
     sampleDisposal: {
         type: Date,
-        
+    },
+
+    sampleDisposedBy:{
+        type: String,
     },
 
     reportDue :{
@@ -111,6 +117,18 @@ const clientSchema = new mongoose.Schema ({
         type: String,       
     },
 
+    samplingDate: {
+        type: Date,
+    },
+    samplingTime: {
+        type: String,
+    },
+    sampleCondition: {
+        type: String
+    },
+    otherMatters:{
+        type: String
+    },
 
     user: {
         type: mongoose.Schema.Types.ObjectId,

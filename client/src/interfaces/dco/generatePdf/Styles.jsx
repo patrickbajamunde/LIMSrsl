@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: 'center',
-        marginTop: 15,
+        marginTop: 10,
         marginLeft: 14,
         
     },
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     },
     cellTwo:{
         fontFamily:'Cambria',
-        fontSize:11,
+        fontSize:10,
         width: '20%', // You can adjust widths here
         borderStyle: 'solid',
         borderWidth: 1,
@@ -118,6 +118,9 @@ const styles = StyleSheet.create({
     row:{
         flexDirection:'row'
     },
+    column: {
+        flexDirection: 'column',
+    },
     footer:{
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -128,13 +131,13 @@ const styles = StyleSheet.create({
     checkbox: {
         width: 13,
         height: 10,
-        borderWidth: 2,
+        borderWidth: 1.5,
         borderColor: '#000',
         marginRight: 5,
     },
     ukas:{
-        width:135,
-        height:85,
+        width:85,
+        height:45,
         backgroundColor: 'white',
     },
     ukasTwo:{
@@ -148,7 +151,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         fontSize: 11,
         bottom: 30,
-        right: 70,
     },
 
     termsBold:{
