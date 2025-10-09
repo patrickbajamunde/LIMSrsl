@@ -11,8 +11,8 @@ function RoaForm() {
     const now = new Date()
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0')
-    
-    const rfcal ='RSL'
+
+    const rfcal = 'RSL'
     const roa = 'ROA';
 
     const numberSeries = '0000';
@@ -27,7 +27,8 @@ function RoaForm() {
     dateIssued: "",
     reportId: defReportId(),
     analyzedBy: "",
-    status: "For release"
+    status: "For release",
+    sampleSource: ""
   }
 
   const analystPRC = (analyzedBy) => {
@@ -47,9 +48,8 @@ function RoaForm() {
   const [roaReport, setRoaReport] = useState([]) //holds sample details in an array
   const [reportDetails, setReportDetails] = useState({
     labCode: '',
-    sampleCode: '',
+    customerCode: '',
     sampleDescription: '',
-    sampleParam: '',
     result: '',
     testMethod: ''
   });// state of report details before change in the modal
@@ -58,9 +58,9 @@ function RoaForm() {
     const { name, value } = e.target;
     if (name === 'analyzedBy' || name === 'datePerformed') {
       const prc = analystPRC(value);
-      setResult({ 
-        ...result, 
-        [name]: value, 
+      setResult({
+        ...result,
+        [name]: value,
         analystPRC: prc,
       });
     } else if (name === 'datePerformedFrom') {
@@ -122,9 +122,8 @@ function RoaForm() {
     setRoaReport([...roaReport, reportDetails]);
     setReportDetails({
       labCode: '',
-      sampleCode: '',
+      customerCode: '',
       sampleDescription: '',
-      sampleParam: '',
       result: '',
       testMethod: ''
     });
@@ -160,7 +159,7 @@ function RoaForm() {
     <div className='d-flex mt-3'>
       <div className=' analysis card container-fluid shadow-sm border bordered-darker mb-5'>
         <div className='row g-6'>
-          <div className='head container rounded-top'  style={{ backgroundColor: '#003e8fff' }}>
+          <div className='head container rounded-top' style={{ backgroundColor: '#003e8fff' }}>
 
             <div className='mt-1'>
               <i className='bi bi-info-circle text-white fs-5 ms-1 me-1' />
@@ -169,15 +168,16 @@ function RoaForm() {
           </div>
 
           <form className='mt-4 mb-4' onSubmit={submitForm}>
-            <div className='container-fluid mt-3 '>
-              <div className='row mt-4'>
-                <label className='col-md-3 col-form-label'>Report Id: </label>
-                <div className='col-md-3 d-flex justify-content-end'>
-                  <input type="tel" className="date form-control border-dark" name='reportId' id = 'reportId' onChange={inputHandler} value={result.reportId} placeholder="" />
+            <div className='card p-4 mb-3 shadow-sm border'>
+              <h5 className='mb-4 text-primary fw-bold'>Report Details</h5>
+              <div className='row g-4'>
+                <div className='col-md-6'>
+                  <label className='form-label'>Report Id: </label>
+                  <input type="text" className="date form-control border-dark" name='reportId' id='reportId' onChange={inputHandler} value={result.reportId} placeholder="" />
                 </div>
 
-                <label className='testMethod col-md-3 col-form-label '>Analyzed By: </label>
-                <div className='col-md-3 d-flex justify-content-end'>
+                <div className='col-md-6'>
+                  <label className='form-label'>Analyzed By: </label>
                   <select className='form-select border-dark' name='analyzedBy' onChange={inputHandler} value={result.analyzedBy}>
                     <option defaultValue="Choose...">Choose...</option>
                     <option value="Katrina Louise C. Gonzales">Katrina Louise C. Gonzales</option>
@@ -185,91 +185,74 @@ function RoaForm() {
                     <option value="Danica Mae B. Rodriguez">Danica Mae B. Rodriguez</option>
                   </select>
                 </div>
-              </div>
 
-              <div className='row mt-4'>
-
-
-                <div className='col-md '>
-
-                  {/*Date Issued*/}
-                  <div className='row'>
-                    <label className='col-md-6 col-form-label '>Date Issued: </label>
-                    <div className='col-md-6'>
-                      <div className="row-sm">
-                        <input type="date" className="date form-control border-dark" name='dateIssued' onChange={inputHandler} value={result.dateIssued} placeholder="" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/*Date Received*/}
-                  <div className='row mt-4'>
-                    <label className='col-md-6 col-form-label '>Date Received: </label>
-                    <div className='col-md-6'>
-                      <div className="row-sm">
-                        <input type="date" className="date form-control border-dark" name='dateReceived' onChange={inputHandler} value={result.dateReceived} placeholder="" />
-                      </div>
-                    </div>
-                  </div>
-
+                <div className='col-md-6'>
+                  <label className='form-label '>Date Issued: </label>
+                  <input type="date" className="date form-control border-dark" name='dateIssued' onChange={inputHandler} value={result.dateIssued} placeholder="" />
                 </div>
 
-                {/*Date Performed*/}
-                <div className="col">
-                  <div className='col-md'>
-                    <div className='row'>
-                      <label className="datePerformed col-md-6 col-form-label">Date Performed:</label>
-                      <div className='col-md-6'>
-                        <input type="text" className="date form-control border-dark" id="datePerformed" name="datePerformed" onChange={inputHandler} value={result.datePerformed} placeholder="" />
-                      </div>
-                    </div>
-                  </div>
+                <div className="col-md-6">
+                  <label className='form-label '>Date Received: </label>
+                  <input type="date" className="date form-control border-dark" name='dateReceived' onChange={inputHandler} value={result.dateReceived} placeholder="" />
+                </div>
 
-                  <div className="fromTo row mt-4">
-
-                    {/*FROM*/}
-                    <div className="col-sm-5">
-                      <div className="row ">
-                        <label className="col-sm-4 col-form-label">From</label>
-                        <div className="col-md-8">
-                          <input
-                            type="date"
-                            className="form-control border-dark"
-                            id="datePerformedFrom"
-                            name="datePerformedFrom"
-                            onChange={inputHandler}
-                            value={dateFrom}
-
-                          />
+                <div className='col-md-6'>
+                  {/*Date Performed*/}
+                  <div className="col">
+                    <div className='col-md'>
+                      <div className='row'>
+                        <label className=" col-md-3 col-form-label">Date Performed:</label>
+                        <div className='col-md-9'>
+                          <input type="text" className="date form-control border-dark" id="datePerformed" name="datePerformed" onChange={inputHandler} value={result.datePerformed} placeholder="" />
                         </div>
                       </div>
                     </div>
 
-                    {/*TO*/}
-                    <div className="col-sm-5">
-                      <div className="row ">
-                        <label className="col-sm-4 col-form-label ">To</label>
-                        <div className="col-md-8">
-                          <input
-                            type="date"
-                            className="form-control border-dark"
-                            id="datePerformedTo"
-                            name="datePerformedTo"
-                            onChange={inputHandler}
-                            value={dateTo}
+                    <div className=" row mt-4">
 
-                          />
+                      {/*FROM*/}
+                      <div className="col-sm-5">
+                        <div className="row ">
+                          <label className="col-sm-4 col-form-label">From</label>
+                          <div className="col-md-8">
+                            <input
+                              type="date"
+                              className="form-control border-dark"
+                              id="datePerformedFrom"
+                              name="datePerformedFrom"
+                              onChange={inputHandler}
+                              value={dateFrom}
+
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/*BUTTON*/}
-                    <div className='col-sm d-flex align-items-center justify-content-center'>
-                      <button type='button' className='btn btn-primary' onClick={addDateRange}><i className="bi bi-plus-lg fs-8"></i></button>
+                      {/*TO*/}
+                      <div className="col-sm-5">
+                        <div className="row ">
+                          <label className="col-sm-4 col-form-label ">To</label>
+                          <div className="col-md-8">
+                            <input
+                              type="date"
+                              className="form-control border-dark"
+                              id="datePerformedTo"
+                              name="datePerformedTo"
+                              onChange={inputHandler}
+                              value={dateTo}
+
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/*BUTTON*/}
+                      <div className='col-sm d-flex align-items-center justify-content-center'>
+                        <button type='button' className='btn btn-primary' onClick={addDateRange}><i className="bi bi-plus-lg fs-8"></i></button>
+                      </div>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
 
@@ -278,25 +261,27 @@ function RoaForm() {
             </div>
 
             {/*Customer Details*/}
-            <div className='container-fluid mt-3 '>
-              <div className='row mt-4'>
-                <label htmlFor="clientType" className='col-md-3 col-form-label '>Client/Customer Name: </label>
-                <div className='col-md-3'>
-                  <div className="col-sm">
-                    <input type="tel" className="date form-control border-dark" name='customerName' onChange={inputHandler} value={result.customerName} placeholder="" />
-                  </div>
+            <div className='card p-4 mb-3 shadow-sm border mt-3'>
+              <h5 className='mb-4 text-primary fw-bold'>Customer Details</h5>
+              <div className="row g-4">
+                <div className="col-md-6">
+                  <label className='form-label'>Customer Name:</label>
+                  <input type="text" className="date form-control border-dark" name='customerName' onChange={inputHandler} value={result.customerName} placeholder="e.g. John P. Doe" />
                 </div>
-                <label className='ItemNum col-md-3 col-form-label'>Contact No./Email: </label>
-                <div className='col-md-3 d-flex justify-content-end'>
-                  <input type="tel" className="form-control border-dark" id="mobile" name='customerContact' onChange={inputHandler} value={result.customerContact} placeholder="" />
+
+                <div className="col-md-6">
+                  <label className='form-label'>Contact No./Email:</label>
+                  <input type="tel" className="form-control border-dark" id="mobile" name='customerContact' onChange={inputHandler} value={result.customerContact} placeholder="e.g. 09123456789" />
                 </div>
-              </div>
-              <div className='row mt-4'>
-                <label htmlFor="clientType" className='col-md-3 col-form-label '>Address: </label>
-                <div className='col-md-3'>
-                  <div className="col-sm">
-                    <input type="tel" className="date form-control border-dark" name='customerAddress' onChange={inputHandler} value={result.customerAddress} placeholder="" />
-                  </div>
+
+                <div className='col-md-6'>
+                  <label className='form-label'>Address:</label>
+                  <input type="text" className="date form-control border-dark" name='customerAddress' onChange={inputHandler} value={result.customerAddress} placeholder="Street, Barangay, City" />
+                </div>
+
+                <div className='col-md-6'>
+                  <label className='form-label'>Sample Source:</label>
+                  <input type="text" className="date form-control border-dark" name='sampleSource' onChange={inputHandler} value={result.sampleSource} placeholder="Street, Barangay, City" />
                 </div>
               </div>
             </div>
@@ -304,48 +289,99 @@ function RoaForm() {
             {/*BORDER*/}
             <div className='container-fluid border border-secondary border-1 mt-3'></div>
 
-            {/*ROA Details*/}
-            <div className='d-flex justify-content-end mt-3'>
-              <button
-                type="button"
-                className="btn btn-primary" onClick={() => setShowModal(true)}>
-                <i className="bi bi-plus-lg me-2 fs-6"></i>Add Sample Details
-              </button>
+            {/*Chemical Analysis Result*/}
+            <div className='card p-4 mb-3 mt-3 shadow-sm border'>
+              <h5 className='mb-4 text-primary fw-bold'>Chemical Analysis Result</h5>
+              <div className='d-flex mt-3'>
+                <button
+                  type="button"
+                  className="btn btn-primary" onClick={() => setShowModal(true)}>
+                  <i className="bi bi-plus-lg me-2 fs-6"></i>Add Sample Details
+                </button>
+              </div>
+
+              {/*Table for ROA Details */}
+              <div className="row mt-2">
+                <div className="col-12">
+                  <table className="table table-bordered">
+                    <thead className="table-primary">
+                      <tr className='text-center'>
+                        <th>CUSTOMER CODE</th>
+                        <th>LAB CODE</th>
+                        <th>SAMPLE DESCRIPTION</th>
+                        <th>TEST METHOD</th>
+                        <th>RESULT</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {roaReport.length > 0 ? (
+                        roaReport.map((reportItem, index) => (
+                          <tr key={index}>
+                            <td>{reportItem.customerCode}</td>
+                            <td>{reportItem.labCode}</td>
+                            <td>{reportItem.sampleDescription}</td>
+                            <td>{reportItem.testMethod}</td>
+                            <td>{reportItem.result}</td>
+                            
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="6 " className="text-center">No samples added yet.</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
 
-            {/*Table for ROA Details */}
-            <div className="row mt-2">
-              <div className="col-12">
-                <table className="table table-bordered">
-                  <thead className="table-primary">
-                    <tr className='text-center'>
-                      <th>LAB CODE</th>
-                      <th>SAMPLE CODE</th>
-                      <th>SAMPLE DESCRIPTION</th>
-                      <th>PARAMETER</th>
-                      <th>RESULT</th>
-                      <th>TEST METHOD</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {roaReport.length > 0 ? (
-                      roaReport.map((reportItem, index) => (
-                        <tr key={index}>
-                          <td>{reportItem.labCode}</td>
-                          <td>{reportItem.sampleCode}</td>
-                          <td>{reportItem.sampleDescription}</td>
-                          <td>{reportItem.sampleParam}</td>
-                          <td>{reportItem.result}</td>
-                          <td>{reportItem.testMethod}</td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="6 " className="text-center">No samples added yet.</td>
+            {/*BORDER*/}
+            <div className='container-fluid border border-secondary border-1 mt-3'></div>
+
+            {/*Chemical Analysis Result*/}
+            <div className='card p-4 mb-3 mt-3 shadow-sm border'>
+              <h5 className='mb-4 text-primary fw-bold'>Physical Analysis Result</h5>
+              <div className='d-flex mt-3'>
+                <button
+                  type="button"
+                  className="btn btn-primary" onClick={() => setShowModal(true)}>
+                  <i className="bi bi-plus-lg me-2 fs-6"></i>Add Sample Details
+                </button>
+              </div>
+
+              {/*Table for ROA Details */}
+              <div className="row mt-2">
+                <div className="col-12">
+                  <table className="table table-bordered">
+                    <thead className="table-primary">
+                      <tr className='text-center'>
+                        <th>CUSTOMER CODE</th>
+                        <th>LAB CODE</th>
+                        <th>SAMPLE DESCRIPTION</th>
+                        <th>RESULT</th>
+                        <th>TEST METHOD</th>
                       </tr>
-                    )}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {roaReport.length > 0 ? (
+                        roaReport.map((reportItem, index) => (
+                          <tr key={index}>
+                            <td>{reportItem.customerCode}</td>
+                            <td>{reportItem.labCode}</td>
+                            <td>{reportItem.sampleDescription}</td>
+                            <td>{reportItem.testMethod}</td>
+                            <td>{reportItem.result}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="6 " className="text-center">No samples added yet.</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
 
@@ -358,8 +394,8 @@ function RoaForm() {
       </div>
       <RoaModal
         show={showModal}
-        onClose={() => 
-          {setShowModal(false)
+        onClose={() => {
+          setShowModal(false)
           setReportDetails({
             labCode: '',
             sampleCode: '',
@@ -368,7 +404,7 @@ function RoaForm() {
             result: '',
             testMethod: ''
           })
-          }}
+        }}
         reportDetails={reportDetails}
         onChange={reportInputHandler}
         onSubmit={reportSubmit}

@@ -5,7 +5,7 @@ const roaModel = new mongoose.Schema({
         type: String,
     },
 
-    sampleCode:{
+    customerCode:{
         type: String,
     },
 
@@ -13,9 +13,6 @@ const roaModel = new mongoose.Schema({
         type: String,
     },
 
-    sampleParam:{
-        type: String,
-    },
 
     result:{
         type: String
@@ -66,6 +63,10 @@ const reportSchema = new mongoose.Schema({
     },
 
     status:{
+        type: String,
+    },
+
+    sampleSource:{
         type: String,
     },
 

@@ -1,25 +1,25 @@
 import axios from 'axios';
-import {Page, Text, View, Document, StyleSheet, Image, PDFViewer} from '@react-pdf/renderer';
+import { Page, Text, View, Document, Image } from '@react-pdf/renderer';
 import styles from './Styles';
-import  image1 from '../../analysts/components/images/DA5.jpg';
+import image1 from '../../analysts/components/images/DA5.jpg';
 import image2 from '../../dco/components/images/unnamed.png'
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { useEffect, useState } from 'react';
 
-const GenerateRoa = ({roaId, icon, disabledIcon}) => {
-    
+const GenerateRoa = ({ roaId, icon, disabledIcon }) => {
+
     const [report, setReport] = useState(null)
 
-    useEffect(() =>{
+    useEffect(() => {
         axios.get(`http://localhost:8002/api/report/reportData/${roaId}`)
-             .then((response) => {
+            .then((response) => {
                 setReport(response.data);
-             })
-             .catch((error) =>{
+            })
+            .catch((error) => {
                 console.error("Error fetching report data:", error);
                 setReport(null);
-             })
-    },[roaId]);
+            })
+    }, [roaId]);
 
     const formatDate = (dateStr) => {
         if (!dateStr) return "";
@@ -28,131 +28,232 @@ const GenerateRoa = ({roaId, icon, disabledIcon}) => {
         return date.toLocaleDateString('en-US', options);
     };
 
-    function generatePdf(){
-        if(!report || !report.roaDetails) return;
+    function generatePdf() {
+        if (!report || !report.roaDetails) return;
         return (
-                <Document>
-                <Page style={[styles.body,{marginTop:5, paddingBottom:250}]} size="A4">
+            <Document>
+                <Page style={[styles.body, { marginTop: 5, paddingBottom: 250 }]} size="A4">
                     <View style={styles.roaHeaderCont} fixed>
-                        <Image style={styles.roaImage} src={image1}/>
-                        <View style={{alignItems:'justify', marginTop:-10}} >
+                        <Image style={styles.roaImage} src={image1} />
+                        <View style={{ alignItems: 'justify', marginTop: -10 }} >
                             <Text style={styles.normalFont} >Department of Agriculture Regional Field Office 5</Text>
                             <Text style={styles.boldFont} >INTEGRATED LABORATORIES DIVISION</Text>
-                            <Text style={styles.font} >Regional Feed Chemical Analysis Laboratory</Text>
+                            <Text style={styles.font} >Regional Soils Laboratory</Text>
                             <Text style={styles.normalFont} >San Agustin, Pili, Camarines Sur</Text>
                         </View>
                     </View>
-    
-                    
-                    <View style={[styles. boldFont, {marginLeft:35, marginTop:15}]} fixed>
-                        <Text>Customer Name: <Text style={{fontWeight:'normal'}}>{report.customerName}</Text></Text>
-                        <Text>Address: <Text style={{fontWeight:'normal'}}>{report.customerAddress}</Text></Text>
-                        <View style={{flexDirection: 'row'}}>
+
+
+                    <View style={[styles.boldFont, { marginLeft: 35, marginTop: 15 }]} fixed>
+                        <View style={{ flexDirection: 'row' }}>
                             <View style={{ width: '50%' }}>
-                                <Text>Contact Number: <Text style={{fontWeight:'normal'}}>{report.customerContact}</Text></Text>
+                                <Text>Customer Name: <Text style={{ fontWeight: 'normal' }}></Text>{report.customerName}</Text>
                             </View>
                             <View style={{ width: '40%' }}>
-                                <Text>Report ID: <Text style={{fontWeight:'normal'}}>{report.reportId}</Text></Text>
+                                <Text>Report ID: <Text style={{ fontWeight: 'normal' }}></Text>{report.reportId}</Text>
                             </View>
                         </View>
-                        <View style={{flexDirection: 'row'}}>
+                        <View style={{ flexDirection: 'row' }}>
                             <View style={{ width: '50%' }}>
-                                <Text>Date Received: <Text style={{fontWeight:'normal'}}>{formatDate(report.dateReceived)}</Text></Text>
+                                <Text>Address: <Text style={{ fontWeight: 'normal' }}></Text>{report.customerAddress}</Text>
                             </View>
                             <View style={{ width: '40%' }}>
-                                <Text>Date Issued: <Text style={{fontWeight:'normal'}}>{formatDate(report.dateIssued)}</Text></Text>
+                                <Text>Date Issued: <Text style={{ fontWeight: 'normal' }}></Text>{formatDate(report.dateIssued)}</Text>
                             </View>
                         </View>
-                        <Text>Date Performed: <Text style={{fontWeight:'normal'}}>{report.datePerformed}</Text></Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ width: '50%' }}>
+                                <Text>Contact Number: <Text style={{ fontWeight: 'normal' }}></Text>{report.customerContact}</Text>
+                            </View>
+                            <View style={{ width: '40%' }}>
+                                <Text>Sample Source: <Text style={{ fontWeight: 'normal' }}></Text>{report.sampleSource}</Text>
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ width: '50%' }}>
+                                <Text>Date Received: <Text style={{ fontWeight: 'normal' }}></Text>{formatDate(report.dateReceived)}</Text>
+                            </View>
+                        </View>
+                        <Text>Date Performed: <Text style={{ fontWeight: 'normal' }}></Text>{report.datePerformed}</Text>
                     </View>
-    
-                    <View style={[styles.roaTitle]}fixed>
+
+                    <View style={[styles.roaTitle]} fixed>
                         <View style={[styles.row, styles.boldFont]}>
-                            <Text style={[{width:"100%",textAlign:'center', fontSize:20}]}>REPORT OF ANALYSIS</Text>
+                            <Text style={[{ width: "100%", textAlign: 'center', fontSize: 20 }]}>REPORT OF ANALYSIS</Text>
                         </View>
                     </View>
-    
+
+                    {/*Chemical Analysis Result */}
                     <View style={[styles.roaTable]}>
-                        <View style={[styles.row, styles.boldFont]} fixed>
-                            <Text style={[styles.roaHeader, styles.specificCell, {width:"20%", paddingTop:0}]}>LAB CODE</Text>
-                            <Text style={[styles.roaHeader, {width:"20%", paddingTop:0}]}>SAMPLE CODE</Text>
-                            <Text style={[styles.roaHeader, {width:"28%", paddingTop:0}]}>SAMPLE DESCRIPTION</Text>
-                            <Text style={[styles.roaHeader, {width:"20%", paddingTop:0}]}>PARAMETER </Text>
-                            <Text style={[styles.roaHeader, {width:"13%", paddingTop:0}]}>RESULT </Text>
-                            <Text style={[styles.roaHeader, {width:"29%", paddingTop:0}]}>TEST METHOD</Text>
+                        <View style={[styles.row, styles.boldFont, { textAlign: 'center' }]} fixed>
+                            <Text style={[styles.roaHeader, styles.specificCell, { width: "15%", padding: 5, alignSelf: 'center' }]}>CUSTOMER CODE</Text>
+                            <Text style={[styles.roaHeader, { width: "11%", padding: 5, alignSelf: "center", justifyContent: "center" }]}>LAB CODE</Text>
+                            <Text style={[styles.roaHeader, { width: "18%", padding: 5, alignSelf: "center", justifyContent: "center" }]}>SAMPLE {'\n'}DESCRIPTION</Text>
+
+                            <View style={[styles.roaTable, { width: "50%", margin: 0, }]}>
+                                {report.roaDetails.map((row, index) => (
+                                    <View style={[styles.roaHeader, { width: "100%", }]}>
+                                        <Text style={[{ padding: 2 }]}>CHEMICAL ANALYSIS RESULT </Text>
+                                        <View style={styles.row} key={index} wrap={false}>
+                                            <Text style={[styles.roaHeader, styles.row, { height: 19, borderBottom: 0, borderTop: 1, paddingTop: 4 }]}>{row.testMethod}</Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}></Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}></Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}></Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}></Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, borderRight: 0, height: 19, paddingTop: 4 }]}></Text>
+                                        </View>
+                                    </View>
+                                ))}
+
+                            </View>
+
+                            <Text style={[styles.roaHeader, { width: "17%", paddingTop: 12 }]}>TEST METHOD</Text>
                         </View>
-                        {report.roaDetails.map((row, index) =>(
+
+                        {report.roaDetails.map((row, index) => (
                             <View style={styles.row} key={index} wrap={false}>
-                                <Text style={[styles.roaCell, styles.specificCell, {width:"20%", textAlign:'center'}]}>{row.labCode}</Text>
-                                <Text style={[styles.roaCell, {width:"20%", textAlign:'center'}]}>{row.sampleCode}</Text>
-                                <Text style={[styles.roaCell, {width:"28%", textAlign:'center'}]}>{row.sampleDescription}</Text>
-                                <Text style={[styles.roaCell, {width:"20%", textAlign:'center'}]}>{row.sampleParam}</Text>
-                                <Text style={[styles.roaCell, {width:"13%", textAlign:'center'}]}>{row.result}</Text>
-                                <Text style={[styles.roaCell, {width:"29%", flexWrap:'wrap'}]}>{row.testMethod}</Text>
+                                <Text style={[styles.roaCell, styles.specificCell, { width: "15%", textAlign: 'center' }]}>{row.customerCode}</Text>
+                                <Text style={[styles.roaCell, { width: "11%", textAlign: 'center' }]}>{row.labCode}</Text>
+                                <Text style={[styles.roaCell, { width: "18%", textAlign: 'center' }]}>{row.sampleDescription}</Text>
+
+                                <View style={[styles.roaTable, { width: "50%", margin: 0 }]}>
+                                    <View style={[styles.roaCell, { width: "100%", padding: 0, textAlign: 'center' }]}>
+                                        <View style={styles.row}>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.result}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%', borderRight: 0 }]}></Text>
+                                        </View>
+                                    </View>
+                                </View>
+                                <Text style={[styles.roaCell, { width: "17%", textAlign: 'center' }]}>{row.testMethod}</Text>
                             </View>
                         ))}
-                        <View style={[styles.row, {fontSize:9,textAlign:'justify',marginTop: 5}]} fixed>
+
+                    </View>
+
+                    {/*Physical Analysis Result */}
+
+                    <View style={[styles.roaTable, { borderTop: 1, marginTop: 10 }]}>
+                        <View style={[styles.row, styles.boldFont, { textAlign: 'center' }]} fixed>
+                            <Text style={[styles.roaHeader, styles.specificCell, { width: "15%", padding: 5, alignSelf: 'center' }]}>CUSTOMER CODE</Text>
+                            <Text style={[styles.roaHeader, { width: "11%", padding: 5, alignSelf: "center", justifyContent: "center" }]}>LAB CODE</Text>
+                            <Text style={[styles.roaHeader, { width: "18%", padding: 5, alignSelf: "center", justifyContent: "center" }]}>SAMPLE {'\n'}DESCRIPTION</Text>
+
+                            <View style={[styles.roaTable, { width: "50%", margin: 0, }]}>
+                                <View style={[styles.roaHeader, { width: "100%", }]}>
+                                    <Text style={[{ padding: 2 }]}>PHYSICAL ANALYSIS RESULT </Text>
+                                    <View style={styles.row}>
+                                        <Text style={[styles.roaHeader, styles.row, { height: 19, borderBottom: 0, borderTop: 1, paddingTop: 4 }]}></Text>
+                                        <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}></Text>
+                                        <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}></Text>
+                                        <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}></Text>
+                                        <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, borderRight: 0, height: 19, paddingTop: 4 }]}></Text>
+                                    </View>
+                                </View>
+                            </View>
+
+                            <Text style={[styles.roaHeader, { width: "17%", paddingTop: 12 }]}>TEST METHOD</Text>
+                        </View>
+
+
+                        <View style={styles.row} wrap={false}>
+                            <Text style={[styles.roaCell, styles.specificCell, { width: "15%", textAlign: 'center' }]}></Text>
+                            <Text style={[styles.roaCell, { width: "11%", textAlign: 'center' }]}></Text>
+                            <Text style={[styles.roaCell, { width: "18%", textAlign: 'center' }]}></Text>
+
+                            <View style={[styles.roaTable, { width: "50%", margin: 0 }]}>
+                                <View style={[styles.roaCell, { width: "100%", padding: 0, textAlign: 'center' }]}>
+                                    <View style={styles.row}>
+                                        <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
+                                        <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
+                                        <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
+                                        <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
+                                        <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%', borderRight: 0 }]}></Text>
+                                    </View>
+                                </View>
+                            </View>
+
+                            <Text style={[styles.roaCell, { width: "17%", textAlign: 'center' }]}></Text>
+                        </View>
+                    </View>
+
+                    {/*SOIL TEST RESULT INTERPRETATION*/}
+
+                    <View style={[styles.roaTable, { borderTop: 1, marginTop: 10 }]}>
+                        <View style={[styles.row, styles.boldFont, { textAlign: 'center' }]} fixed>
+                            <Text style={[styles.roaHeader, styles.specificCell, { width: '30%', padding: 2, alignSelf: 'center', fontSize: 9, backgroundColor: 'white' }]}>pH or Soil reaction:</Text>
+                            <Text style={[styles.roaHeader, { width: '30%', padding: 2, alignSelf: "center", justifyContent: "center", fontSize: 9, backgroundColor: 'white' }]}>Nitrogen(N):</Text>
+                            <Text style={[styles.roaHeader, { width: '30%', padding: 2, alignSelf: "center", justifyContent: "center", fontSize: 9, backgroundColor: 'white' }]}>Phosphorous(P):</Text>
+                            <Text style={[styles.roaHeader, { width: '30%', padding: 2, alignSelf: "center", justifyContent: "center", fontSize: 9, backgroundColor: 'white' }]}>Potassium(K)</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={[styles.roaCell, { width: '30%', borderLeft: 1 }]}></Text>
+                            <Text style={[styles.roaCell, { width: '30%' }]}></Text>
+                            <Text style={[styles.roaCell, { width: '30%' }]}></Text>
+                            <Text style={[styles.roaCell, { width: '30%' }]}></Text>
+                        </View>
+
+                        <View style={[styles.row, { fontSize: 9, textAlign: 'justify', marginTop: 5 }]} fixed>
                             <Text style={styles.italicFont}>Note: The result is based on the sample received and analyzed by the laboratory. This report shall not be reproduced without full approval of the Department of Agriculture Regional Field Office 5 - Integrated Laboratories Division.</Text>
                         </View>
-    
                     </View>
-    
-    
-        
-    
-                        <View style={[styles.font, {paddingLeft:55, bottom: 180, position:'absolute'}]} fixed>
-                            <Text style={{fontWeight:'bold', bottom: 35}}>Analyzed/Examined By:</Text>
-                            <Text style={{fontWeight:'bold'}}>{report.analyzedBy}, RCh</Text>
-                            <Text>Chemist, PRC License No. {report.analystPRC}</Text>
+
+                    <View style={[styles.font, { paddingLeft: 55, bottom: 180, position: 'absolute' }]} fixed>
+                        <Text style={{ fontWeight: 'bold', bottom: 35 }}>Analyzed/Examined By:</Text>
+                        <Text style={{ fontWeight: 'bold' }}>{report.analyzedBy}, RCh</Text>
+                        <Text>Chemist, PRC License No. {report.analystPRC}</Text>
+                    </View>
+
+                    <View style={[styles.row, { position: 'absolute', bottom: 95, gap: 35 }]} fixed>
+                        <View style={[styles.font, { paddingLeft: 55 }]}>
+                            <Text style={{ fontWeight: 'bold', bottom: 30 }}>Certified By:</Text>
+                            <Text style={{ fontWeight: 'bold' }}>FREDERICK A. FORCADELA, Rch</Text>
+                            <Text>OIC-Chief, Regional Soils Laboratory</Text>
+                            <Text>PRC License No. 0013155 Valid Until 2028</Text>
                         </View>
-    
-                        <View style={[styles.row, {position:'absolute', bottom:95, gap:35}]} fixed>
-                            <View style={[styles.font, {paddingLeft:55}]}>
-                                <Text style={{fontWeight:'bold', bottom:30}}>Certified By:</Text>
-                                <Text style={{fontWeight:'bold'}}>CORREN HOLLY M. MONSALVE, Rch</Text>
-                                <Text>Laboratory Head, Chemist III</Text>
-                                <Text>PRC License No. 0011021</Text>
-                            </View>
-    
-                            <View style={[styles.font, {paddingLeft:72}]}>
-                                <Text style={{fontWeight:'bold', bottom:30}}>Noted By:</Text>   
-                                <Text style={{fontWeight:'bold'}}>ANACLETO B. ESPLANA, RAgr</Text>
-                                <Text>OIC-Chief, Integrated Laboratories Division</Text>
-                                <Text>PRC LIC.NO.0020472</Text>
-                            </View>
+
+                        <View style={[styles.font, { paddingLeft: 72 }]}>
+                            <Text style={{ fontWeight: 'bold', bottom: 30 }}>Noted By:</Text>
+                            <Text style={{ fontWeight: 'bold' }}>ANACLETO B. ESPLANA, RAgr</Text>
+                            <Text>OIC-Chief, Integrated Laboratories Division</Text>
+                            <Text>PRC LIC.NO.0020472</Text>
                         </View>
-                
-                    
-                    <View  style={[styles.footer, {position:'absolute', bottom: 20, left:20,}]} fixed>
+                    </View>
+
+
+                    <View style={[styles.footer, { position: 'absolute', bottom: 20, left: 20, }]} fixed>
                         <View style={[styles.font]}>
-                            <Text>ILD-RFCAL-005-1</Text>
+                            <Text>ILD-RSL-094-1</Text>
                             <Text>Effectivity Date: April 14,2025</Text>
                         </View>
                     </View>
-                    <Image style={[styles.roaUkas, {position:'absolute', bottom: 42, right:15}]} src={image2} fixed />
+                    <Image style={[styles.roaUkas, { position: 'absolute', bottom: 42, right: 15 }]} src={image2} fixed />
                     <Text
-                    style={[styles.pageNumber, {right:30}]}
-                    render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`}
-                    fixed/>
+                        style={[styles.pageNumber, { right: 30 }]}
+                        render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`}
+                        fixed />
                 </Page>
             </Document>
-            )
+        )
     }
 
     return (
         <>
-        {report ? (
-            <PDFDownloadLink document={generatePdf()} fileName="ROA" style={{ padding: 0 }}>
-                <button className="btn p-0 border-0">
-                    {icon}
+            {report ? (
+                <PDFDownloadLink document={generatePdf()} fileName="ROA" style={{ padding: 0 }}>
+                    <button className="btn p-0 border-0">
+                        {icon}
+                    </button>
+                </PDFDownloadLink>
+            ) : (
+                <button className="btn p-0 border-0" disabled>
+                    {disabledIcon}
                 </button>
-            </PDFDownloadLink>
-        ) : (
-            <button className="btn p-0 border-0" disabled>
-                {disabledIcon}
-            </button>
-        )}
-    </>
+            )}
+        </>
     )
 
 }
