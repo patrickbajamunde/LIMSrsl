@@ -28,7 +28,13 @@ function RoaForm() {
     reportId: defReportId(),
     analyzedBy: "",
     status: "For release",
-    sampleSource: ""
+    sampleSource: "",
+    method1: "",
+    method2: "",
+    method3: "",
+    method4: "",
+    method5: "",
+    method6: "",
   }
 
   const analystPRC = (analyzedBy) => {
@@ -146,7 +152,14 @@ function RoaForm() {
           datePerformed: "",
           dateIssued: "",
           reportId: "",
-          analyzedBy: ""
+          analyzedBy: "",
+          sampleSource: "",
+          method1: "",
+          method2: "",
+          method3: "",
+          method4: "",
+          method5: "",
+          method6: "",
         })
         console.log("Report created successfully.")
       })
@@ -292,6 +305,32 @@ function RoaForm() {
             {/*Chemical Analysis Result*/}
             <div className='card p-4 mb-3 mt-3 shadow-sm border'>
               <h5 className='mb-4 text-primary fw-bold'>Chemical Analysis Result</h5>
+              <div className='row g-4'>
+                <div className='col-md-6'>
+                  <label className='form-label'>First Method</label>
+                  <input type='text' className='date form-control border-dark' name='method1' onChange={inputHandler} value={result.method1} placeholder='e.g. pH, NPK' />
+                </div>
+                <div className='col-md-6'>
+                  <label className='form-label'>Second Method</label>
+                  <input type='text' className='date form-control border-dark' name='method2' onChange={inputHandler} value={result.method2} placeholder='e.g. pH, NPK' />
+                </div>
+                <div className='col-md-6'>
+                  <label className='form-label'>Third Method</label>
+                  <input type='text' className='date form-control border-dark' name='method3' onChange={inputHandler} value={result.method3} placeholder='e.g. pH, NPK' />
+                </div>
+                <div className='col-md-6'>
+                  <label className='form-label'>Fourth Method</label>
+                  <input type='text' className='date form-control border-dark' name='method4' onChange={inputHandler} value={result.method4} placeholder='e.g. pH, NPK' />
+                </div>
+                <div className='col-md-6'>
+                  <label className='form-label'>Fifth Method</label>
+                  <input type='text' className='date form-control border-dark' name='method5' onChange={inputHandler} value={result.method5} placeholder='e.g. pH, NPK' />
+                </div>
+                <div className='col-md-6'>
+                  <label className='form-label'>Sixth Method</label>
+                  <input type='text' className='date form-control border-dark' name='method6' onChange={inputHandler} value={result.method6} placeholder='e.g. pH, NPK' />
+                </div>
+              </div>
               <div className='d-flex mt-3'>
                 <button
                   type="button"
@@ -306,11 +345,19 @@ function RoaForm() {
                   <table className="table table-bordered">
                     <thead className="table-primary">
                       <tr className='text-center'>
-                        <th>CUSTOMER CODE</th>
-                        <th>LAB CODE</th>
-                        <th>SAMPLE DESCRIPTION</th>
-                        <th>TEST METHOD</th>
-                        <th>RESULT</th>
+                        <th rowSpan="4">CUSTOMER CODE</th>
+                        <th rowSpan="2">LAB CODE</th>
+                        <th rowSpan="2">SAMPLE DESCRIPTION</th>
+                        <th colSpan="6">CHEMICAL ANALYSIS RESULT</th>
+                        <th rowSpan="2">TEST METHOD</th>
+                      </tr>
+                      <tr className='text-center'>
+                        <th>{result.method1}</th>
+                        <th>{result.method2}</th>
+                        <th>{result.method3}</th>
+                        <th>{result.method4}</th>
+                        <th>{result.method5}</th>
+                        <th>{result.method6}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -320,14 +367,18 @@ function RoaForm() {
                             <td>{reportItem.customerCode}</td>
                             <td>{reportItem.labCode}</td>
                             <td>{reportItem.sampleDescription}</td>
+                            <td className='text-center'>{reportItem.result || '-'}</td>
+                            <td className='text-center'>{reportItem.method2 || '-'}</td>
+                            <td className='text-center'>{reportItem.method3 || '-'}</td>
+                            <td className='text-center'>{reportItem.method4 || '-'}</td>
+                            <td className='text-center'>{reportItem.method5 || '-'}</td>
+                            <td className='text-center'>{reportItem.method6 || '-'}</td>
                             <td>{reportItem.testMethod}</td>
-                            <td>{reportItem.result}</td>
-                            
                           </tr>
                         ))
                       ) : (
                         <tr>
-                          <td colSpan="6 " className="text-center">No samples added yet.</td>
+                          <td colSpan="10" className="text-center">No samples added yet.</td>
                         </tr>
                       )}
                     </tbody>
@@ -408,6 +459,11 @@ function RoaForm() {
         reportDetails={reportDetails}
         onChange={reportInputHandler}
         onSubmit={reportSubmit}
+        inputLabel={result.method1}
+        inputLabel2={result.method2}
+        inputData1={result.method1}
+        inputData2={result.method2}
+
       />
     </div>
   )

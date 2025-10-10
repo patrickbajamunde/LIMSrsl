@@ -70,6 +70,12 @@ const reportSchema = new mongoose.Schema({
         type: String,
     },
 
+    method1:{type: String},
+    method2:{type: String},
+    method3:{type: String},
+    method4:{type: String},
+    method5:{type: String},
+    method6:{type: String},
     roaDetails: [roaModel],
     user: {
         type: mongoose.Schema.Types.ObjectId,
