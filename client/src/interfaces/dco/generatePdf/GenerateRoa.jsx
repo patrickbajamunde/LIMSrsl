@@ -91,19 +91,21 @@ const GenerateRoa = ({ roaId, icon, disabledIcon }) => {
                             <Text style={[styles.roaHeader, { width: "18%", padding: 5, alignSelf: "center", justifyContent: "center" }]}>SAMPLE {'\n'}DESCRIPTION</Text>
 
                             <View style={[styles.roaTable, { width: "50%", margin: 0, }]}>
-                                
+                                {report.method.map((row, index) => (
                                     <View style={[styles.roaHeader, { width: "100%", }]}>
                                         <Text style={[{ padding: 2 }]}>CHEMICAL ANALYSIS RESULT </Text>
-                                        <View style={styles.row} wrap={false}>
-                                            <Text style={[styles.roaHeader, styles.row, { height: 19, borderBottom: 0, borderTop: 1, paddingTop: 4 }]}>{report.method1}</Text>
-                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}>{report.method2}</Text>
-                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}>{report.method3}</Text>
-                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}>{report.method4}</Text>
-                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}>{report.method5}</Text>
-                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, borderRight: 0, height: 19, paddingTop: 4 }]}>{report.method6 }</Text>
+                                        <View style={styles.row} key={index} wrap={false}>
+                                            <Text style={[styles.roaHeader, styles.row, { height: 19, borderBottom: 0, borderTop: 1, paddingTop: 4 }]}>{row.method1}</Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}>{row.method2}</Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}>{row.method3}</Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}>{row.method4}</Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}>{row.method5}</Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, borderRight: 0, height: 19, paddingTop: 4 }]}>{row.method6}</Text>
                                         </View>
                                     </View>
-                            
+                                ))}
+
+
                             </View>
 
                             <Text style={[styles.roaHeader, { width: "17%", paddingTop: 12 }]}>TEST METHOD</Text>
@@ -118,12 +120,12 @@ const GenerateRoa = ({ roaId, icon, disabledIcon }) => {
                                 <View style={[styles.roaTable, { width: "50%", margin: 0 }]}>
                                     <View style={[styles.roaCell, { width: "100%", padding: 0, textAlign: 'center' }]}>
                                         <View style={styles.row}>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.result}</Text>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text> 
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%', borderRight: 0 }]}></Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.method1Results || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.method2Results || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.method3Results || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.method4Results || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.method5Results || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%', borderRight: 0 }]}>{row.results[0]?.method6Results || '-'}</Text>
                                         </View>
                                     </View>
                                 </View>
@@ -142,41 +144,47 @@ const GenerateRoa = ({ roaId, icon, disabledIcon }) => {
                             <Text style={[styles.roaHeader, { width: "18%", padding: 5, alignSelf: "center", justifyContent: "center" }]}>SAMPLE {'\n'}DESCRIPTION</Text>
 
                             <View style={[styles.roaTable, { width: "50%", margin: 0, }]}>
-                                <View style={[styles.roaHeader, { width: "100%", }]}>
-                                    <Text style={[{ padding: 2 }]}>PHYSICAL ANALYSIS RESULT </Text>
-                                    <View style={styles.row}>
-                                        <Text style={[styles.roaHeader, styles.row, { height: 19, borderBottom: 0, borderTop: 1, paddingTop: 4 }]}></Text>
-                                        <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}></Text>
-                                        <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}></Text>
-                                        <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}></Text>
-                                        <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, borderRight: 0, height: 19, paddingTop: 4 }]}></Text>
+
+                                {report.physicalMethod.map((row, index) => (
+                                    <View style={[styles.roaHeader, { width: "100%", }]}>
+                                        <Text style={[{ padding: 2 }]}>PHYSICAL ANALYSIS RESULT </Text>
+                                        <View style={styles.row} key={index} wrap={false}>
+                                            <Text style={[styles.roaHeader, styles.row, { height: 19, borderBottom: 0, borderTop: 1, paddingTop: 4 }]}>{row.physical1}</Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}>{row.physical2}</Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}>{row.physical3}</Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}>{row.physical4}</Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, height: 19, paddingTop: 4 }]}>{row.physical5}</Text>
+                                            <Text style={[styles.roaHeader, { borderBottom: 0, borderTop: 1, borderRight: 0, height: 19, paddingTop: 4 }]}>{row.physical6}</Text>
+                                        </View>
                                     </View>
-                                </View>
+                                ))}
                             </View>
 
                             <Text style={[styles.roaHeader, { width: "17%", paddingTop: 12 }]}>TEST METHOD</Text>
                         </View>
 
+                        {report.physicalDetails.map((row, index) => (
+                            <View style={styles.row} wrap={false}>
+                                <Text style={[styles.roaCell, styles.specificCell, { width: "15%", textAlign: 'center' }]}>{row.customerCode}</Text>
+                                <Text style={[styles.roaCell, { width: "11%", textAlign: 'center' }]}>{row.labCode}</Text>
+                                <Text style={[styles.roaCell, { width: "18%", textAlign: 'center' }]}>{row.sampleDescription}</Text>
 
-                        <View style={styles.row} wrap={false}>
-                            <Text style={[styles.roaCell, styles.specificCell, { width: "15%", textAlign: 'center' }]}></Text>
-                            <Text style={[styles.roaCell, { width: "11%", textAlign: 'center' }]}></Text>
-                            <Text style={[styles.roaCell, { width: "18%", textAlign: 'center' }]}></Text>
-
-                            <View style={[styles.roaTable, { width: "50%", margin: 0 }]}>
-                                <View style={[styles.roaCell, { width: "100%", padding: 0, textAlign: 'center' }]}>
-                                    <View style={styles.row}>
-                                        <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
-                                        <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
-                                        <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
-                                        <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}></Text>
-                                        <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%', borderRight: 0 }]}></Text>
+                                <View style={[styles.roaTable, { width: "50%", margin: 0 }]}>
+                                    <View style={[styles.roaCell, { width: "100%", padding: 0, textAlign: 'center' }]}>
+                                        <View style={styles.row}>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.physc1Result || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.physc2Result || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.physc3Result || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.physc4Result || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.physc5Result|| '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%', borderRight: 0 }]}>{row.results[0]?.physc6Result || '-'}</Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
 
-                            <Text style={[styles.roaCell, { width: "17%", textAlign: 'center' }]}></Text>
-                        </View>
+                                <Text style={[styles.roaCell, { width: "17%", textAlign: 'center' }]}>{row.testMethod}</Text>
+                            </View>
+                        ))}
                     </View>
 
                     {/*SOIL TEST RESULT INTERPRETATION*/}
@@ -202,7 +210,7 @@ const GenerateRoa = ({ roaId, icon, disabledIcon }) => {
 
                     <View style={[styles.font, { paddingLeft: 55, bottom: 180, position: 'absolute' }]} fixed>
                         <Text style={{ fontWeight: 'bold', bottom: 35 }}>Analyzed/Examined By:</Text>
-                        <Text style={{ fontWeight: 'bold' }}>{report.analyzedBy}, RCh</Text>
+                        <Text style={{ fontWeight: 'bold' }}>{report.analyzedBy}</Text>
                         <Text>Chemist, PRC License No. {report.analystPRC}</Text>
                     </View>
 
@@ -242,7 +250,7 @@ const GenerateRoa = ({ roaId, icon, disabledIcon }) => {
     return (
         <>
             {report ? (
-                <PDFDownloadLink document={generatePdf()} fileName="ROA" style={{ padding: 0 }}>
+                <PDFDownloadLink document={generatePdf()} fileName={report.reportId} style={{ padding: 0 }}>
                     <button className="btn p-0 border-0">
                         {icon}
                     </button>

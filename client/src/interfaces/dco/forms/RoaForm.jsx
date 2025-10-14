@@ -3,6 +3,7 @@ import './styles/arf.css'
 import axios from 'axios';
 import { useState } from 'react';
 import { RoaModal } from '../components/modal/Modal';
+import { PhysicalModal } from '../components/modal/PhysicalModal';
 
 
 function RoaForm() {
@@ -29,39 +30,70 @@ function RoaForm() {
     analyzedBy: "",
     status: "For release",
     sampleSource: "",
-    method1: "",
-    method2: "",
-    method3: "",
-    method4: "",
-    method5: "",
-    method6: "",
+    method: {
+      method1: '',
+      method2: '',
+      method3: '',
+      method4: '',
+      method5: '',
+      method6: '',
+    },
+    physicalMethod: {
+      physical1: '',
+      physical2: '',
+      physical3: '',
+      physical4: '',
+      physical5: '',
+      physical6: ''
+    }
   }
+
 
   const analystPRC = (analyzedBy) => {
     const PrcTable = {
-      "Katrina Louise C. Gonzales": "0015522",
-      "Danica Mae B. Rodriguez": "0015235",
-      "Mellen B. Perion": "0015215",
+      "Maryfranie I. Belano, RChT": "0004756",
+
     }
     return PrcTable[analyzedBy] || "";
   }
 
 
   const [result, setResult] = useState(report);
+
+  //date setState
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
+
+  //modal setState
   const [showModal, setShowModal] = useState(false)
+  const [physicalModal, setPhysicalModal] = useState(false)
+
+
   const [roaReport, setRoaReport] = useState([]) //holds sample details in an array
+  const [physicalReport, setPhysicalReport] = useState([])
+
   const [reportDetails, setReportDetails] = useState({
     labCode: '',
     customerCode: '',
     sampleDescription: '',
-    result: '',
+    results: {
+      method1Results: ''
+    },
     testMethod: ''
   });// state of report details before change in the modal
 
+  const [physicalDetails, setPhysicalDetails] = useState({
+    labCode: '',
+    customerCode: '',
+    sampleDescription: '',
+    results: {
+      physc1Result: ''
+    },
+    testMethod: ''
+  })
+
   const inputHandler = (e) => {
-    const { name, value } = e.target;
+    const { name, value, dataset } = e.target;
     if (name === 'analyzedBy' || name === 'datePerformed') {
       const prc = analystPRC(value);
       setResult({
@@ -74,6 +106,15 @@ function RoaForm() {
     }
     else if (name === 'datePerformedTo') {
       setDateTo(value);
+    }
+    else if (dataset.parent) {
+      setResult({
+        ...result,
+        [dataset.parent]: {
+          ...result[dataset.parent],
+          [name]: value
+        }
+      });
     }
     else {
       setResult({ ...result, [name]: value });
@@ -120,30 +161,72 @@ function RoaForm() {
     }
   };
 
-  const reportInputHandler = (name, value) => {
-    setReportDetails(prev => ({ ...prev, [name]: value }));
+  const reportInputHandler = (name, value, parent) => {
+    if (parent) {
+      setReportDetails(prev => ({
+        ...prev,
+        [parent]: {
+          ...prev[parent],
+          [name]: value
+        }
+      }));
+    } else {
+      setReportDetails(prev => ({ ...prev, [name]: value }));
+    }
+
+  }
+
+  const physicalInputHandler = (name, value, parent) => {
+    if(parent){
+      setPhysicalDetails(prev => ({
+        ...prev,
+        [parent]: {
+          ...prev[parent],
+          [name]: value
+        }
+      }));
+    } else {
+      setPhysicalDetails(prev => ({ ...prev, [name]: value }))
+    }
   }
 
   const reportSubmit = (e) => {
-    setRoaReport([...roaReport, reportDetails]);
+    setRoaReport([...roaReport, reportDetails,]);
     setReportDetails({
       labCode: '',
       customerCode: '',
       sampleDescription: '',
-      result: '',
+      results: {
+        method1Results: ''
+      },
       testMethod: ''
     });
     setShowModal(false);
   }
 
+  const physicalResultHandler = (e) => {
+    setPhysicalReport([...physicalReport, physicalDetails])
+    setPhysicalDetails({
+      labCode: '',
+      customerCode: '',
+      sampleDescription: '',
+      results: {
+        physc1Result: ''
+      },
+      testMethod: ''
+    })
+    setPhysicalModal(false)
+  }
+
   const submitForm = async (e) => {
     e.preventDefault();
-    const form = { ...result, roaDetails: roaReport };
+    const form = { ...result, roaDetails: roaReport, physicalDetails: physicalReport  };
     await axios.post("http://localhost:8002/api/report/newReport", form, {
       withCredentials: true,
     })
       .then((response) => {
         setRoaReport([])
+        setPhysicalReport([])
         setResult({
           customerName: "",
           customerAddress: "",
@@ -154,12 +237,22 @@ function RoaForm() {
           reportId: "",
           analyzedBy: "",
           sampleSource: "",
-          method1: "",
-          method2: "",
-          method3: "",
-          method4: "",
-          method5: "",
-          method6: "",
+          method: {
+            method1: '',
+            method2: '',
+            method3: '',
+            method4: '',
+            method5: '',
+            method6: '',
+          },
+          physicalMethod: {
+            physical1: '',
+            physical2: '',
+            physical3: '',
+            physical4: '',
+            physical5: '',
+            physical6: ''
+          }
         })
         console.log("Report created successfully.")
       })
@@ -193,9 +286,8 @@ function RoaForm() {
                   <label className='form-label'>Analyzed By: </label>
                   <select className='form-select border-dark' name='analyzedBy' onChange={inputHandler} value={result.analyzedBy}>
                     <option defaultValue="Choose...">Choose...</option>
-                    <option value="Katrina Louise C. Gonzales">Katrina Louise C. Gonzales</option>
-                    <option value="Mellen B. Perion">Mellen B. Perion</option>
-                    <option value="Danica Mae B. Rodriguez">Danica Mae B. Rodriguez</option>
+                    <option value="Maryfranie I. Belano, RChT">Maryfranie I. Belano</option>
+
                   </select>
                 </div>
 
@@ -306,30 +398,46 @@ function RoaForm() {
             <div className='card p-4 mb-3 mt-3 shadow-sm border'>
               <h5 className='mb-4 text-primary fw-bold'>Chemical Analysis Result</h5>
               <div className='row g-4'>
-                <div className='col-md-6'>
+
+                <div className='col-md-2'>
                   <label className='form-label'>First Method</label>
-                  <input type='text' className='date form-control border-dark' name='method1' onChange={inputHandler} value={result.method1} placeholder='e.g. pH, NPK' />
+                  <input type='text' className='date form-control border-dark' name='method1' data-parent='method' onChange={inputHandler} value={result.method.method1} placeholder='e.g. pH, NPK' />
                 </div>
-                <div className='col-md-6'>
-                  <label className='form-label'>Second Method</label>
-                  <input type='text' className='date form-control border-dark' name='method2' onChange={inputHandler} value={result.method2} placeholder='e.g. pH, NPK' />
-                </div>
-                <div className='col-md-6'>
-                  <label className='form-label'>Third Method</label>
-                  <input type='text' className='date form-control border-dark' name='method3' onChange={inputHandler} value={result.method3} placeholder='e.g. pH, NPK' />
-                </div>
-                <div className='col-md-6'>
-                  <label className='form-label'>Fourth Method</label>
-                  <input type='text' className='date form-control border-dark' name='method4' onChange={inputHandler} value={result.method4} placeholder='e.g. pH, NPK' />
-                </div>
-                <div className='col-md-6'>
-                  <label className='form-label'>Fifth Method</label>
-                  <input type='text' className='date form-control border-dark' name='method5' onChange={inputHandler} value={result.method5} placeholder='e.g. pH, NPK' />
-                </div>
-                <div className='col-md-6'>
-                  <label className='form-label'>Sixth Method</label>
-                  <input type='text' className='date form-control border-dark' name='method6' onChange={inputHandler} value={result.method6} placeholder='e.g. pH, NPK' />
-                </div>
+
+                {result.method.method1.trim() !== '' && (
+                  <div className='col-md-2'>
+                    <label className='form-label'>Second Method</label>
+                    <input type='text' className='date form-control border-dark' name='method2' data-parent='method' onChange={inputHandler} value={result.method.method2} placeholder='e.g. pH, NPK' />
+                  </div>
+                )}
+
+                {result.method.method2.trim() !== '' && (
+                  <div className='col-md-2'>
+                    <label className='form-label'>Third Method</label>
+                    <input type='text' className='date form-control border-dark' name='method3' data-parent='method' onChange={inputHandler} value={result.method.method3} placeholder='e.g. pH, NPK' />
+                  </div>
+                )}
+
+                {result.method.method3.trim() !== '' && (
+                  <div className='col-md-2'>
+                    <label className='form-label'>Fourth Method</label>
+                    <input type='text' className='date form-control border-dark' name='method4' data-parent='method' onChange={inputHandler} value={result.method.method4} placeholder='e.g. pH, NPK' />
+                  </div>
+                )}
+
+
+                {result.method.method4.trim() !== '' && (
+                  <div className='col-md-2'>
+                    <label className='form-label'>Fifth Method</label>
+                    <input type='text' className='date form-control border-dark' name='method5' data-parent='method' onChange={inputHandler} value={result.method.method5} placeholder='e.g. pH, NPK' />
+                  </div>
+                )}
+                {result.method.method5.trim() !== '' && (
+                  <div className='col-md-2'>
+                    <label className='form-label'>Sixth Method</label>
+                    <input type='text' className='date form-control border-dark' name='method6' data-parent='method' onChange={inputHandler} value={result.method.method6} placeholder='e.g. pH, NPK' />
+                  </div>
+                )}
               </div>
               <div className='d-flex mt-3'>
                 <button
@@ -352,12 +460,12 @@ function RoaForm() {
                         <th rowSpan="2">TEST METHOD</th>
                       </tr>
                       <tr className='text-center'>
-                        <th>{result.method1}</th>
-                        <th>{result.method2}</th>
-                        <th>{result.method3}</th>
-                        <th>{result.method4}</th>
-                        <th>{result.method5}</th>
-                        <th>{result.method6}</th>
+                        <th>{result.method.method1}</th>
+                        <th>{result.method.method2}</th>
+                        <th>{result.method.method3}</th>
+                        <th>{result.method.method4}</th>
+                        <th>{result.method.method5}</th>
+                        <th>{result.method.method6}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -367,12 +475,12 @@ function RoaForm() {
                             <td>{reportItem.customerCode}</td>
                             <td>{reportItem.labCode}</td>
                             <td>{reportItem.sampleDescription}</td>
-                            <td className='text-center'>{reportItem.result || '-'}</td>
-                            <td className='text-center'>{reportItem.method2 || '-'}</td>
-                            <td className='text-center'>{reportItem.method3 || '-'}</td>
-                            <td className='text-center'>{reportItem.method4 || '-'}</td>
-                            <td className='text-center'>{reportItem.method5 || '-'}</td>
-                            <td className='text-center'>{reportItem.method6 || '-'}</td>
+                            <td className='text-center'>{reportItem.results.method1Results || '-'}</td>
+                            <td className='text-center'>{reportItem.results.method2Results || '-'}</td>
+                            <td className='text-center'>{reportItem.results.method3Results || '-'}</td>
+                            <td className='text-center'>{reportItem.results.method4Results || '-'}</td>
+                            <td className='text-center'>{reportItem.results.method5Results || '-'}</td>
+                            <td className='text-center'>{reportItem.results.method6Results || '-'}</td>
                             <td>{reportItem.testMethod}</td>
                           </tr>
                         ))
@@ -390,13 +498,55 @@ function RoaForm() {
             {/*BORDER*/}
             <div className='container-fluid border border-secondary border-1 mt-3'></div>
 
-            {/*Chemical Analysis Result*/}
+            {/*Physical Analysis Result*/}
             <div className='card p-4 mb-3 mt-3 shadow-sm border'>
               <h5 className='mb-4 text-primary fw-bold'>Physical Analysis Result</h5>
+              <div className='row g-4'>
+
+                <div className='col-md-2'>
+                  <label className='form-label'>First Method</label>
+                  <input type='text' className='date form-control border-dark' name='physical1' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical1} />
+                </div>
+
+                {result.physicalMethod.physical1.trim() !== '' && (
+                  <div className='col-md-2'>
+                    <label className='form-label'>Second Method</label>
+                    <input type='text' className='date form-control border-dark' name='physical2' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical2} />
+                  </div>
+                )}
+
+                {result.physicalMethod.physical2.trim() !== '' && (
+                  <div className='col-md-2'>
+                    <label className='form-label'>Third Method</label>
+                    <input type='text' className='date form-control border-dark' name='physical3' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical3} />
+                  </div>
+                )}
+
+                {result.physicalMethod.physical3.trim() !== '' && (
+                  <div className='col-md-2'>
+                    <label className='form-label'>Fourth Method</label>
+                    <input type='text' className='date form-control border-dark' name='physical4' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical4} />
+                  </div>
+                )}
+
+                {result.physicalMethod.physical4.trim() !== '' && (
+                  <div className='col-md-2'>
+                    <label className='form-label'>Fifth Method</label>
+                    <input type='text' className='date form-control border-dark' name='physical5' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical5} />
+                  </div>
+                )}
+
+                {result.physicalMethod.physical5.trim() !== '' && (
+                  <div className='col-md-2'>
+                    <label className='form-label'>Sixth Method</label>
+                    <input type='text' className='date form-control border-dark' name='physical6' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical6} />
+                  </div>
+                )}
+              </div>
               <div className='d-flex mt-3'>
                 <button
                   type="button"
-                  className="btn btn-primary" onClick={() => setShowModal(true)}>
+                  className="btn btn-primary" onClick={() => setPhysicalModal(true)}>
                   <i className="bi bi-plus-lg me-2 fs-6"></i>Add Sample Details
                 </button>
               </div>
@@ -407,27 +557,40 @@ function RoaForm() {
                   <table className="table table-bordered">
                     <thead className="table-primary">
                       <tr className='text-center'>
-                        <th>CUSTOMER CODE</th>
-                        <th>LAB CODE</th>
-                        <th>SAMPLE DESCRIPTION</th>
-                        <th>RESULT</th>
-                        <th>TEST METHOD</th>
+                        <th rowSpan="4">CUSTOMER CODE</th>
+                        <th rowSpan="2">LAB CODE</th>
+                        <th rowSpan="2">SAMPLE DESCRIPTION</th>
+                        <th colSpan="6">PHYSICAL ANALYSIS RESULT</th>
+                        <th rowSpan="2">TEST METHOD</th>
+                      </tr>
+                      <tr className='text-center'>
+                        <th>{result.physicalMethod.physical1}</th>
+                        <th>{result.physicalMethod.physical2}</th>
+                        <th>{result.physicalMethod.physical3}</th>
+                        <th>{result.physicalMethod.physical4}</th>
+                        <th>{result.physicalMethod.physical5}</th>
+                        <th>{result.physicalMethod.physical6}</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {roaReport.length > 0 ? (
-                        roaReport.map((reportItem, index) => (
+                      {physicalReport.length > 0 ? (
+                        physicalReport.map((physicalItem, index) => (
                           <tr key={index}>
-                            <td>{reportItem.customerCode}</td>
-                            <td>{reportItem.labCode}</td>
-                            <td>{reportItem.sampleDescription}</td>
-                            <td>{reportItem.testMethod}</td>
-                            <td>{reportItem.result}</td>
+                            <td>{physicalItem.customerCode}</td>
+                            <td>{physicalItem.labCode}</td>
+                            <td>{physicalItem.sampleDescription}</td>
+                            <td className='text-center'>{physicalItem.results.physc1Result || '-'}</td>
+                            <td className='text-center'>{physicalItem.results.physc2Result || '-'}</td>
+                            <td className='text-center'>{physicalItem.results.physc3Result || '-'}</td>
+                            <td className='text-center'>{physicalItem.results.physc4Result || '-'}</td>
+                            <td className='text-center'>{physicalItem.results.physc5Result || '-'}</td>
+                            <td className='text-center'>{physicalItem.results.physc6Result || '-'}</td>
+                            <td>{physicalItem.testMethod}</td>
                           </tr>
                         ))
                       ) : (
                         <tr>
-                          <td colSpan="6 " className="text-center">No samples added yet.</td>
+                          <td colSpan="10" className="text-center">No samples added yet.</td>
                         </tr>
                       )}
                     </tbody>
@@ -446,24 +609,63 @@ function RoaForm() {
       <RoaModal
         show={showModal}
         onClose={() => {
-          setShowModal(false)
+          setShowModal(false);
           setReportDetails({
             labCode: '',
-            sampleCode: '',
+            customerCode: '',
             sampleDescription: '',
-            sampleParam: '',
-            result: '',
+            results: {
+              method1Results: ''
+            },
             testMethod: ''
-          })
+          });
         }}
         reportDetails={reportDetails}
         onChange={reportInputHandler}
         onSubmit={reportSubmit}
-        inputLabel={result.method1}
-        inputLabel2={result.method2}
-        inputData1={result.method1}
-        inputData2={result.method2}
+        inputLabel={result.method.method1}
+        inputLabel2={result.method.method2}
+        inputLabel3={result.method.method3}
+        inputLabel4={result.method.method4}
+        inputLabel5={result.method.method5}
+        inputLabel6={result.method.method6}
+        inputData1={result.method.method1}
+        inputData2={result.method.method2}
+        inputData3={result.method.method3}
+        inputData4={result.method.method4}
+        inputData5={result.method.method5}
+        inputData6={result.method.method6}
+      />
 
+      <PhysicalModal
+        show={physicalModal}
+        onClose={() => {
+          setPhysicalModal(false);
+          setPhysicalDetails({
+            labCode: '',
+            customerCode: '',
+            sampleDescription: '',
+            results: {
+              physc1Result: ''
+            },
+            testMethod: ''
+          });
+        }}
+        physicalDetails={physicalDetails}
+        onChange={physicalInputHandler}
+        onSubmit={physicalResultHandler}
+        inputLabel={result.physicalMethod.physical1}
+        inputLabel2={result.physicalMethod.physical2}
+        inputLabel3={result.physicalMethod.physical3}
+        inputLabel4={result.physicalMethod.physical4}
+        inputLabel5={result.physicalMethod.physical5}
+        inputLabel6={result.physicalMethod.physical6}
+        inputData1={result.physicalMethod.physical1}
+        inputData2={result.physicalMethod.physical2}
+        inputData3={result.physicalMethod.physical3}
+        inputData4={result.physicalMethod.physical4}
+        inputData5={result.physicalMethod.physical5}
+        inputData6={result.physicalMethod.physical6}
       />
     </div>
   )

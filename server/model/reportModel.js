@@ -1,82 +1,141 @@
 import mongoose from "mongoose";
 
+const methodResults = new mongoose.Schema({
+    method1Results: { type: String },
+    method2Results: { type: String },
+    method3Results: { type: String },
+    method4Results: { type: String },
+    method5Results: { type: String },
+    method6Results: { type: String },
+})
+
 const roaModel = new mongoose.Schema({
-     labCode:{
+    labCode: {
         type: String,
     },
 
-    customerCode:{
+    customerCode: {
         type: String,
     },
 
-    sampleDescription:{
+    sampleDescription: {
         type: String,
     },
 
 
-    result:{
+    result: {
         type: String
     },
 
-    testMethod:{
+    results: [methodResults],
+
+    testMethod: {
         type: String
     },
 })
 
+
+const physicResults = new mongoose.Schema({
+    physc1Result: { type: String },
+    physc2Result: { type: String },
+    physc3Result: { type: String },
+    physc4Result: { type: String },
+    physc5Result: { type: String },
+    physc6Result: { type: String },
+})
+
+const physicModel = new mongoose.Schema({
+    labCode: {
+        type: String,
+    },
+
+    customerCode: {
+        type: String,
+    },
+
+    sampleDescription: {
+        type: String,
+    },
+
+    results: [physicResults],
+
+    testMethod: {
+        type: String
+    },
+})
+
+const methodology = new mongoose.Schema({
+    method1: { type: String },
+    method2: { type: String },
+    method3: { type: String },
+    method4: { type: String },
+    method5: { type: String },
+    method6: { type: String },
+})
+
+const phyMethodology = new mongoose.Schema({
+    physical1: { type: String },
+    physical2: { type: String },
+    physical3: { type: String },
+    physical4: { type: String },
+    physical5: { type: String },
+    physical6: { type: String },
+})
+
+
 const reportSchema = new mongoose.Schema({
-    
-    customerName:{
+
+    customerName: {
         type: String,
     },
 
-    customerAddress:{
+    customerAddress: {
         type: String,
     },
 
-    customerContact:{
+    customerContact: {
         type: String
     },
 
-    dateReceived:{
+    dateReceived: {
         type: Date,
     },
 
-    datePerformed:{
+    datePerformed: {
         type: String,
     },
 
-    dateIssued:{
+    dateIssued: {
         type: Date
     },
 
-    reportId:{
+    reportId: {
         type: String,
         unique: true
     },
 
-    analyzedBy:{
-        type: String,
-    },  
-
-    analystPRC:{
+    analyzedBy: {
         type: String,
     },
 
-    status:{
+    analystPRC: {
         type: String,
     },
 
-    sampleSource:{
+    status: {
         type: String,
     },
 
-    method1:{type: String},
-    method2:{type: String},
-    method3:{type: String},
-    method4:{type: String},
-    method5:{type: String},
-    method6:{type: String},
+    sampleSource: {
+        type: String,
+    },
+
+    method: [methodology],
+    physicalMethod: [phyMethodology],
+
     roaDetails: [roaModel],
+    physicalDetails: [physicModel],
+
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

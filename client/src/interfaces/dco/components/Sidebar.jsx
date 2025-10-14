@@ -112,12 +112,6 @@ function Sidebar() {
                                 </ul>
                             </div>
                         </li>
-                        <li className='nav-item'>
-                            <Link to="Testing/" className='nav-link text-white sidebar-link'>
-                                <i className='bi bi-file-earmark-text-fill text-white fs-5 ms-2 me-3' />
-                                <span>Testing</span>
-                            </Link>
-                        </li>
                     </ul>
                 </div>
 
