@@ -239,8 +239,8 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                     </View>
 
 
-                    <View style={[styles.pageNumber, { right: 25 }]}>
-                        <Image style={[styles.ukas]} src={image2} />
+                    <View style={[styles.pageNumber, { right: 25 }]} fixed>
+                        <Image style={[styles.ukas]} src={image2}/>
                     </View>
                     <Text
                         style={[styles.pageNumber, { left: 25 }]}

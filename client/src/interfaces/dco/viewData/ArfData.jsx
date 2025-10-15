@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams, useLocation } from 'react-router-dom'
 import image1 from '../Components/images/ILD.png';
 import './styles/arfData.css'
-import TestPdf from "../generatePdf/testPdf";
+import TestPdf from "../generatePdf/TestPdf";
 
 
 function ArfData() {
@@ -51,6 +51,72 @@ function ArfData() {
                                 </div>
                             </div>
 
+                            {/*Request Details*/}
+                            <div className='row p-3'>
+                                <span className='fs-3 px-1 d-flex justify-items-center'>Request Details</span>
+                                <div className='row m-1 p-1 gap-5'>
+                                    <div className='col'>
+                                        <div className='row g-3'>
+                                            <div className='card pt-2 pb-2 ps-3'>
+                                                <span className='fw-bold text-secondary'>CUSTOMER TYPE</span>
+                                                <span className='fs-5 fw-semibold'>{requestData.clientType || '-'}</span>
+                                            </div>
+                                            <div className="card pt-2 pb-2 ps-3">
+                                                <span className='fw-bold text-secondary'>RECEIVED BY</span>
+                                                <span className='fs-5 fw-semibold'>{requestData.receivedBy || '-'}</span>
+                                            </div>
+                                            <div className='card pt-2 pb-2 ps-3'>
+                                                <span className='fw-bold text-secondary'>LOCATION OF FARM</span>
+                                                <span className='fs-5 fw-semibold'>{requestData.locOfFarm || '-'}</span>
+                                            </div>
+                                            <div>
+                                                <span className='fw-bold fs-5'>Coordinates</span>
+                                            </div>
+                                            <div className='card pt-2 pb-2 ps-3'>
+                                                <span className='fw-bold text-secondary'>LONGITUDE</span>
+                                                {requestData.coordinates.map((coord, index) => {
+                                                    return (
+                                                        <span className='fs-5 fw-semibold' key={index}>
+                                                            {coord.longitude || '-'}
+                                                        </span>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='col'>
+                                        <div className='row g-3'>
+                                            <div className='card pt-2 pb-2 ps-3'>
+                                                <span className='fw-bold text-secondary'>CROPS PLANTED</span>
+                                                <span className='fs-5 fw-semibold'>{requestData.cropsPlanted || '-'}</span>
+                                            </div>
+                                            <div className='card pt-2 pb-2 ps-3'>
+                                                <span className='fw-bold text-secondary'>AREA</span>
+                                                <span className='fs-5 fw-semibold'>{requestData.area || '-'}</span>
+                                            </div>
+                                            <div className='card pt-2 pb-2 ps-3'>
+                                                <span className='fw-bold text-secondary'>TOPOGRAPHY</span>
+                                                <span className='fs-5 fw-semibold'>{requestData.topography || '-'}</span>
+                                            </div>
+                                            <div>
+                                                <span className='fw-bold fs-5 text-white'>blank</span>
+                                            </div>
+
+                                            <div className='card pt-2 pb-2 ps-3'>
+                                                <span className='fw-bold text-secondary'>LATITUDE</span>
+                                                {requestData.coordinates.map((coord, index) => {
+                                                    return (
+                                                        <span className='fs-5 fw-semibold' key={index}>
+                                                            {coord.latitude || '-'}
+                                                        </span>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             {/*Client Information */}
                             <div className='row p-3'>
                                 <span className='fs-3 px-1 d-flex justify-items-center'><i className='bi bi-person fs-2 me-2 text-success ' />Customer Information</span>
@@ -60,16 +126,17 @@ function ArfData() {
                                     <div className='row g-3'>
                                         <div className='card pt-2 pb-2 ps-3'>
                                             <span className='fw-bold text-secondary'>CUSTOMER NAME</span>
-                                            <span className='fs-5 fw-semibold'>{requestData.clientName}</span>
+                                            <span className='fs-5 fw-semibold'>{requestData.clientName || '-'}</span>
                                         </div>
                                         <div className="card pt-2 pb-2 ps-3">
-                                            <span className='fw-bold text-secondary'><i className='bi bi-envelope-fill me-2' />CONTACT</span>
-                                            <span className='fs-5 fw-semibold'>{requestData.clientEmail}</span>
+                                            <span className='fw-bold text-secondary'><i className='bi bi-envelope-fill me-2' />EMAIL</span>
+                                            <span className='fs-5 fw-semibold'>{requestData.clientEmail || '-'}</span>
                                         </div>
                                         <div className="card pt-2 pb-2 ps-3">
-                                            <span className='fw-bold text-secondary'>RECEIVED BY</span>
-                                            <span className='fs-5 fw-semibold'>{requestData.receivedBy}</span>
+                                            <span className='fw-bold text-secondary'><i className='bi bi-envelope-fill me-2' />CONTACT NO.</span>
+                                            <span className='fs-5 fw-semibold'>{requestData.clientContact || '-'}</span>
                                         </div>
+
                                     </div>
                                 </div>
 
@@ -77,15 +144,11 @@ function ArfData() {
                                     <div className='row g-3'>
                                         <div className='card pt-2 pb-2 ps-3'>
                                             <span className='fw-bold text-secondary'><i className='bi bi-geo-alt-fill me-2' />ADDRESS</span>
-                                            <span className='fs-5 fw-semibold'>{requestData.clientAddress}</span>
-                                        </div>
-                                        <div className="card pt-2 pb-2 ps-3">
-                                            <span className='fw-bold text-secondary'>CUSTOMERT TYPE</span>
-                                            <span className='fs-5 fw-semibold'>{requestData.clientType}</span>
+                                            <span className='fs-5 fw-semibold'>{requestData.clientAddress || '-'}</span>
                                         </div>
                                         <div className="card pt-2 pb-2 ps-3">
                                             <span className='fw-bold text-secondary'>GENDER</span>
-                                            <span className='fs-5 fw-semibold'>{requestData.clientGender}</span>
+                                            <span className='fs-5 fw-semibold'>{requestData.clientGender || '-'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +172,7 @@ function ArfData() {
                                 <div className="col">
                                     <div className='row pt-3 pb-3 border-start border-4 border-warning bg-warning bg-opacity-25 rounded'>
                                         <span className='fw-bold fs-5 text-warning'>Sample Disposal</span>
-                                        <span>{formatDate(requestData.sampleDisposal)}</span>
+                                        <span>{formatDate(requestData.sampleDisposa)}</span>
                                     </div>
                                 </div>
 
@@ -137,10 +200,10 @@ function ArfData() {
                             <table className='table table-striped table-borderless table-hover'>
                                 <thead className='tableHead'>
                                     <tr className='text-center'>
+                                        <th>Number of Samples</th>
                                         <th>Customer Code</th>
                                         <th>Lab Code</th>
                                         <th>Sample Description</th>
-                                        <th>Parameter Requested</th>
                                         <th>Test Method Requested</th>
                                     </tr>
                                 </thead>
@@ -148,11 +211,11 @@ function ArfData() {
                                     {requestData && requestData.sampleDetails.length > 0 ? (
                                         requestData.sampleDetails.map((requestItems, index) => (
                                             <tr key={index}>
-                                                <td className='text-primary fw-bold text-center'>{requestItems.customerCode}</td>
-                                                <td className='text-success fw-bold text-center'>{requestItems.labCode}</td>
-                                                <td className='text-center'>{requestItems.sampleDescription}</td>
-                                                <td className='col-1 text-center'>{requestItems.parameterReq}</td>
-                                                <td className='col-5 text-center'>{requestItems.methodReq}</td>
+                                                <td className='text-primary fw-bold text-center'>{requestItems.noOfSample || '-'}</td>
+                                                <td className='text-primary fw-bold text-center'>{requestItems.customerCode || '-'}</td>
+                                                <td className='text-success fw-bold text-center'>{requestItems.labCode || '-'}</td>
+                                                <td className='text-center'>{requestItems.sampleDescription || '-'}</td>
+                                                <td className='col-5 text-center'>{requestItems.methodReq || '-'}</td>
                                             </tr>
                                         ))
                                     ) :
@@ -165,6 +228,54 @@ function ArfData() {
                             </table>
                         </div>
                     </div>
+
+                    {requestData ? (
+                        <>
+                            {/*Sample Remarks*/}
+                            <div className='row p-3 pb-0'>
+                                <span className='fs-3 px-1 d-flex justify-items-center'>
+                                    <i className='bi bi-chat-left-quote fs-2 me-2 text-primary' />
+                                    Sample Remarks
+                                </span>
+                            </div>
+                            <div className="row m-1 p-3 gap-5">
+                                <div className="col">
+                                    <div className='row pt-3 pb-3 border-start border-4 border-primary bg-primary bg-opacity-25 rounded'>
+                                        <span className='fw-bold fs-5 text-primary'>Sampling Date</span>
+                                        <span>{formatDate(requestData.samplingDate)}</span>
+                                    </div>
+                                </div>
+
+                                <div className="col">
+                                    <div className='row pt-3 pb-3 border-start border-4 border-primary bg-primary bg-opacity-25 rounded'>
+                                        <span className='fw-bold fs-5 text-primary'>Sampling Time</span>
+                                        <span>{requestData.samplingTime}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='row m-1 p-1 mb-5 gap-5'>
+
+                                <div className="col">
+                                    <div className='card border-dark pt-2 pb-2 ps-3'>
+                                        <span className='fw-bold text-secondary'>Sample Condition</span>
+                                        <span className='fs-5 fw-semibold'>{requestData.sampleCondition || '-'}</span>
+                                    </div>
+                                </div>
+
+                                <div className="col">
+                                    <div className='card border-dark pt-2 pb-2 ps-3'>
+                                        <span className='fw-bold text-secondary'>Other Matters</span>
+                                        <span className='fs-5 fw-semibold'>{requestData.otherMatters || '-'}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </>
+                    ) : (
+                        <p>Loading user details...{/* Or "User not found" if you prefer */}</p>
+                    )}
+
+
 
                     <div className="d-flex flex-wrap gap-2 justify-content-center pb-4">
                         <div className="btn btn-primary text-white">
@@ -186,7 +297,7 @@ function ArfData() {
                         </button>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
