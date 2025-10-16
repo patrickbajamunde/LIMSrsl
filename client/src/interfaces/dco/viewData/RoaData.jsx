@@ -51,6 +51,7 @@ function RoaData() {
                                 </div>
                             </div>
 
+
                             {/*Customer Information*/}
                             <div className='row p-3'>
                                 <span className='fs-3 px-1 d-flex justify-items-center'><i className='bi bi-person fs-2 me-2 text-success ' />Customer Information</span>
@@ -63,7 +64,7 @@ function RoaData() {
                                                 CUSTOMER NAME
                                             </span>
                                             <span className='fs-5 fw-semibold'>
-                                                {reportDetails.customerName}
+                                                {reportDetails.customerName || '-'}
                                             </span>
                                         </div>
                                         <div className="card pt-2 pb-2 ps-3">
@@ -71,19 +72,29 @@ function RoaData() {
                                                 CONTACT
                                             </span>
                                             <span className='fs-5 fw-semibold'>
-                                                {reportDetails.customerContact}
+                                                {reportDetails.customerContact || '-'}
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col">
-                                    <div className="row card pt-2 pb-2 ps-3">
-                                        <span className='fw-bold text-secondary'>
-                                            ADDRESS
-                                        </span>
-                                        <span className='fs-5 fw-semibold'>
-                                            {reportDetails.customerAddress}
-                                        </span>
+                                    <div className='row g-3'>
+                                        <div className="card pt-2 pb-2 ps-3">
+                                            <span className='fw-bold text-secondary'>
+                                                ADDRESS
+                                            </span>
+                                            <span className='fs-5 fw-semibold'>
+                                                {reportDetails.customerAddress || '-'}
+                                            </span>
+                                        </div>
+                                        <div className="card pt-2 pb-2 ps-3">
+                                            <span className='fw-bold text-secondary'>
+                                                SAMPLE SOURCE
+                                            </span>
+                                            <span className='fs-5 fw-semibold'>
+                                                {reportDetails.sampleSource || '-'}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -125,6 +136,7 @@ function RoaData() {
 
                     {/*Report Details*/}
 
+                    {/*Chemical Analysis Report*/}
                     <div className='row p-3 pb-0'>
                         <span className='fs-3 px-1 d-flex justify-items-center'>
                             <i className='bi bi-file-medical fs-2 me-2 text-danger' />
@@ -132,34 +144,113 @@ function RoaData() {
                         </span>
                     </div>
                     <div className='col-12 p-4'>
-                        <div className='table-responsive rounded'>
+                        <div className='table-responsive border shadow-sm rounded'>
                             <table className='table table-striped table-borderless table-hover'>
                                 <thead className='tableHead'>
                                     <tr className='text-center'>
-                                        <th>Lab Code</th>
-                                        <th>Sample Code</th>
-                                        <th>Sample Description</th>
-                                        <th>Parameter</th>
-                                        <th>Result</th>
-                                        <th>Test Method</th>
+                                        <th rowSpan="4" className='align-content-center'>CUSTOMER CODE</th>
+                                        <th rowSpan="2" className='align-content-center'>LAB CODE</th>
+                                        <th rowSpan="2" className='align-content-center'>SAMPLE DESCRIPTION</th>
+                                        <th colSpan="6" >CHEMICAL ANALYSIS RESULT</th>
+                                        <th rowSpan="2" className='align-content-center'>TEST METHOD</th>
                                     </tr>
+
+                                    {reportDetails && reportDetails.method.length > 0 ? (
+                                        reportDetails.method.map((item, index) => (
+                                            <tr className='text-center' key={index}>
+                                                <th>{item.method1}</th>
+                                                <th>{item.method2}</th>
+                                                <th>{item.method3}</th>
+                                                <th>{item.method4}</th>
+                                                <th>{item.method5}</th>
+                                                <th>{item.method6}</th>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="10" className="text-center">No data available</td>
+                                        </tr>
+                                    )}
+
                                 </thead>
                                 <tbody>
                                     {reportDetails && reportDetails.roaDetails.length > 0 ? (
                                         reportDetails.roaDetails.map((reportItem, index) => (
-                                            <tr key={index}>
+                                            <tr className='text-center' key={index}>
+                                                <td>{reportItem.customerCode}</td>
                                                 <td>{reportItem.labCode}</td>
-                                                <td>{reportItem.sampleCode}</td>
                                                 <td>{reportItem.sampleDescription}</td>
-                                                <td className='col-1 text-center'>{reportItem.sampleParam}</td>
-                                                <td className='col-1'>{reportItem.result}</td>
-                                                <td className='col-5'>{reportItem.testMethod}</td>
+                                                <td className='text-center'>{reportItem.results[0]?.method1Results || '-'}</td>
+                                                <td className='text-center'>{reportItem.results[0]?.method2Results || '-'}</td>
+                                                <td className='text-center'>{reportItem.results[0]?.method3Results || '-'}</td>
+                                                <td className='text-center'>{reportItem.results[0]?.method4Results || '-'}</td>
+                                                <td className='text-center'>{reportItem.results[0]?.method5Results || '-'}</td>
+                                                <td className='text-center'>{reportItem.results[0]?.method6Results || '-'}</td>
+                                                <td>{reportItem.testMethod}</td>
                                             </tr>
                                         ))
                                     ) :
                                         (
                                             <tr>
-                                                <td colSpan="6" className="text-center">No data available</td>
+                                                <td colSpan="10" className="text-center">No data available</td>
+                                            </tr>
+                                        )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    {/*Physical Analysis Report*/}
+                    <div className='col-12 p-4'>
+                        <div className='table-responsive border rounded shadow-sm'>
+                            <table className='table table-striped table-borderless table-hover'>
+                                <thead className='tableHead'>
+                                    <tr className='text-center'>
+                                        <th rowSpan="4" className='align-content-center'>CUSTOMER CODE</th>
+                                        <th rowSpan="2" className='align-content-center'>LAB CODE</th>
+                                        <th rowSpan="2" className='align-content-center'>SAMPLE DESCRIPTION</th>
+                                        <th colSpan="6" >PHYSICAL ANALYSIS RESULT</th>
+                                        <th rowSpan="2" className='align-content-center'>TEST METHOD</th>
+                                    </tr>
+
+                                    {reportDetails && reportDetails.physicalMethod.length > 0 ? (
+                                        reportDetails.physicalMethod.map((item, index) => (
+                                            <tr className='text-center' key={index}>
+                                                <th>{item.physical1}</th>
+                                                <th>{item.physical2}</th>
+                                                <th>{item.physical3}</th>
+                                                <th>{item.physical4}</th>
+                                                <th>{item.physical5}</th>
+                                                <th>{item.physical6}</th>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="10" className="text-center">No data available</td>
+                                        </tr>
+                                    )}
+
+                                </thead>
+                                <tbody>
+                                    {reportDetails && reportDetails.roaDetails.length > 0 ? (
+                                        reportDetails.roaDetails.map((reportItem, index) => (
+                                            <tr className='text-center' key={index}>
+                                                <td>{reportItem.customerCode}</td>
+                                                <td>{reportItem.labCode}</td>
+                                                <td>{reportItem.sampleDescription}</td>
+                                                <td className='text-center'>{reportItem.results[0]?.physc1Result || '-'}</td>
+                                                <td className='text-center'>{reportItem.results[0]?.physc2Result || '-'}</td>
+                                                <td className='text-center'>{reportItem.results[0]?.physc3Result || '-'}</td>
+                                                <td className='text-center'>{reportItem.results[0]?.physc4Result || '-'}</td>
+                                                <td className='text-center'>{reportItem.results[0]?.physc5Result || '-'}</td>
+                                                <td className='text-center'>{reportItem.results[0]?.physc6Result || '-'}</td>
+                                                <td>{reportItem.testMethod}</td>
+                                            </tr>
+                                        ))
+                                    ) :
+                                        (
+                                            <tr>
+                                                <td colSpan="10" className="text-center">No data available</td>
                                             </tr>
                                         )}
                                 </tbody>

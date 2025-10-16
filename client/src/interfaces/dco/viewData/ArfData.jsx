@@ -53,7 +53,9 @@ function ArfData() {
 
                             {/*Request Details*/}
                             <div className='row p-3'>
-                                <span className='fs-3 px-1 d-flex justify-items-center'>Request Details</span>
+                                <div className='row p-3'>
+                                    <span className='fs-3 px-1 d-flex justify-items-center'><i className='bi bi-list-check fs-2 me-2 text-success ' />Request Details</span>
+                                </div>
                                 <div className='row m-1 p-1 gap-5'>
                                     <div className='col'>
                                         <div className='row g-3'>

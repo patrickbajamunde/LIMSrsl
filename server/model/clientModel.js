@@ -62,7 +62,7 @@ const clientSchema = new mongoose.Schema ({
     },
 
     clientContact: {
-        type: Number
+        type: String,
     },
 
     clientGender: {
