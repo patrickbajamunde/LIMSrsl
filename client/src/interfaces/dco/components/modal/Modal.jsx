@@ -88,7 +88,7 @@ export const RoaModal = ({ show,
                       type="text"
                       className="form-control border-black"
                       name="method1Results"
-                      value={reportDetails.results?.method1Results}
+                      value={reportDetails.results.method1Results}
                       onChange={(e) => onChange('method1Results', e.target.value, 'results')}
                     />
                   </div>
@@ -101,7 +101,7 @@ export const RoaModal = ({ show,
                       type="text"
                       className="form-control border-black"
                       name="method2Results"
-                      value={reportDetails.results?.method2Results}
+                      value={reportDetails.results.method2Results}
                       onChange={(e) => onChange('method2Results', e.target.value, 'results')}
                     />
                   </div>
@@ -114,7 +114,7 @@ export const RoaModal = ({ show,
                         type='text'
                         className='form-control border-black'
                         name='method3Results'
-                        value={reportDetails.results?.method3Results}
+                        value={reportDetails.results.method3Results}
                         onChange={(e) => onChange('method3Results', e.target.value, 'results')}
                       />
                   </div>
@@ -127,7 +127,7 @@ export const RoaModal = ({ show,
                         type='text'
                         className='form-control border-black'
                         name='method4Results'
-                        value={reportDetails.results?.method4Results}
+                        value={reportDetails.results.method4Results}
                         onChange={(e) => onChange('method4Results', e.target.value, 'results')}
                       />
                   </div>
@@ -140,7 +140,7 @@ export const RoaModal = ({ show,
                         type='text'
                         className='form-control border-black'
                         name='method5Results'
-                        value={reportDetails.results?.method5Results}
+                        value={reportDetails.results.method5Results}
                         onChange={(e) => onChange('method5Results', e.target.value, 'results')}
                       />
                   </div>
@@ -153,7 +153,7 @@ export const RoaModal = ({ show,
                         type='text'
                         className='form-control border-black'
                         name='method6Results'
-                        value={reportDetails.results?.method6Results}
+                        value={reportDetails.results.method6Results}
                         onChange={(e) => onChange('method6Results', e.target.value, 'results')}
                       />
                   </div>
