@@ -27,7 +27,7 @@ const roaModel = new mongoose.Schema({
         type: String
     },
 
-    results: [methodResults],
+    results: methodResults,
 
     testMethod: {
         type: String
@@ -57,7 +57,7 @@ const physicModel = new mongoose.Schema({
         type: String,
     },
 
-    results: [physicResults],
+    results: physicResults,
 
     testMethod: {
         type: String

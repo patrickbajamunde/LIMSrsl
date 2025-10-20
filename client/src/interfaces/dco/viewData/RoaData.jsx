@@ -180,12 +180,12 @@ function RoaData() {
                                                 <td>{reportItem.customerCode}</td>
                                                 <td>{reportItem.labCode}</td>
                                                 <td>{reportItem.sampleDescription}</td>
-                                                <td className='text-center'>{reportItem.results[0]?.method1Results || '-'}</td>
-                                                <td className='text-center'>{reportItem.results[0]?.method2Results || '-'}</td>
-                                                <td className='text-center'>{reportItem.results[0]?.method3Results || '-'}</td>
-                                                <td className='text-center'>{reportItem.results[0]?.method4Results || '-'}</td>
-                                                <td className='text-center'>{reportItem.results[0]?.method5Results || '-'}</td>
-                                                <td className='text-center'>{reportItem.results[0]?.method6Results || '-'}</td>
+                                                <td className='text-center'>{reportItem.results?.method1Results || '-'}</td>
+                                                <td className='text-center'>{reportItem.results?.method2Results || '-'}</td>
+                                                <td className='text-center'>{reportItem.results?.method3Results || '-'}</td>
+                                                <td className='text-center'>{reportItem.results?.method4Results || '-'}</td>
+                                                <td className='text-center'>{reportItem.results?.method5Results || '-'}</td>
+                                                <td className='text-center'>{reportItem.results?.method6Results || '-'}</td>
                                                 <td>{reportItem.testMethod}</td>
                                             </tr>
                                         ))
@@ -232,18 +232,18 @@ function RoaData() {
 
                                 </thead>
                                 <tbody>
-                                    {reportDetails && reportDetails.roaDetails.length > 0 ? (
-                                        reportDetails.roaDetails.map((reportItem, index) => (
+                                    {reportDetails && reportDetails.physicalDetails.length > 0 ? (
+                                        reportDetails.physicalDetails.map((reportItem, index) => (
                                             <tr className='text-center' key={index}>
                                                 <td>{reportItem.customerCode}</td>
                                                 <td>{reportItem.labCode}</td>
                                                 <td>{reportItem.sampleDescription}</td>
-                                                <td className='text-center'>{reportItem.results[0]?.physc1Result || '-'}</td>
-                                                <td className='text-center'>{reportItem.results[0]?.physc2Result || '-'}</td>
-                                                <td className='text-center'>{reportItem.results[0]?.physc3Result || '-'}</td>
-                                                <td className='text-center'>{reportItem.results[0]?.physc4Result || '-'}</td>
-                                                <td className='text-center'>{reportItem.results[0]?.physc5Result || '-'}</td>
-                                                <td className='text-center'>{reportItem.results[0]?.physc6Result || '-'}</td>
+                                                <td className='text-center'>{reportItem.results?.physc1Result || '-'}</td>
+                                                <td className='text-center'>{reportItem.results?.physc2Result || '-'}</td>
+                                                <td className='text-center'>{reportItem.results?.physc3Result || '-'}</td>
+                                                <td className='text-center'>{reportItem.results?.physc4Result || '-'}</td>
+                                                <td className='text-center'>{reportItem.results?.physc5Result || '-'}</td>
+                                                <td className='text-center'>{reportItem.results?.physc6Result || '-'}</td>
                                                 <td>{reportItem.testMethod}</td>
                                             </tr>
                                         ))

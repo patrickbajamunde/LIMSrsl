@@ -120,12 +120,12 @@ const GenerateRoa = ({ roaId, icon, disabledIcon }) => {
                                 <View style={[styles.roaTable, { width: "50%", margin: 0 }]}>
                                     <View style={[styles.roaCell, { width: "100%", padding: 0, textAlign: 'center' }]}>
                                         <View style={styles.row}>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.method1Results || '-'}</Text>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.method2Results || '-'}</Text>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.method3Results || '-'}</Text>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.method4Results || '-'}</Text>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.method5Results || '-'}</Text>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%', borderRight: 0 }]}>{row.results[0]?.method6Results || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results?.method1Results || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results?.method2Results || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results?.method3Results || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results?.method4Results || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results?.method5Results || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%', borderRight: 0 }]}>{row.results?.method6Results || '-'}</Text>
                                         </View>
                                     </View>
                                 </View>
@@ -171,13 +171,13 @@ const GenerateRoa = ({ roaId, icon, disabledIcon }) => {
 
                                 <View style={[styles.roaTable, { width: "50%", margin: 0 }]}>
                                     <View style={[styles.roaCell, { width: "100%", padding: 0, textAlign: 'center' }]}>
-                                        <View style={styles.row}>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.physc1Result || '-'}</Text>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.physc2Result || '-'}</Text>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.physc3Result || '-'}</Text>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.physc4Result || '-'}</Text>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results[0]?.physc5Result|| '-'}</Text>
-                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%', borderRight: 0 }]}>{row.results[0]?.physc6Result || '-'}</Text>
+                                        <View style={styles.row} key={index} wrap={false}>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results?.physc1Result || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results?.physc2Result || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results?.physc3Result || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results?.physc4Result || '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results?.physc5Result|| '-'}</Text>
+                                            <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%', borderRight: 0 }]}>{row.results?.physc6Result || '-'}</Text>
                                         </View>
                                     </View>
                                 </View>

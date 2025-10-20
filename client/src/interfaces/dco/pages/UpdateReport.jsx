@@ -31,22 +31,22 @@ function UpdateReport() {
     analyzedBy: "",
     status: "For release",
     sampleSource: "",
-    method: {
+    method: [{
       method1: '',
       method2: '',
       method3: '',
       method4: '',
       method5: '',
       method6: '',
-    },
-    physicalMethod: {
+    }],
+    physicalMethod: [{
       physical1: '',
       physical2: '',
       physical3: '',
       physical4: '',
       physical5: '',
       physical6: ''
-    }
+    }]
   }
 
   const analystPRC = (analyzedBy) => {
@@ -192,34 +192,6 @@ function UpdateReport() {
     }
   }
 
-  const reportSubmit = (e) => {
-    setRoaReport([...roaReport, reportDetails,]);
-    setReportDetails({
-      labCode: '',
-      customerCode: '',
-      sampleDescription: '',
-      results: {
-        method1Results: ''
-      },
-      testMethod: ''
-    });
-    setShowModal(false);
-  }
-
-  const physicalResultHandler = (e) => {
-    setPhysicalReport([...physicalReport, physicalDetails])
-    setPhysicalDetails({
-      labCode: '',
-      customerCode: '',
-      sampleDescription: '',
-      results: {
-        physc1Result: ''
-      },
-      testMethod: ''
-    })
-    setPhysicalModal(false)
-  }
-
   const openEditModal = (index) => {
     const reportToEdit = result.roaDetails[index];
     setReportDetails({
@@ -227,19 +199,39 @@ function UpdateReport() {
       labCode: reportToEdit.labCode,
       sampleDescription: reportToEdit.sampleDescription,
       results: {
-        method1Results: reportToEdit.method1Results,
-        method2Results: reportToEdit.method2Results,
-        method3Results: reportToEdit.method3Results,
-        method4Results: reportToEdit.method4Results,
-        method5Results: reportToEdit.method5Results,
-        method6Results: reportToEdit.method6Results,
+        method1Results: reportToEdit.results.method1Results,
+        method2Results: reportToEdit.results.method2Results,
+        method3Results: reportToEdit.results.method3Results,
+        method4Results: reportToEdit.results.method4Results,
+        method5Results: reportToEdit.results.method5Results,
+        method6Results: reportToEdit.results.method6Results,
       },
-
       testMethod: reportToEdit.testMethod
     });
     setEditingIndex(index);
     setIsEditing(true);
     setShowModal(true)
+  };
+
+  const physicalEditModal = (index) => {
+    const physicalReport = result.physicalDetails[index];
+    setPhysicalDetails({
+      customerCode: physicalReport.customerCode,
+      labCode: physicalReport.labCode,
+      sampleDescription: physicalReport.sampleDescription,
+      results: {
+        physc1Result: physicalReport.results.physc1Result,
+        physc2Result: physicalReport.results.physc2Result,
+        physc3Result: physicalReport.results.physc3Result,
+        physc4Result: physicalReport.results.physc4Result,
+        physc5Result: physicalReport.results.physc5Result,
+        physc6Result: physicalReport.results.physc6Result,
+      },
+      testMethod: physicalReport.testMethod
+    })
+    setEditingIndex(index);
+    setIsEditing(true);
+    setPhysicalModal(true)
   };
 
   const deleteReport = (index) => {
@@ -251,6 +243,17 @@ function UpdateReport() {
       });
     }
   }
+
+  const deletePhysical = (index) => {
+    if (window.confirm("Are you sure you want to delete this report?")) {
+      const updatedPhysical = result.physicalDetails.filter((_, i) => i !== index);
+      setResult({
+        ...result,
+        physicalDetails: updatedPhysical
+      });
+    }
+  }
+
 
   const submitReport = (e) => {
     e.preventDefault();
@@ -282,16 +285,22 @@ function UpdateReport() {
     setEditingIndex(null);
   }
 
-  const closeModal = () => {
-    setReportDetails({
-      labCode: '',
-      customerCode: '',
-      sampleDescription: '',
-      results: {
-        method1Results: ''
-      },
-      testMethod: ''
-    });
+  const submitPhysical = (e) => {
+    e.preventDefault();
+    if (isEditing && editingIndex !== null) {
+      const updatedPhysical = [...result.physicalDetails];
+      updatedPhysical[editingIndex] = physicalDetails
+      setResult({
+        ...result,
+        physicalDetails: updatedPhysical
+      });
+    } else {
+      const updatedPhysical = result.roaDetails ? [...result.physicalDetails, physicalDetails] : [physicalDetails];
+      setResult({
+        ...result,
+        physicalDetails: updatedPhysical
+      });
+    }
     setPhysicalDetails({
       labCode: '',
       customerCode: '',
@@ -300,15 +309,16 @@ function UpdateReport() {
         physc1Result: ''
       },
       testMethod: ''
-    })
-    setShowModal(false);
+    });
+    setPhysicalModal(false);
     setIsEditing(false);
     setEditingIndex(null);
   }
 
+
   const submitForm = async (e) => {
     e.preventDefault();
-    const form = { ...result};
+    const form = { ...result };
     await axios.put(`http://localhost:8002/api/report/update/report/${id}`, form, {
       withCredentials: true,
     })
@@ -522,67 +532,117 @@ function UpdateReport() {
                     </thead>
                     <tbody>
                       {result.roaDetails && result.roaDetails.length > 0 ? (
-                        result.roaDetails.map((reportItem, reportIndex) => (
-                          reportItem.results && reportItem.results.length > 0 ? (
-                            reportItem.results.map((item, resultIndex) => (
-                              <tr key={`${reportIndex}-${resultIndex}`}>
-                                {resultIndex === 0 && (
-                                  <>
-                                    <td rowSpan={reportItem.results.length}>{reportItem.customerCode}</td>
-                                    <td rowSpan={reportItem.results.length}>{reportItem.labCode}</td>
-                                    <td rowSpan={reportItem.results.length}>{reportItem.sampleDescription}</td>
-                                  </>
-                                )}
-                                <td className='text-center'>{item.method1Results || '-'}</td>
-                                <td className='text-center'>{item.method2Results || '-'}</td>
-                                <td className='text-center'>{item.method3Results || '-'}</td>
-                                <td className='text-center'>{item.method4Results || '-'}</td>
-                                <td className='text-center'>{item.method5Results || '-'}</td>
-                                <td className='text-center'>{item.method6Results || '-'}</td>
-                                {resultIndex === 0 && (
-                                  <>
-                                    <td rowSpan={reportItem.results.length}>{reportItem.testMethod}</td>
-                                    <td rowSpan={reportItem.results.length}>
-                                      <button
-                                        className="btn btn-sm btn-warning me-2"
-                                        onClick={() => openEditModal(reportIndex)}
-                                      >
-                                        Edit
-                                      </button>
-                                      <button
-                                        className="btn btn-sm btn-danger"
-                                        onClick={() => deleteReport(reportIndex)}
-                                      >
-                                        Delete
-                                      </button>
-                                    </td>
-                                  </>
-                                )}
-                              </tr>
-                            ))
-                          ) : (
-                            <tr key={reportIndex}>
-                              <td>{reportItem.customerCode}</td>
-                              <td>{reportItem.labCode}</td>
-                              <td>{reportItem.sampleDescription}</td>
-                              <td colSpan="6" className="text-center">No results available</td>
-                              <td>{reportItem.testMethod}</td>
-                              <td>
-                                <button
-                                  className="btn btn-sm btn-warning me-2"
-                                  onClick={() => openEditModal(reportIndex)}
-                                >
-                                  Edit
-                                </button>
-                                <button
-                                  className="btn btn-sm btn-danger"
-                                  onClick={() => deleteReport(reportIndex)}
-                                >
-                                  Delete
-                                </button>
-                              </td>
-                            </tr>
-                          )
+                        result.roaDetails.map((reportItem, index) => (
+                          <tr key={index}>
+                            <td>{reportItem.customerCode}</td>
+                            <td>{reportItem.labCode}</td>
+                            <td>{reportItem.sampleDescription}</td>
+
+                            <td className='text-center'>{reportItem.results?.method1Results || '-'}</td>
+                            <td className='text-center'>{reportItem.results?.method2Results || '-'}</td>
+                            <td className='text-center'>{reportItem.results?.method3Results || '-'}</td>
+                            <td className='text-center'>{reportItem.results?.method4Results || '-'}</td>
+                            <td className='text-center'>{reportItem.results?.method5Results || '-'}</td>
+                            <td className='text-center'>{reportItem.results?.method6Results || '-'}</td>
+                            <td>{reportItem.testMethod}</td>
+                            <td>
+                              <button
+                                type="button"
+                                className="btn btn-sm btn-outline-primary me-2"
+                                onClick={() => openEditModal(index)}
+                                title="Edit Sample"
+                              >
+                                <i className="bi bi-pencil"></i>
+                              </button>
+                              <button
+                                type="button"
+                                className="btn btn-sm btn-outline-danger"
+                                onClick={() => deleteReport(index)}
+                                title="Delete Sample"
+                              >
+                                <i className="bi bi-trash"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="11" className="text-center">No samples added yet.</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div className='card p-4 mb-3 mt-3 shadow-sm border'>
+              <h5 className='mb-4 text-primary fw-bold'>Physical Analysis Result</h5>
+
+              <div className='d-flex mt-3'>
+                <button
+                  type="button"
+                  className="btn btn-primary" onClick={() => setPhysicalModal(true)}>
+                  <i className="bi bi-plus-lg me-2 fs-6"></i>Add Sample Details
+                </button>
+              </div>
+
+              {/*Table for ROA Details */}
+              <div className="row mt-2">
+                <div className="col-12">
+                  <table className="table table-bordered">
+                    <thead className="table-primary">
+                      <tr className='text-center'>
+                        <th rowSpan="4">CUSTOMER CODE</th>
+                        <th rowSpan="2">LAB CODE</th>
+                        <th rowSpan="2">SAMPLE DESCRIPTION</th>
+                        <th colSpan="6">Physical ANALYSIS RESULT</th>
+                        <th rowSpan="2">TEST METHOD</th>
+                        <th rowSpan="2">ACTION</th>
+                      </tr>
+                      <tr className='text-center'>
+                        <th>{result.physicalMethod[0]?.physical1}</th>
+                        <th>{result.physicalMethod[0]?.physical2}</th>
+                        <th>{result.physicalMethod[0]?.physical3}</th>
+                        <th>{result.physicalMethod[0]?.physical4}</th>
+                        <th>{result.physicalMethod[0]?.physical5}</th>
+                        <th>{result.physicalMethod[0]?.physical6}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {result.physicalDetails && result.physicalDetails.length > 0 ? (
+                        result.physicalDetails.map((reportItem, index) => (
+                          <tr key={index}>
+                            <td>{reportItem.customerCode}</td>
+                            <td>{reportItem.labCode}</td>
+                            <td>{reportItem.sampleDescription}</td>
+
+                            <td className='text-center'>{reportItem.results?.physc1Result || '-'}</td>
+                            <td className='text-center'>{reportItem.results?.physc2Result || '-'}</td>
+                            <td className='text-center'>{reportItem.results?.physc3Result || '-'}</td>
+                            <td className='text-center'>{reportItem.results?.physc4Result || '-'}</td>
+                            <td className='text-center'>{reportItem.results?.physc5Result || '-'}</td>
+                            <td className='text-center'>{reportItem.results?.physc6Result || '-'}</td>
+                            <td>{reportItem.testMethod}</td>
+                            <td>
+                              <button
+                                type="button"
+                                className="btn btn-sm btn-outline-primary me-2"
+                                onClick={() => physicalEditModal(index)}
+                                title="Edit Sample"
+                              >
+                                <i className="bi bi-pencil"></i>
+                              </button>
+                              <button
+                                type="button"
+                                className="btn btn-sm btn-outline-danger"
+                                onClick={() => deletePhysical(index)}
+                                title="Delete Sample"
+                              >
+                                <i className="bi bi-trash"></i>
+                              </button>
+                            </td>
+                          </tr>
                         ))
                       ) : (
                         <tr>
@@ -632,6 +692,37 @@ function UpdateReport() {
         inputData4={result.method[0]?.method4}
         inputData5={result.method[0]?.method5}
         inputData6={result.method[0]?.method6}
+      />
+
+      <PhysicalModal
+        show={physicalModal}
+        onClose={() => {
+          setPhysicalModal(false)
+          setPhysicalDetails({
+            labCode: '',
+            customerCode: '',
+            sampleDescription: '',
+            results: {
+              physc1Result: ''
+            },
+            testMethod: ''
+          });
+        }}
+        physicalDetails={physicalDetails}
+        onChange={physicalInputHandler}
+        onSubmit={submitPhysical}
+        inputLabel={result.physicalMethod[0]?.physical1}
+        inputLabel2={result.physicalMethod[0]?.physical2}
+        inputLabel3={result.physicalMethod[0]?.physical3}
+        inputLabel4={result.physicalMethod[0]?.physical4}
+        inputLabel5={result.physicalMethod[0]?.physical5}
+        inputLabel6={result.physicalMethod[0]?.physical6}
+        inputData1={result.physicalMethod[0]?.physical1}
+        inputData2={result.physicalMethod[0]?.physical2}
+        inputData3={result.physicalMethod[0]?.physical3}
+        inputData4={result.physicalMethod[0]?.physical4}
+        inputData5={result.physicalMethod[0]?.physical5}
+        inputData6={result.physicalMethod[0]?.physical6}
       />
 
 
