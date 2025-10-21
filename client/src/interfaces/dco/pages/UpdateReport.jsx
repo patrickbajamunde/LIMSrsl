@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { RoaModal } from '../components/modal/Modal';
 import { PhysicalModal } from '../components/modal/PhysicalModal';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
 function UpdateReport() {
 
@@ -93,6 +93,10 @@ function UpdateReport() {
   const [editingIndex, setEditingIndex] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
+
+  const location = useLocation();
+  const backRoute = location.state?.from || "/Dco/ForRelease/"
+  const navigate = useNavigate()
 
   const inputHandler = (e) => {
     const { name, value, dataset } = e.target;
@@ -522,12 +526,12 @@ function UpdateReport() {
                         <th rowSpan="2">ACTION</th>
                       </tr>
                       <tr className='text-center'>
-                        <th>{result.method[0]?.method1}</th>
-                        <th>{result.method[0]?.method2}</th>
-                        <th>{result.method[0]?.method3}</th>
-                        <th>{result.method[0]?.method4}</th>
-                        <th>{result.method[0]?.method5}</th>
-                        <th>{result.method[0]?.method6}</th>
+                        <th>{result.method?.method1}</th>
+                        <th>{result.method?.method2}</th>
+                        <th>{result.method?.method3}</th>
+                        <th>{result.method?.method4}</th>
+                        <th>{result.method?.method5}</th>
+                        <th>{result.method?.method6}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -601,12 +605,12 @@ function UpdateReport() {
                         <th rowSpan="2">ACTION</th>
                       </tr>
                       <tr className='text-center'>
-                        <th>{result.physicalMethod[0]?.physical1}</th>
-                        <th>{result.physicalMethod[0]?.physical2}</th>
-                        <th>{result.physicalMethod[0]?.physical3}</th>
-                        <th>{result.physicalMethod[0]?.physical4}</th>
-                        <th>{result.physicalMethod[0]?.physical5}</th>
-                        <th>{result.physicalMethod[0]?.physical6}</th>
+                        <th>{result.physicalMethod?.physical1}</th>
+                        <th>{result.physicalMethod?.physical2}</th>
+                        <th>{result.physicalMethod?.physical3}</th>
+                        <th>{result.physicalMethod?.physical4}</th>
+                        <th>{result.physicalMethod?.physical5}</th>
+                        <th>{result.physicalMethod?.physical6}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -657,7 +661,8 @@ function UpdateReport() {
 
 
             <div className='col-md-6 gap-3 offset-md-6 d-flex justify-content-end pe-3'>
-              <button className="btn btn-primary col-md-2">Save</button>
+              <button type='button' className="btn btn-primary col-md-2" onClick={() => navigate(backRoute)}>Back</button>
+              <button type='submit' className="btn btn-primary col-md-2" onClick={submitForm}>Save</button>
             </div>
           </form>
 
@@ -680,18 +685,18 @@ function UpdateReport() {
         reportDetails={reportDetails}
         onChange={reportInputHandler}
         onSubmit={submitReport}
-        inputLabel={result.method[0]?.method1}
-        inputLabel2={result.method[0]?.method2}
-        inputLabel3={result.method[0]?.method3}
-        inputLabel4={result.method[0]?.method4}
-        inputLabel5={result.method[0]?.method5}
-        inputLabel6={result.method[0]?.method6}
-        inputData1={result.method[0]?.method1}
-        inputData2={result.method[0]?.method2}
-        inputData3={result.method[0]?.method3}
-        inputData4={result.method[0]?.method4}
-        inputData5={result.method[0]?.method5}
-        inputData6={result.method[0]?.method6}
+        inputLabel={result.method?.method1}
+        inputLabel2={result.method?.method2}
+        inputLabel3={result.method?.method3}
+        inputLabel4={result.method?.method4}
+        inputLabel5={result.method?.method5}
+        inputLabel6={result.method?.method6}
+        inputData1={result.method?.method1}
+        inputData2={result.method?.method2}
+        inputData3={result.method?.method3}
+        inputData4={result.method?.method4}
+        inputData5={result.method?.method5}
+        inputData6={result.method?.method6}
       />
 
       <PhysicalModal
@@ -711,18 +716,18 @@ function UpdateReport() {
         physicalDetails={physicalDetails}
         onChange={physicalInputHandler}
         onSubmit={submitPhysical}
-        inputLabel={result.physicalMethod[0]?.physical1}
-        inputLabel2={result.physicalMethod[0]?.physical2}
-        inputLabel3={result.physicalMethod[0]?.physical3}
-        inputLabel4={result.physicalMethod[0]?.physical4}
-        inputLabel5={result.physicalMethod[0]?.physical5}
-        inputLabel6={result.physicalMethod[0]?.physical6}
-        inputData1={result.physicalMethod[0]?.physical1}
-        inputData2={result.physicalMethod[0]?.physical2}
-        inputData3={result.physicalMethod[0]?.physical3}
-        inputData4={result.physicalMethod[0]?.physical4}
-        inputData5={result.physicalMethod[0]?.physical5}
-        inputData6={result.physicalMethod[0]?.physical6}
+        inputLabel={result.physicalMethod?.physical1}
+        inputLabel2={result.physicalMethod?.physical2}
+        inputLabel3={result.physicalMethod?.physical3}
+        inputLabel4={result.physicalMethod?.physical4}
+        inputLabel5={result.physicalMethod?.physical5}
+        inputLabel6={result.physicalMethod?.physical6}
+        inputData1={result.physicalMethod?.physical1}
+        inputData2={result.physicalMethod?.physical2}
+        inputData3={result.physicalMethod?.physical3}
+        inputData4={result.physicalMethod?.physical4}
+        inputData5={result.physicalMethod?.physical5}
+        inputData6={result.physicalMethod?.physical6}
       />
 
 

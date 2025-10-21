@@ -130,8 +130,8 @@ const reportSchema = new mongoose.Schema({
         type: String,
     },
 
-    method: [methodology],
-    physicalMethod: [phyMethodology],
+    method: methodology,
+    physicalMethod: phyMethodology,
 
     roaDetails: [roaModel],
     physicalDetails: [physicModel],

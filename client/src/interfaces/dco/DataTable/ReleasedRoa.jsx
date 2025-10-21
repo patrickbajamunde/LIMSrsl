@@ -89,20 +89,6 @@ export default function ReleasedRoa() {
             ),
         },
         {
-            name: "Parameter",
-            cell: (row) => (
-                <div style={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap", // This is the key change: prevents text from wrapping
-                    maxWidth: "200px"
-                }}>
-                    {row.roaDetails.map(param => param.sampleParam)}
-                </div>
-            ),
-            sortable: true,
-        },
-        {
             name: "Test Method",
             cell: (row) => (
                 <div style={{

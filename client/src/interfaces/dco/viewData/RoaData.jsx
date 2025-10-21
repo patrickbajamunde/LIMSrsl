@@ -155,17 +155,15 @@ function RoaData() {
                                         <th rowSpan="2" className='align-content-center'>TEST METHOD</th>
                                     </tr>
 
-                                    {reportDetails && reportDetails.method.length > 0 ? (
-                                        reportDetails.method.map((item, index) => (
-                                            <tr className='text-center' key={index}>
-                                                <th>{item.method1}</th>
-                                                <th>{item.method2}</th>
-                                                <th>{item.method3}</th>
-                                                <th>{item.method4}</th>
-                                                <th>{item.method5}</th>
-                                                <th>{item.method6}</th>
-                                            </tr>
-                                        ))
+                                    {reportDetails && reportDetails.method ? (
+                                        <tr className='text-center'>
+                                            <th>{reportDetails.method.method1}</th>
+                                            <th>{reportDetails.method.method2}</th>
+                                            <th>{reportDetails.method.method3}</th>
+                                            <th>{reportDetails.method.method4}</th>
+                                            <th>{reportDetails.method.method5}</th>
+                                            <th>{reportDetails.method.method6}</th>
+                                        </tr>
                                     ) : (
                                         <tr>
                                             <td colSpan="10" className="text-center">No data available</td>
@@ -213,22 +211,19 @@ function RoaData() {
                                         <th rowSpan="2" className='align-content-center'>TEST METHOD</th>
                                     </tr>
 
-                                    {reportDetails && reportDetails.physicalMethod.length > 0 ? (
-                                        reportDetails.physicalMethod.map((item, index) => (
-                                            <tr className='text-center' key={index}>
-                                                <th>{item.physical1}</th>
-                                                <th>{item.physical2}</th>
-                                                <th>{item.physical3}</th>
-                                                <th>{item.physical4}</th>
-                                                <th>{item.physical5}</th>
-                                                <th>{item.physical6}</th>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="10" className="text-center">No data available</td>
+                                    {reportDetails && reportDetails.physicalMethod ? (
+                                        <tr className='text-center'>
+                                            <th>{reportDetails.physicalMethod.physical1}</th>
+                                            <th>{reportDetails.physicalMethod.physical2}</th>
+                                            <th>{reportDetails.physicalMethod.physical3}</th>
+                                            <th>{reportDetails.physicalMethod.physical4}</th>
+                                            <th>{reportDetails.physicalMethod.physical5}</th>
+                                            <th>{reportDetails.physicalMethod.physical6}</th>
                                         </tr>
+                                    ) : (
+                                        <td colSpan="10" className="text-center">'-'</td>
                                     )}
+
 
                                 </thead>
                                 <tbody>
@@ -261,7 +256,16 @@ function RoaData() {
                     <div className="d-flex flex-wrap gap-2 justify-content-center pb-4">
                         <div className="btn btn-primary text-white">
                             <GenerateRoa roaId={reportDetails ? reportDetails._id : null}
-                                icon={<span className='text-white fw-bold'>Generate PDF</span>}
+                                copyType="CUSTOMER COPY"
+                                fileType='_Customer_Copy'
+                                icon={<span className='text-white fw-bold'>Customer Copy</span>}
+                            />
+                        </div>
+                        <div className="btn btn-primary text-white">
+                            <GenerateRoa roaId={reportDetails ? reportDetails._id : null}
+                                copyType="LABORATORY COPY"
+                                fileType='_Laboratory_Copy'
+                                icon={<span className='text-white fw-bold'>Laboratory Copy</span>}
                             />
                         </div>
                         <button className="btn btn-success fw-bold">

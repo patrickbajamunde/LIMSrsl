@@ -86,20 +86,7 @@ export default function CornProgram() {
                 </div>
             )
         },
-        {
-            name: "Parameter",
-            cell: (row) => (
-                <div style={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap", // This is the key change: prevents text from wrapping
-                    maxWidth: "200px"
-                }}>
-                    {row.sampleDetails.map(s => s.parameterReq)}
-                </div>
-            ),
-            sortable: true,
-        },
+        
         {
             name: "Test Method",
             cell: (row) => (

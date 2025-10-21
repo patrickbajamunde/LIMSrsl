@@ -109,20 +109,6 @@ export default function ForRelease() {
             ),
         },
         {
-            name: "Parameter",
-            cell: (row) => (
-                <div style={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap", // This is the key change: prevents text from wrapping
-                    maxWidth: "200px"
-                }}>
-                    {row.roaDetails.map(param => param.sampleParam)}
-                </div>
-            ),
-            sortable: true,
-        },
-        {
             name: "Test Method",
             cell: (row) => (
                 <div style={{
@@ -155,7 +141,8 @@ export default function ForRelease() {
                     <Link
                         to={`/Dco/updateRoa/${row._id}`}
                         type="button"
-                        className="btn p-0 border-0"><i className="bi bi-pencil-square text-success "></i></Link>
+                        className="btn p-0 border-0"
+                        state={{ from: '/Dco/ForRelease/' }}><i className="bi bi-pencil-square text-success "></i></Link>
                     <GenerateRoa roaId={row._id}
                         icon={<i className="bi bi-box-arrow-down text-primary"></i>}
                         disabledIcon={<i className="bi bi-box-arrow-down text-secondary"></i>}
