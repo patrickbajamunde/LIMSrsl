@@ -289,7 +289,7 @@ function ArfData() {
                             <Link
                                 to={`/Dco/updateArf/${id}`}
                                 type="button"
-                                className="btn p-0 border-0 text-white fw-bold">Edit Request
+                                className="btn p-0 border-0 text-white fw-bold" state={{from: `/Dco/requestDetails/${id}`}}>Edit Request
                             </Link>
                         </button>
                         <button className="btn btn-danger fw-bold">
