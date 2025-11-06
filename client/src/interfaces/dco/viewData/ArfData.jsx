@@ -174,7 +174,7 @@ function ArfData() {
                                 <div className="col">
                                     <div className='row pt-3 pb-3 border-start border-4 border-warning bg-warning bg-opacity-25 rounded'>
                                         <span className='fw-bold fs-5 text-warning'>Sample Disposal</span>
-                                        <span>{formatDate(requestData.sampleDisposa)}</span>
+                                        <span>{formatDate(requestData.sampleDisposal)}</span>
                                     </div>
                                 </div>
 
