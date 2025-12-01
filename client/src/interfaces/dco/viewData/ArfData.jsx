@@ -2,7 +2,6 @@ import React from 'react'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Link, useParams, useLocation } from 'react-router-dom'
-import image1 from '../Components/images/ILD.png';
 import './styles/arfData.css'
 import TestPdf from "../generatePdf/TestPdf";
 

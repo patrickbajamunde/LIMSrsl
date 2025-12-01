@@ -411,7 +411,7 @@ function Arf() {
 
                 <div className='col-md-6'>
                   <label className='form-label'>Sampling Time:</label>
-                  <input type="time" className="form-control border border-dark" id="samplingTime   " name='samplingTime' value={request.samplingTime} onChange={inputHandler} placeholder="" />
+                  <input type="time" className="form-control border border-dark" id="samplingTime" name='samplingTime' value={request.samplingTime} onChange={inputHandler} placeholder="" />
                 </div>
 
                 <div className='col-md-6'>
