@@ -587,13 +587,9 @@ function UpdateRequest() {
                     />
                   </div>
 
-                  <div className='col-md-6'>
+                  <div>
                     <label className='form-label'>Test Requested - Test Method</label>
-                    <select id='methodReq' name='methodReq' onChange={sampleInputHandler} value={sampleDetail.methodReq} className='form-select border-dark'>
-                      <option value="">Choose...</option>
-                      <option value="Method 1">Method 1</option>
-                      <option value="Method 2">Method 2</option>
-                    </select>
+                    <input type='text' className='form-control border-dark' name='methodReq' onChange={sampleInputHandler} value={sampleDetail.methodReq} />
                   </div>
 
                   <div className="mb-3">
@@ -604,7 +600,6 @@ function UpdateRequest() {
                       name="unitCost"
                       value={sampleDetail.unitCost}
                       onChange={sampleInputHandler}
-                      required
                     />
                   </div>
 
@@ -616,7 +611,6 @@ function UpdateRequest() {
                       name="totalCost"
                       value={sampleDetail.totalCost}
                       onChange={sampleInputHandler}
-                      required
                     />
                   </div>
 

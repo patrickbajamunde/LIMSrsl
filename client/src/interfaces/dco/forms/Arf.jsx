@@ -29,7 +29,13 @@ function Arf() {
     samplingDate: "",
     samplingTime: "",
     sampleCondition: "",
-    otherMatters: ""
+    otherMatters: "",
+    orNo: "",
+    amountPaid: "",
+    unpaidBalance: "",
+    subTotal: "",
+    discount: "",
+    totalPhp: ""
   }
 
   const customerCategory = (clientType) => {
@@ -72,10 +78,22 @@ function Arf() {
     totalCost: ""
   }); // State to hold current state of sample details in the modal
 
-
-
-
   const [successMessage, setSuccessMessage] = useState("")
+
+  const [textField, setTextField] = useState([{ id: 1, methodReq: '', unitCost: '', totalCost: '' }]);
+  const [nextInput, setNextInput] = useState(2);
+
+  const addTextField = () => {
+    setTextField([...textField, { id: nextInput, methodReq: '', unitCost: '', totalCost: '' }]);
+    setNextInput(nextInput + 1);
+  }
+
+  const deleteTextField = (id) => {
+    if (textField.length > 1) {
+      setTextField(textField.filter((itemField) => itemField.id !== id));
+    }
+  }
+
 
   const requestIdGenerator = (clientType) => {
     const getCategoryId = customerCategory(clientType)
@@ -128,34 +146,106 @@ function Arf() {
   };
 
   // Handler for modal sample inputs
-  const sampleInputHandler = (e) => {
+  const sampleInputHandler = (e, fieldId) => {
     const { name, value } = e.target;
-    if (name === 'methodReq') {
-      setSampleDetail({
-        ...sampleDetail,
-        methodReq: value,
-        unitCost: testMethodPrice(value),
-        totalCost: computeCost(value, sampleDetail.noOfSample)
-      });
-    } else {
+
+    // FOR TEST METHOD FIELDS
+    if (name === 'methodReq' && fieldId) {
+      const unitPrice = testMethodPrice(value);  // Get price
+      const numSamples = parseInt(sampleDetail.noOfSample) || 0;
+      const total = unitPrice * numSamples;  // Calculate total
+
+      setTextField(
+        textField.map((field) =>
+          field.id === fieldId
+            ? {
+              ...field,
+              methodReq: value,
+              unitCost: unitPrice,
+              totalCost: total
+            }
+            : field
+        )
+      );
+    }
+    else if (name === 'unitCost' && fieldId) {
+      const numSamples = parseInt(sampleDetail.noOfSample) || 0;
+      const total = parseFloat(value) * numSamples;
+
+      setTextField(
+        textField.map((field) =>
+          field.id === fieldId
+            ? {
+              ...field,
+              unitCost: value,
+              totalCost: total
+            }
+            : field
+        )
+      );
+    }
+    // ✅ When noOfSample changes, recalculate all test method totals
+    else if (name === 'noOfSample') {
+      const numSamples = parseInt(value) || 0;
+
+      setSampleDetail({ ...sampleDetail, noOfSample: value });
+
+      // Recalculate totals for all test methods
+      setTextField(
+        textField.map((field) => ({
+          ...field,
+          totalCost: (parseFloat(field.unitCost) || 0) * numSamples
+        }))
+      );
+    }
+    // FOR OTHER FIELDS
+    else {
       setSampleDetail({ ...sampleDetail, [name]: value });
     }
   }
 
   // Handler for submitting sample details
   const sampleSubmit = (e) => {
-    setSample([...sample, sampleDetail]); // add new sampleDetail to samples array
+    e.preventDefault();
+
+    // Combine all methods into comma-separated strings
+    const methodsString = textField
+      .map(field => field.methodReq)
+      .join(', ');
+
+    const unitCostsString = textField
+      .map(field => field.unitCost)
+      .join(', ');
+
+    // Calculate grand total
+    const grandTotal = textField.reduce((sum, field) => {
+      return sum + (parseFloat(field.totalCost) || 0);
+    }, 0);
+
+    // Create ONE sample entry
+    const newSample = {
+      noOfSample: sampleDetail.noOfSample,
+      customerCode: sampleDetail.customerCode,
+      labCode: sampleDetail.labCode,
+      sampleDescription: sampleDetail.sampleDescription,
+      methodReq: methodsString,
+      unitCost: unitCostsString,
+      totalCost: grandTotal.toString()
+    };
+
+    setSample([...sample, newSample]);
+
+    // Reset
     setSampleDetail({
       sampleDescription: "",
-      parameterReq: "",
-      methodReq: "",
       labCode: "",
-      sampleCode: "",
-      noOfSample: "",
-      unitCost: "",
-      totalCost: ""
-    }); // reset the inputs of sampleDetails
-    setShowModal(false); // close modal after adding sample
+      customerCode: "",
+      noOfSample: ""
+    });
+
+    setTextField([{ id: 1, methodReq: '', unitCost: '', totalCost: '' }]);
+    setNextInput(2);
+    setShowModal(false);
   }
 
   const submitForm = async (e) => {
@@ -192,7 +282,13 @@ function Arf() {
           samplingDate: "",
           samplingTime: "",
           sampleCondition: "",
-          otherMatters: ""
+          otherMatters: "",
+          orNo: "",
+          amountPaid: "",
+          unpaidBalance: "",
+          subTotal: "",
+          discount: "",
+          totalPhp: ""
 
         }); // Reset request form
         setSuccessMessage("Form submitted successfully!");
@@ -257,8 +353,8 @@ function Arf() {
                   <label className='form-label'>Received By</label>
                   <select id='receivedBy' name='receivedBy' onChange={inputHandler} value={request.receivedBy} className='form-select border-dark'>
                     <option value="">Choose...</option>
-                    <option value="Susan P. Bergantin">Susan P. Bergantin</option>
-                    <option value="Jessa Mae M. Luces">Jessa Mae M. Luces</option>
+                    <option value="Marife D. Valenciano">Marife D. Valenciano</option>
+                    <option value="Jessabel A. Llagas">Jessabel A. Llagas</option>
                   </select>
                 </div>
                 <div className='col-md-6'>
@@ -333,7 +429,6 @@ function Arf() {
             <div className='card p-4 mb-3 mt-3 shadow-sm border'>
               <h5 className='mb-4 text-primary fw-bold'>Laboratory Services</h5>
               <div className="row g-4">
-
                 <div className='col-md-6'>
                   <label className='form-label'>Date of Sample Disposal:</label>
                   <input type="date" className="form-control border border-dark" id="sampleDisposal" name='sampleDisposal' value={request.sampleDisposal} onChange={inputHandler} placeholder="" />
@@ -346,7 +441,38 @@ function Arf() {
 
                 <div className='col-md-6'>
                   <label className='form-label'>Sample Disposed By:</label>
-                  <input type="text" className="form-control border border-dark" id="sampleDisposedBy   " name='sampleDisposedBy' value={request.sampleDisposedBy} onChange={inputHandler} placeholder="" />
+                  <input type="text" className="form-control border border-dark" id="sampleDisposedBy " name='sampleDisposedBy' value={request.sampleDisposedBy} onChange={inputHandler} placeholder="" />
+                </div>
+              </div>
+              <div className="row g-4 mt-1">
+                <div className="col-md-6">
+                  <label className='form-label'>OR No.:</label>
+                  <input type='text' className='form-control border border-dark' id="orNo" name='orNo' value={request.orNo} onChange={inputHandler}></input>
+                </div>
+
+                <div className="col-md-6">
+                  <label className='form-label'>Amount Paid:</label>
+                  <input type='text' className='form-control border border-dark' id="amountPaid" name='amountPaid' onChange={inputHandler}></input>
+                </div>
+
+                <div className="col-md-6">
+                  <label className='form-label'>Unpaid Balance:</label>
+                  <input type='text' className='form-control border border-dark' id="unPaidBalance" name='unPaidBalance' onChange={inputHandler}></input>
+                </div>
+
+                <div className="col-md-6">
+                  <label className='form-label'>Sub-Total:</label>
+                  <input type='text' className='form-control border border-dark' id="subTotal" name='subTotal' onChange={inputHandler}></input>
+                </div>
+
+                <div className="col-md-6">
+                  <label className='form-label'>Discount:</label>
+                  <input type='text' className='form-control border border-dark' id="discount" name='discount' onChange={inputHandler}></input>
+                </div>
+
+                <div className="col-md-6">
+                  <label className='form-label'>Total Php:</label>
+                  <input type='text' className='form-control border border-dark' id="totalPhp" name='totalPhp' onChange={inputHandler}></input>
                 </div>
               </div>
               <div className='d-flex justify-content-between align-items-center mb-3 mt-4'>
@@ -393,6 +519,7 @@ function Arf() {
                 </div>
               </div>
             </div>
+
             <div className='container-fluid border border-secondary border-1 mt-3'></div>
             {/*Other Matters*/}
             <div className='card p-4 mb-3 shadow-sm border mt-3'>
@@ -428,10 +555,10 @@ function Arf() {
         </div>
       </div>
 
-      
+
       {showModal && (
         <div className="modal fade show" style={{ display: 'block', background: 'rgba(0,0,0,0.5)' }}>
-          <div className="modal-dialog">
+          <div className="modal-dialog modal-lg">
             <div className="modal-content">
               <form onSubmit={sampleSubmit} method="post">
 
@@ -441,86 +568,81 @@ function Arf() {
                 </div>
 
                 <div className="modal-body">
+                  <div className='container-fluid'>
 
-                  <div>
-                    <label className='form-label'>No. of Samples</label>
-                    <input
-                      type='text'
-                      className='form-control border-dark'
-                      name='noOfSample'
-                      value={sampleDetail.noOfSample}
-                      onChange={sampleInputHandler}
-                    />
+                    <div className="row g-4">
+                      <div className="col-md-6">
+                        <label className='form-label'>No. of Samples:</label>
+                        <input type="text" className="form-control border-dark" id="noOfSample" name='noOfSample' value={sampleDetail.noOfSample} onChange={sampleInputHandler} placeholder="" />
+                      </div>
+
+                      <div className="col-md-6">
+                        <label className='form-label'> Customer Code:</label>
+                        <input type='text' className='form-control border-dark' name='customerCode' value={sampleDetail.customerCode} onChange={sampleInputHandler} />
+                      </div>
+
+                      <div className="col-md-6">
+                        <label className='form-label'>Lab Code</label>
+                        <input type='text' className='form-control border-dark' name='labCode' value={sampleDetail.labCode} onChange={sampleInputHandler} />
+                      </div>
+
+                      <div className="col-md-6">
+                        <label className="form-label">Sample Description</label>
+                        <input type="text" className="form-control border border-dark" name="sampleDescription" value={sampleDetail.sampleDescription} onChange={sampleInputHandler} required />
+                      </div>
+
+                      <div className="col-md-6 d-flex align-items-center">
+                        <h5 className='fw-bold'>Text Methods</h5>
+                      </div>
+
+                      <div className="col-md-6 align-items-center d-flex justify-content-end">
+                        <button type='button' className="btn btn-primary" onClick={addTextField}>+ Add Method</button>
+                      </div>
+                    </div>
+
+                    <div className="col-md-12 mt-3">
+                      {textField.map((index) => (
+                        <div key={index.id} className="row g-6 mt-3">
+                          <div className='col-md-6'>
+                            <label className='form-label'> Test Method</label>
+                            <select id='methodReq' name='methodReq' onChange={(e) => sampleInputHandler(e, index.id)} value={index.methodReq} className='form-select border-dark'>
+                              <option value="">Choose...</option>
+                              <option value="Method 1">Method 1</option>
+                              <option value="Method 2">Method 2</option>
+                            </select>
+                          </div>
+
+                          <div className="col-md-4">
+                            <label className="form-label">Unit Cost</label>
+                            <input type="text" className="form-control border border-dark" name="unitCost" value={index.unitCost} onChange={(e) => sampleInputHandler(e, index.id)} required />
+                          </div>
+
+                          <div className="col-auto align-items-center d-flex mt-4">
+                            <button type='button' className='btn btn-danger' onClick={() => deleteTextField(index.id)} disabled={textField.length === 1}><i className='bi bi-trash-fill' /></button>
+                          </div>
+
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mb-3 mt-3">
+                      <label className="form-label">Total Cost</label>
+                      <input
+                        type="text"
+                        className="form-control border border-dark"
+                        name="totalCost"
+                        value={
+                          textField.reduce((sum, field) =>
+                            sum + (parseFloat(field.totalCost) || 0), 0
+                          ).toFixed(2)
+                        }
+                        readOnly  // ✅ Make it read-only
+                        style={{ backgroundColor: '#e9ecef' }}
+                      />
+                    </div>
+
                   </div>
-
-                  <div>
-                    <label className='form-label'>Customer Code</label>
-                    <input
-                      type='text'
-                      className='form-control border-dark'
-                      name='customerCode'
-                      value={sampleDetail.customerCode}
-                      onChange={sampleInputHandler}
-                    />
-                  </div>
-
-                  <div>
-                    <label className='form-label'>Lab Code</label>
-                    <input
-                      type='text'
-                      className='form-control border-dark'
-                      name='labCode'
-                      value={sampleDetail.labCode}
-                      onChange={sampleInputHandler}
-                    />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Sample Description</label>
-                    <input
-                      type="text"
-                      className="form-control border border-dark"
-                      name="sampleDescription"
-                      value={sampleDetail.sampleDescription}
-                      onChange={sampleInputHandler}
-                      required
-                    />
-                  </div>
-
-                  <div className='col-md-6'>
-                    <label className='form-label'>Test Requested - Test Method</label>
-                    <select id='methodReq' name='methodReq' onChange={sampleInputHandler} value={sampleDetail.methodReq} className='form-select border-dark'>
-                      <option value="">Choose...</option>
-                      <option value="Method 1">Method 1</option>
-                      <option value="Method 2">Method 2</option>
-                    </select>
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Unit Cost</label>
-                    <input
-                      type="text"
-                      className="form-control border border-dark"
-                      name="unitCost"
-                      value={sampleDetail.unitCost}
-                      onChange={sampleInputHandler}
-                      required
-                    />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Total Cost</label>
-                    <input
-                      type="text"
-                      className="form-control border border-dark"
-                      name="totalCost"
-                      value={sampleDetail.totalCost}
-                      onChange={sampleInputHandler}
-                      required
-                    />
-                  </div>
-
                 </div>
+
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" onClick={() => {
                     setShowModal(false);

@@ -138,14 +138,14 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                                 <Text>DATE OF DISPOSAL: {formatDate(request.sampleDisposal)}</Text>
                             </View>
                             <View style={[styles.cellTwo, { width: "55%" }]}>
-                                <Text>OR NO.:</Text>
-                                <Text>AMOUNT PAID:</Text>
-                                <Text>UNPAID BALANCE:</Text>
+                                <Text>OR NO.: {request.orNo}</Text>
+                                <Text>AMOUNT PAID: {request.amountPaid}</Text>
+                                <Text>UNPAID BALANCE: {request.unPaidBalance}</Text>
                             </View>
                             <View style={[styles.cellTwo, { width: "40%" }]}>
-                                <Text>Sub-Total:</Text>
-                                <Text>DISCOUNT:</Text>
-                                <Text>TOTAL Php:</Text>
+                                <Text>Sub-Total: {request.subTotal}</Text>
+                                <Text>DISCOUNT: {request.discount}</Text>
+                                <Text>TOTAL Php:{request.totalPhp}</Text>
                             </View>
                         </View>
                         <View style={styles.row}>
@@ -172,6 +172,7 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                         <View style={[styles.row, { height: 25 }]}>
                             <View style={[styles.cellTwo, { width: "103%", fontSize: 9 }]}>
                                 <Text>Submitted By:</Text>
+                                <Text style={[{fontSize: 10, textAlign:'center', justifyContent:'flex-end', }]}>{request.clientName}</Text>
                             </View>
                             <View style={[styles.cellTwo, { width: "95%", textAlign:'center', justifyContent:'flex-end', }]}>
                                 <Text>{request.receivedBy}</Text>

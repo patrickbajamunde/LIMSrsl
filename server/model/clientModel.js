@@ -18,7 +18,7 @@ const sampleModel = new mongoose.Schema({
         type: Number,
     },
     unitCost:{
-        type: Number,
+        type: String,
     },
     totalCost:{
         type: Number,
@@ -44,17 +44,14 @@ const clientSchema = new mongoose.Schema ({
     },
     clientType: {
         type: String,
-       
     },
 
     clientName: {
         type: String,
-        
     },
 
     clientAddress: {
         type: String,
-        
     },
 
     clientEmail: {
@@ -67,7 +64,6 @@ const clientSchema = new mongoose.Schema ({
 
     clientGender: {
         type: String,
-        
     },
 
     sampleDisposal: {
@@ -128,6 +124,30 @@ const clientSchema = new mongoose.Schema ({
     },
     otherMatters:{
         type: String
+    },
+
+    orNo:{
+        type: String,
+    },
+
+    amountPaid:{
+        type: Number,
+    },
+
+    unPaidBalance:{
+        type: Number,
+    },
+
+    subTotal:{
+        type: Number,
+    },
+
+    discount:{
+        type: Number,
+    },
+
+    totalPhp:{
+        type: Number,
     },
 
     user: {

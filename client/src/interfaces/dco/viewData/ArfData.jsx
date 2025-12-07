@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { Link, useParams, useLocation } from 'react-router-dom'
+import { Link, useParams, useLocation, useNavigate } from 'react-router-dom'
 import './styles/arfData.css'
 import TestPdf from "../generatePdf/TestPdf";
 
@@ -12,6 +12,7 @@ function ArfData() {
     const { id } = useParams();
     const location = useLocation();
     const backRoute = location.state?.from || "/Dco/Walkin/";
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`http://localhost:8002/api/client/getClient/${id}`)
@@ -290,6 +291,9 @@ function ArfData() {
                                 type="button"
                                 className="btn p-0 border-0 text-white fw-bold" state={{from: `/Dco/requestDetails/${id}`}}>Edit Request
                             </Link>
+                        </button>
+                        <button type='button' className="btn btn-success fw-bold text-white" onClick={() => navigate(`/Dco/GenerateReport/${id}`, { state: { from: `/Dco/requestDetails/${id}` } })}>
+                            Generate ROA
                         </button>
                         <button className="btn btn-danger fw-bold">
                             <Link to={backRoute} type="button" className="btn p-0 border-0 d-flex align-items-center gap-2">
