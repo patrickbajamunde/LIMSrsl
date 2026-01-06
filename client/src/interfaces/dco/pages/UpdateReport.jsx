@@ -52,9 +52,17 @@ function UpdateReport() {
   const analystPRC = (analyzedBy) => {
     const PrcTable = {
       "Maryfranie I. Belano, RChT": "0004756",
-
+      "Krizza Ashley V. Baloloy, RChT": "0007263"
     }
     return PrcTable[analyzedBy] || "";
+  }
+
+  const designation = (analyzedBy) => {
+    const DesignationTable = {
+      "Maryfranie I. Belano, RChT": "Laboratory Analyst",
+      "Krizza Ashley V. Baloloy, RChT": "Laboratory Analyst"
+    }
+    return DesignationTable[analyzedBy] || "";
   }
 
   const [result, setResult] = useState(report);
@@ -102,10 +110,21 @@ function UpdateReport() {
     const { name, value, dataset } = e.target;
     if (name === 'analyzedBy' || name === 'datePerformed') {
       const prc = analystPRC(value);
+      const position = designation(value);
       setResult({
         ...result,
         [name]: value,
         analystPRC: prc,
+        position: position,
+      });
+    } else if (name === 'analyzedBy2') {
+      const prc = analystPRC(value);
+      const position = designation(value);
+      setResult({
+        ...result,
+        [name]: value,
+        analystPRC2: prc,
+        position2: position,
       });
     } else if (name === 'datePerformedFrom') {
       setDateFrom(value);
@@ -337,6 +356,7 @@ function UpdateReport() {
           dateIssued: "",
           reportId: "",
           analyzedBy: "",
+          analyzedBy2: "",
           sampleSource: "",
           method: {
             method1: '',
@@ -345,6 +365,38 @@ function UpdateReport() {
             method4: '',
             method5: '',
             method6: '',
+          },
+          physicalMethod: {
+            physical1: '',
+            physical2: '',
+            physical3: '',
+            physical4: '',
+            physical5: '',
+            physical6: ''
+          },
+          interpretation: {
+            parameter1: '',
+            parameter2: '',
+            parameter3: '',
+            parameter4: '',
+            data1: '',
+            data2: '',
+            data3: '',
+            data4: '',
+            data5: '',
+            data6: '',
+            data7: '',
+            data8: '',
+            data9: '',
+            data10: '',
+            data11: '',
+            data12: '',
+            data13: '',
+            data14: '',
+            data15: '',
+            data16: '',
+            data17: '',
+            data18: '',
           },
         })
         console.log("Report created successfully.")
@@ -402,6 +454,15 @@ function UpdateReport() {
                 <div className='col-md-6'>
                   <label className='form-label '>Date Issued: </label>
                   <input type="date" className="date form-control border-dark" name='dateIssued' onChange={inputHandler} value={formatDateForInput(result.dateIssued)} placeholder="" />
+                </div>
+
+                <div className='col-md-6'>
+                  <label className='form-label'>Analyzed By: </label>
+                  <select className='form-select border-dark' name='analyzedBy2' onChange={inputHandler} value={result.analyzedBy2}>
+                    <option defaultValue="Choose...">Choose...</option>
+                    <option value="Maryfranie I. Belano, RChT">Maryfranie I. Belano</option>
+                    <option value="Krizza Ashley V. Baloloy, RChT">Krizza Ashley V. Baloloy</option>
+                  </select>
                 </div>
 
                 <div className="col-md-6">
@@ -653,6 +714,57 @@ function UpdateReport() {
                           <td colSpan="11" className="text-center">No samples added yet.</td>
                         </tr>
                       )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div className='container-fluid border border-secondary border-1 mt-3'></div>
+
+            <div className='card p-4 mb-3 mt-3 shadow-sm border'>
+              <h5 className='mb-4 text-primary fw-bold'>Interpretation Table</h5>
+              <div className='row mt-2'>
+                <div className='col-12'>
+                  <table className='table table-bordered border-dark'>
+                    <thead className='table-primary border-dark'>
+                      <tr className='text-center'>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='parameter1' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.parameter1} /></td>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='parameter2' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.parameter2} /></td>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='parameter3' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.parameter3} /></td>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='parameter4' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.parameter4} /></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className='text-center'>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data1' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data1} /></td>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data2' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data2} /></td>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data3' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data3} /></td>
+                        <td rowSpan='2'><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data4' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data4} /></td>
+                      </tr>
+                      <tr className='text-center'>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data5' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data5} /></td>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data6' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data6} /></td>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data7' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data7} /></td>
+                      </tr>
+                      <tr className='text-center'>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data8' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data8} /></td>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data9' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data9} /></td>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data10' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data10} /></td>
+                        <td rowSpan='2'><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data11' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data11} /></td>
+                      </tr>
+                      <tr className='text-center'>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data12' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data12} /></td>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data13' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data13} /></td>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data14' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data14} /></td>
+
+                      </tr>
+                      <tr className='text-center'>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data15' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data15} /></td>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data16' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data16} /></td>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data17' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data17} /></td>
+                        <td><input type='text' className='form-control border-0 shadow-none bg-transparent' name='data18' data-parent='interpretation' onChange={inputHandler} value={result.interpretation?.data18} /></td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>

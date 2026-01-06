@@ -82,6 +82,30 @@ const phyMethodology = new mongoose.Schema({
     physical6: { type: String },
 })
 
+const interpretationTable = new mongoose.Schema({
+    parameter1: { type: String },
+    parameter2: { type: String },
+    parameter3: { type: String },
+    parameter4: { type: String },
+    data1: { type: String },
+    data2: { type: String },
+    data3: { type: String },
+    data4: { type: String },
+    data5: { type: String },
+    data6: { type: String },
+    data7: { type: String },
+    data8: { type: String },
+    data9: { type: String },
+    data10: { type: String },
+    data11: { type: String },
+    data12: { type: String },
+    data13: { type: String },
+    data14: { type: String },
+    data15: { type: String },
+    data16: { type: String },
+    data17: { type: String },
+    data18: { type: String },
+})
 
 const reportSchema = new mongoose.Schema({
 
@@ -121,6 +145,19 @@ const reportSchema = new mongoose.Schema({
     analystPRC: {
         type: String,
     },
+    position: {
+        type: String,
+    },
+
+    analyzedBy2: {
+        type: String,
+    },
+    analystPRC2: {
+        type: String,
+    },
+    position2: {
+        type: String,
+    },
 
     status: {
         type: String,
@@ -132,6 +169,7 @@ const reportSchema = new mongoose.Schema({
 
     method: methodology,
     physicalMethod: phyMethodology,
+    interpretation: interpretationTable,
 
     roaDetails: [roaModel],
     physicalDetails: [physicModel],

@@ -57,8 +57,20 @@ function Arf() {
 
   const testMethodPrice = (methodReq) => {
     const methodPriceMap = {
-      "Method 1": 100,
-      "Method 2": 200
+      "pH": 50.00,
+      "OM": 150.00,
+      "NPK": 300.00,
+      "EC": 100.00,
+      "SOIL TEXTURE": 200.00,
+      "WATER HOLDING CAPACITY": 100.00,
+      "Moisture Content": 50.00,
+      "pH, NPK": 100.00,
+      "Copper": 100.00,
+      "Iron": 100.00,
+      "Zinc": 100.00,
+      "Manganese": 100.00,
+      "NITRATE": 100.00,
+      "PHOSPHATE": 100.00,
     }
 
     return methodPriceMap[methodReq] || 0;
@@ -607,8 +619,20 @@ function Arf() {
                             <label className='form-label'> Test Method</label>
                             <select id='methodReq' name='methodReq' onChange={(e) => sampleInputHandler(e, index.id)} value={index.methodReq} className='form-select border-dark'>
                               <option value="">Choose...</option>
-                              <option value="Method 1">Method 1</option>
-                              <option value="Method 2">Method 2</option>
+                              <option value="pH">pH</option>
+                              <option value="OM">OM</option>
+                              <option value="NPK">NPK</option>
+                              <option value="EC">EC</option>
+                              <option value="SOIL TEXTURE">SOIL TEXTURE</option>
+                              <option value="WATER HOLDING CAPACITY">WATER HOLDING CAPACITY</option>
+                              <option value="Moisture Content">Moisture Content</option>
+                              <option value="pH, NPK">pH, NPK</option>
+                              <option value="Copper">Copper</option>
+                              <option value="Iron">Iron</option>
+                              <option value="Zinc">Zinc</option>
+                              <option value="Manganese">Manganese</option>
+                              <option value="NITRATE">NITRATE</option>
+                              <option value="PHOSPHATE">PHOSPHATE</option>
                             </select>
                           </div>
 
