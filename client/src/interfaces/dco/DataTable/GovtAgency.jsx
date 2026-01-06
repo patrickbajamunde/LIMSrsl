@@ -20,7 +20,7 @@ export default function GovtAgency() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:8002/api/client/userRequest", {
+                const response = await axios.get("http://192.168.100.177:8002/api/client/userRequest", {
                     withCredentials: true,
                 });
 
@@ -40,7 +40,7 @@ export default function GovtAgency() {
             if (!confirmDelete) return;
 
             //if confirmDelete is true send a DELETE request from the API
-            await axios.delete(`http://localhost:8002/api/client/delete/arf/${arfId}`, {
+            await axios.delete(`http://192.168.100.177:8002/api/client/delete/arf/${arfId}`, {
                 withCredentials: true,
             });
 

@@ -251,7 +251,7 @@ function Arf() {
   const submitForm = async (e) => {
     e.preventDefault();
     const form = { ...request, sampleDetails: sample, };
-    await axios.post("http://localhost:8002/api/client/newClient", form,
+    await axios.post("http://192.168.100.177:8002/api/client/newClient", form,
       {
         withCredentials: true,
       }

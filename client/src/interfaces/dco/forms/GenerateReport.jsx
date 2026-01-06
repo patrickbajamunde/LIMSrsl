@@ -271,7 +271,7 @@ function GenerateReport() {
     const submitForm = async (e) => {
         e.preventDefault();
         const form = { ...result, roaDetails: roaReport, physicalDetails: physicalReport };
-        await axios.post("http://localhost:8002/api/report/newReport", form, {
+        await axios.post("http://192.168.100.177:8002/api/report/newReport", form, {
             withCredentials: true,
         })
             .then((response) => {
@@ -312,7 +312,7 @@ function GenerateReport() {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:8002/api/client/getClient/${id}`)
+        axios.get(`http://192.168.100.177:8002/api/client/getClient/${id}`)
             .then((response) => {
                 const clientData = response.data;
 

@@ -14,7 +14,7 @@ function RoaData() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get(`http://localhost:8002/api/report/reportData/${id}`)
+        axios.get(`http://192.168.100.177:8002/api/report/reportData/${id}`)
             .then((response) => {
                 setReportDetails(response.data)
             })
