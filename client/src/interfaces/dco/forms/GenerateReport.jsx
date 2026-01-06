@@ -329,6 +329,7 @@ function GenerateReport() {
                     dateIssued: "",
                     reportId: "",
                     analyzedBy: "",
+                    analyzedBy2: "",
                     sampleSource: "",
                     method: {
                         method1: '',
@@ -436,12 +437,22 @@ function GenerateReport() {
                                     <select className='form-select border-dark' name='analyzedBy' onChange={inputHandler} value={result.analyzedBy}>
                                         <option defaultValue="Choose...">Choose...</option>
                                         <option value="Maryfranie I. Belano, RChT">Maryfranie I. Belano</option>
+                                        <option value="Krizza Ashley V. Baloloy, RChT">Krizza Ashley V. Baloloy</option>
                                     </select>
                                 </div>
 
                                 <div className='col-md-6'>
                                     <label className='form-label '>Date Issued: </label>
                                     <input type="date" className="date form-control border-dark" name='dateIssued' onChange={inputHandler} value={result.dateIssued} placeholder="" />
+                                </div>
+
+                                <div className='col-md-6'>
+                                    <label className='form-label'>Analyzed By: </label>
+                                    <select className='form-select border-dark' name='analyzedBy2' onChange={inputHandler} value={result.analyzedBy2}>
+                                        <option defaultValue="Choose...">Choose...</option>
+                                        <option value="Maryfranie I. Belano, RChT">Maryfranie I. Belano</option>
+                                        <option value="Krizza Ashley V. Baloloy, RChT">Krizza Ashley V. Baloloy</option>
+                                    </select>
                                 </div>
 
                                 <div className="col-md-6">
