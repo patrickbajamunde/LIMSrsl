@@ -89,9 +89,9 @@ const GenerateRoa = ({ roaId, icon, disabledIcon, copyType, fileType }) => {
                     {/*Chemical Analysis Result */}
                     <View style={[styles.roaTable]}>
                         <View style={[styles.row, styles.boldFont, { textAlign: 'center' }]} fixed>
-                            <Text style={[styles.roaHeader, styles.specificCell, { minHeight: 'auto', width: "12%", paddingBottom: 7, paddingTop: 9  }]}>CUSTOMER CODE</Text>
+                            <Text style={[styles.roaHeader, styles.specificCell, { minHeight: 'auto', width: "12%", paddingBottom: 7, paddingTop: 9 }]}>CUSTOMER CODE</Text>
                             <Text style={[styles.roaHeader, { minHeight: 'auto', width: "11%", paddingBottom: 7, paddingTop: 12 }]}>LAB CODE</Text>
-                            <Text style={[styles.roaHeader, { minHeight: 'auto', width: "15%",  paddingBottom: 7, paddingTop: 7}]}>SAMPLE {'\n'}DESCRIPTION</Text>
+                            <Text style={[styles.roaHeader, { minHeight: 'auto', width: "15%", paddingBottom: 7, paddingTop: 7 }]}>SAMPLE {'\n'}DESCRIPTION</Text>
 
                             <View style={[styles.roaTable, { width: "50%", margin: 0, }]}>
                                 <View style={[styles.roaHeader, { width: "auto", display: 'flex', flex: 1 }]}>
@@ -139,8 +139,8 @@ const GenerateRoa = ({ roaId, icon, disabledIcon, copyType, fileType }) => {
 
                     <View style={[styles.roaTable, { borderTop: 1, marginTop: 10 }]}>
                         <View style={[styles.row, styles.boldFont, { textAlign: 'center' }]} fixed>
-                            <Text style={[styles.roaHeader, styles.specificCell, { minHeight: 'auto', width: "12%", paddingBottom: 7, paddingTop: 9  }]}>CUSTOMER CODE</Text>
-                            <Text style={[styles.roaHeader, { minHeight: 'auto', width: "11%", paddingBottom: 7, paddingTop: 12}]}>LAB CODE</Text>
+                            <Text style={[styles.roaHeader, styles.specificCell, { minHeight: 'auto', width: "12%", paddingBottom: 7, paddingTop: 9 }]}>CUSTOMER CODE</Text>
+                            <Text style={[styles.roaHeader, { minHeight: 'auto', width: "11%", paddingBottom: 7, paddingTop: 12 }]}>LAB CODE</Text>
                             <Text style={[styles.roaHeader, { minHeight: 'auto', width: "15%", paddingBottom: 7, paddingTop: 7 }]}>SAMPLE {'\n'}DESCRIPTION</Text>
 
                             <View style={[styles.roaTable, { width: "50%", margin: 0, }]}>
@@ -167,8 +167,8 @@ const GenerateRoa = ({ roaId, icon, disabledIcon, copyType, fileType }) => {
                                 <Text style={[styles.roaCell, { width: "15%", textAlign: 'center' }]}>{row.sampleDescription}</Text>
 
                                 <View style={[styles.roaTable, { width: "50%", margin: 0 }]}>
-                                    <View style={[styles.roaCell, { width: "auto", padding: 0, textAlign: 'center', display: 'flex', flex: 1  }]}>
-                                        <View style={[styles.row, {flex: 1}]} key={index} wrap={false}>
+                                    <View style={[styles.roaCell, { width: "auto", padding: 0, textAlign: 'center', display: 'flex', flex: 1 }]}>
+                                        <View style={[styles.row, { flex: 1 }]} key={index} wrap={false}>
                                             <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results?.physc1Result || '-'}</Text>
                                             <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results?.physc2Result || '-'}</Text>
                                             <Text style={[styles.roaCell, { borderBottom: 0, borderTop: 0, width: '20%' }]}>{row.results?.physc3Result || '-'}</Text>
@@ -185,19 +185,45 @@ const GenerateRoa = ({ roaId, icon, disabledIcon, copyType, fileType }) => {
                     </View>
 
                     {/*SOIL TEST RESULT INTERPRETATION*/}
-
-                    <View style={[styles.roaTable, { borderTop: 1, marginTop: 10 }]}>
+                    <View style={[styles.roaTable, { marginTop: 10 }]}>
+                        <View style={{ textAlign: 'center', borderTop: 0, borderBottom: 1 }}>
+                            <Text style={[styles.boldFont, { fontSize: 9 }]}>SOIL TEST RESULT INTERPRETATION</Text>
+                        </View>
                         <View style={[styles.row, styles.boldFont, { textAlign: 'center' }]} fixed>
-                            <Text style={[styles.roaHeader, styles.specificCell, { width: '30%', padding: 2, alignSelf: 'center', fontSize: 9, backgroundColor: 'white' }]}>pH or Soil reaction:</Text>
-                            <Text style={[styles.roaHeader, { width: '30%', padding: 2, alignSelf: "center", justifyContent: "center", fontSize: 9, backgroundColor: 'white' }]}>Nitrogen(N):</Text>
-                            <Text style={[styles.roaHeader, { width: '30%', padding: 2, alignSelf: "center", justifyContent: "center", fontSize: 9, backgroundColor: 'white' }]}>Phosphorous(P):</Text>
-                            <Text style={[styles.roaHeader, { width: '30%', padding: 2, alignSelf: "center", justifyContent: "center", fontSize: 9, backgroundColor: 'white' }]}>Potassium(K)</Text>
+                            <Text style={[styles.roaHeader, styles.specificCell, { width: '24%', padding: 2, alignSelf: 'center', fontSize: 9, backgroundColor: 'white' }]}>{report.interpretation.parameter1}</Text>
+                            <Text style={[styles.roaHeader, { width: '30%', padding: 2, alignSelf: "center", justifyContent: "center", fontSize: 9, backgroundColor: 'white' }]}>{report.interpretation.parameter2}</Text>
+                            <Text style={[styles.roaHeader, { width: '30%', padding: 2, alignSelf: "center", justifyContent: "center", fontSize: 9, backgroundColor: 'white' }]}>{report.interpretation.parameter3}</Text>
+                            <Text style={[styles.roaHeader, { width: '20%', padding: 2, alignSelf: "center", justifyContent: "center", fontSize: 9, backgroundColor: 'white' }]}>{report.interpretation.parameter4}</Text>
                         </View>
                         <View style={styles.row}>
-                            <Text style={[styles.roaCell, { width: '30%', borderLeft: 1 }]}></Text>
-                            <Text style={[styles.roaCell, { width: '30%' }]}></Text>
-                            <Text style={[styles.roaCell, { width: '30%' }]}></Text>
-                            <Text style={[styles.roaCell, { width: '30%' }]}></Text>
+                            <Text style={[styles.roaCell, { width: '24%', borderLeft: 1, fontSize: 8 }]}>{report.interpretation.data1}</Text>
+                            <Text style={[styles.roaCell, { width: '30%', fontSize: 8 }]}>{report.interpretation.data2}</Text>
+                            <Text style={[styles.roaCell, { width: '30%', fontSize: 8 }]}>{report.interpretation.data3}</Text>
+                            <Text style={[styles.roaCell, { width: '20%', fontSize: 8 }]}>{report.interpretation.data4}</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={[styles.roaCell, { width: '24%', borderLeft: 1, fontSize: 8 }]}>{report.interpretation.data5}</Text>
+                            <Text style={[styles.roaCell, { width: '30%', fontSize: 8 }]}>{report.interpretation.data6}</Text>
+                            <Text style={[styles.roaCell, { width: '30%', fontSize: 8 }]}>{report.interpretation.data7}</Text>
+                            <Text style={[styles.roaCell, { width: '20%', fontSize: 8 }]}></Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={[styles.roaCell, { width: '24%', borderLeft: 1, fontSize: 8 }]}>{report.interpretation.data8}</Text>
+                            <Text style={[styles.roaCell, { width: '30%', fontSize: 8 }]}>{report.interpretation.data9}</Text>
+                            <Text style={[styles.roaCell, { width: '30%', fontSize: 8 }]}>{report.interpretation.data10}</Text>
+                            <Text style={[styles.roaCell, { width: '20%', fontSize: 8 }]}>{report.interpretation.data11}</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={[styles.roaCell, { width: '24%', borderLeft: 1, fontSize: 8 }]}>{report.interpretation.data12}</Text>
+                            <Text style={[styles.roaCell, { width: '30%', fontSize: 8 }]}>{report.interpretation.data13}</Text>
+                            <Text style={[styles.roaCell, { width: '30%', fontSize: 8 }]}>{report.interpretation.data14}</Text>
+                            <Text style={[styles.roaCell, { width: '20%', fontSize: 8 }]}>{report.interpretation.data14}</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={[styles.roaCell, { width: '24%', borderLeft: 1, fontSize: 8 }]}>{report.interpretation.data15}</Text>
+                            <Text style={[styles.roaCell, { width: '30%', fontSize: 8 }]}>{report.interpretation.data16}</Text>
+                            <Text style={[styles.roaCell, { width: '30%', fontSize: 8 }]}>{report.interpretation.data17}</Text>
+                            <Text style={[styles.roaCell, { width: '20%', fontSize: 8 }]}>{report.interpretation.data18}</Text>
                         </View>
 
                         <View style={[styles.row, { fontSize: 9, textAlign: 'justify', marginTop: 5 }]} fixed>
@@ -208,7 +234,14 @@ const GenerateRoa = ({ roaId, icon, disabledIcon, copyType, fileType }) => {
                     <View style={[styles.font, { paddingLeft: 55, bottom: 180, position: 'absolute' }]} fixed>
                         <Text style={{ fontWeight: 'bold', bottom: 35 }}>Analyzed/Examined By:</Text>
                         <Text style={{ fontWeight: 'bold' }}>{report.analyzedBy}</Text>
-                        <Text>Chemist, PRC License No. {report.analystPRC}</Text>
+                        <Text>{report.position}</Text>
+                        <Text>PRC License No. {report.analystPRC2}</Text>
+                    </View>
+
+                    <View style={[styles.font, { paddingLeft: 335, bottom: 180, position: 'absolute' }]} fixed>
+                        <Text style={{ fontWeight: 'bold' }}>{report.analyzedBy2}</Text>
+                        <Text>{report.position2}</Text>
+                        <Text>PRC License No. {report.analystPRC2}</Text>
                     </View>
 
                     <View style={[styles.row, { position: 'absolute', bottom: 95, gap: 35 }]} fixed>
@@ -219,7 +252,7 @@ const GenerateRoa = ({ roaId, icon, disabledIcon, copyType, fileType }) => {
                             <Text>PRC License No. 0013155 Valid Until 2028</Text>
                         </View>
 
-                        <View style={[styles.font, { paddingLeft: 72 }]}>
+                        <View style={[styles.font, { paddingLeft: 47 }]}>
                             <Text style={{ fontWeight: 'bold', bottom: 30 }}>Noted By:</Text>
                             <Text style={{ fontWeight: 'bold' }}>ANACLETO B. ESPLANA, RAgr</Text>
                             <Text>OIC-Chief, Integrated Laboratories Division</Text>
