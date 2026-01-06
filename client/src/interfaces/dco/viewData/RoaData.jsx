@@ -47,7 +47,7 @@ function RoaData() {
                                     <div className="row">
                                         <span className='fw-bold fs-2'>Report of Analysis</span>
                                         <span className='fs-5 text-decoration-underline'>Report ID: {reportDetails.reportId}</span>
-                                        <span className='fs-5 text-decoration-underline'>Analyzed By: {reportDetails.analyzedBy}</span>
+                                        <span className='fs-5 text-decoration-underline'>Analyzed By: {reportDetails.analyzedBy}, {reportDetails.analyzedBy2}</span>
                                     </div>
                                 </div>
                             </div>
