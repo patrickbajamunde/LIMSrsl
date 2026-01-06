@@ -263,13 +263,8 @@ function RoaForm() {
 
   const submitForm = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
-    const form = { ...result, roaDetails: roaReport, physicalDetails: physicalReport  };
-    await axios.post("http://192.168.100.177:8002/api/report/newReport", form, {
-=======
     const form = { ...result, roaDetails: roaReport, physicalDetails: physicalReport };
     await axios.post("http://localhost:8002/api/report/newReport", form, {
->>>>>>> refs/remotes/origin/main
       withCredentials: true,
     })
       .then((response) => {
