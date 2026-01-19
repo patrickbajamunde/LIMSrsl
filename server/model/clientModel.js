@@ -1,28 +1,28 @@
 import mongoose from "mongoose";
 
 const sampleModel = new mongoose.Schema({
-    
+
     sampleDescription: {
         type: String,
     },
-    methodReq:{
+    methodReq: {
         type: String,
     },
     customerCode: {
         type: String,
-    }, 
-    labCode:{
+    },
+    labCode: {
         type: String,
     },
-    noOfSample:{
+    noOfSample: {
         type: Number,
     },
-    unitCost:{
+    unitCost: {
         type: String,
     },
-    totalCost:{
+    totalCost: {
         type: Number,
-    }
+    },
 });
 
 const coordinatesModel = new mongoose.Schema({
@@ -35,9 +35,9 @@ const coordinatesModel = new mongoose.Schema({
 });
 
 
-const clientSchema = new mongoose.Schema ({
+const clientSchema = new mongoose.Schema({
 
-    requestId:{
+    requestId: {
         type: String,
         required: true,
         unique: true,
@@ -70,13 +70,13 @@ const clientSchema = new mongoose.Schema ({
         type: Date,
     },
 
-    sampleDisposedBy:{
+    sampleDisposedBy: {
         type: String,
     },
 
-    reportDue :{
+    reportDue: {
         type: Date,
-        
+
     },
 
     transactionDate: {
@@ -84,12 +84,12 @@ const clientSchema = new mongoose.Schema ({
         default: Date.now,
     },
 
-    receivedBy:{
+    receivedBy: {
         type: String,
-        
+
     },
 
-    status:{
+    status: {
         type: String,
     },
 
@@ -101,16 +101,16 @@ const clientSchema = new mongoose.Schema ({
         type: String,
     },
 
-    topography:{
+    topography: {
         type: String,
     },
 
-    cropsPlanted:{
+    cropsPlanted: {
         type: String,
     },
 
-    area:{
-        type: String,       
+    area: {
+        type: String,
     },
 
     samplingDate: {
@@ -122,31 +122,31 @@ const clientSchema = new mongoose.Schema ({
     sampleCondition: {
         type: String
     },
-    otherMatters:{
+    otherMatters: {
         type: String
     },
 
-    orNo:{
+    orNo: {
         type: String,
     },
 
-    amountPaid:{
+    amountPaid: {
         type: Number,
     },
 
-    unPaidBalance:{
+    unPaidBalance: {
         type: Number,
     },
 
-    subTotal:{
+    subTotal: {
         type: Number,
     },
 
-    discount:{
-        type: Number,
+    discount: {
+        type: String,
     },
 
-    totalPhp:{
+    totalPhp: {
         type: Number,
     },
 
@@ -154,6 +154,9 @@ const clientSchema = new mongoose.Schema ({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
+    },
+    userName: {
+        type: String,
     },
 
 })

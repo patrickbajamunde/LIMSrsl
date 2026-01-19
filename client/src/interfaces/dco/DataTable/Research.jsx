@@ -22,7 +22,6 @@ export default function Research() {
         const fetchData = async () => {
             try {
                 const response = await axios.get("http://localhost:8002/api/client/userRequest",{
-                    withCredentials: true,
                 });
 
                 const regOnly = response.data.filter(clientData => clientData.clientType === "Research");
@@ -76,15 +75,9 @@ export default function Research() {
             sortable: true,
         },
         {
-            name: "Sample Description",
-            cell: (row) => (
-                <div style={{overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap", // This is the key change: prevents text from wrapping
-                    maxWidth: "200px"}}>
-                    {row.sampleDetails.map(sample => sample.sampleDescription)}
-                </div>
-            ),
+            name: "Created By",
+            selector: (row) => row.userName,
+            sortable: true,
         },
         {
             name: "Test Method",

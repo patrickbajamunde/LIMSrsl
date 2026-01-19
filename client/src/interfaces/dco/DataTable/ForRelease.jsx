@@ -64,7 +64,6 @@ export default function ForRelease() {
             if (!confirmDelete) return;
 
             await axios.delete(`http://localhost:8002/api/report/delete/report/${roaDataId}`, {
-                withCredentials: true,
             })
 
             setclient(prev => prev.filter(item => item._id !== roaDataId));
@@ -96,17 +95,9 @@ export default function ForRelease() {
             sortable: true,
         },
         {
-            name: "Sample Description",
-            cell: (row) => (
-                <div style={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap", // This is the key change: prevents text from wrapping
-                    maxWidth: "200px"
-                }}>
-                    {row.roaDetails.map(param => param.sampleDescription)}
-                </div>
-            ),
+            name: "User",
+            selector: (row) => row.userName,
+            sortable: true,
         },
         {
             name: "Test Method",
@@ -143,10 +134,6 @@ export default function ForRelease() {
                         type="button"
                         className="btn p-0 border-0"
                         state={{ from: '/Dco/ForRelease/' }}><i className="bi bi-pencil-square text-success "></i></Link>
-                    <GenerateRoa roaId={row._id}
-                        icon={<i className="bi bi-box-arrow-down text-primary"></i>}
-                        disabledIcon={<i className="bi bi-box-arrow-down text-secondary"></i>}
-                    />
                     <Link to={`/Dco/reportDetails/${row._id}`} state={{ from: '/Dco/ForRelease/' }} type="button" className="btn p-0 border-0"><i class="bi bi-eye"></i></Link>
                 </div>
             ),

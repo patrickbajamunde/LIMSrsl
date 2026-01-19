@@ -6,7 +6,7 @@ const reportRouter = Express.Router();
 reportRouter.post('/newReport', authMiddleware, createReport);
 reportRouter.get('/reportData', getReports);
 reportRouter.get('/reportData/:id', getReportsId);
-reportRouter.get('/userReports', authMiddleware, userReports)
+reportRouter.get('/userReports', userReports)
 reportRouter.delete('/delete/report/:id', authMiddleware,deleteReports)
 reportRouter.put('/update/report/:id', authMiddleware, updateReports)
 

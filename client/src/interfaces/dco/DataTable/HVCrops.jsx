@@ -21,7 +21,6 @@ export default function HVCrops() {
         const fetchData = async () => {
             try {
                 const response = await axios.get("http://localhost:8002/api/client/userRequest", {
-                    withCredentials: true,
                 });
 
                 const regOnly = response.data.filter(clientData => clientData.clientType === "High Value Crops Program");
@@ -74,17 +73,9 @@ export default function HVCrops() {
             sortable: true,
         },
         {
-            name: "Sample Description",
-            cell: (row) => (
-                <div style={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap", // This is the key change: prevents text from wrapping
-                    maxWidth: "200px"
-                }}>
-                    {row.sampleDetails.map(s => s.sampleDescription)}
-                </div>
-            )
+            name: "Created By",
+            selector: (row) => row.userName,
+            sortable: true,
         },
 
         {

@@ -21,6 +21,104 @@ function GenerateReport() {
         const numberSeries = '0000';
         return `${year}-${month}-${rfcal}-${roa}-${numberSeries}`
     }
+    const interpretationPreset = {
+        'water': {
+            parameter1: '',
+            parameter2: '',
+            parameter3: '',
+            parameter4: '',
+            data1: '',
+            data2: '',
+            data3: '',
+            data4: '',
+            data5: '',
+            data6: '',
+            data7: '',
+            data8: '',
+            data9: '',
+            data10: '',
+            data11: '',
+            data12: '',
+            data13: '',
+            data14: '',
+            data15: '',
+            data16: '',
+            data17: '',
+            data18: '',
+        },
+        'rice and corn': {
+            parameter1: 'pH or soil reaction:',
+            parameter2: 'Nitrogen(N):',
+            parameter3: 'Phosphorus(P):',
+            parameter4: 'Potassium(K):',
+            data1: 'Intensely acidic       =   < 5.0',
+            data2: 'L =  Low                           =     0-2 %OM',
+            data3: 'L = Low                           =     0-2 ppm',
+            data4: 'D = Deficient    ',
+            data5: 'Moderately acidic  =  5.1– 5.5',
+            data6: 'ML = Moderately Low  =    2.1 – 3.5 %OM',
+            data7: 'ML = Moderately Low  =   2.1-6 ppm',
+            data8: 'Slightly acidic          =  5.6 ¬¬–  6.5',
+            data9: 'MH=  Moderately High = 3.6-4.5 %OM  ',
+            data10: 'MH=  Moderately High =   6.1-10 ppm',
+            data11: 'S = Sufficient    ',
+            data12: 'Neutral                     =  6.6 – 7.0',
+            data13: 'H = High                            =   4.6-5.5 %OM',
+            data14: 'H = High                            =  10.1-15 ppm',
+            data15: 'Slightly alkaline       =  7.1 – 8.0',
+            data16: 'VH = Very High                =   >5.5 %OM',
+            data17: 'VH = Very High              =   15.1->20 ppm',
+            data18: '',
+        },
+        'high value': {
+            parameter1: 'pH or soil reaction:',
+            parameter2: 'Nitrogen(N):',
+            parameter3: 'Phosphorus(P):',
+            parameter4: 'Potassium(K):',
+            data1: 'Intensely acidic       =   < 5.0',
+            data2: 'L =  Low                           =     0-2 %OM',
+            data3: 'L = Low                           =     0-6 ppm',
+            data4: 'D = Deficient    ',
+            data5: 'Moderately acidic  =  5.1– 5.5',
+            data6: 'ML = Moderately Low  =    2.1 – 3.5 %OM',
+            data7: 'ML = Moderately Low  =   7-10 ppm',
+            data8: 'Slightly acidic          =  5.6 ¬¬–  6.5',
+            data9: 'H=  High                         = 3.6-4.5 %OM',
+            data10: 'MH=  Moderately High =   11-15 ppm',
+            data11: 'S = Sufficient    ',
+            data12: 'Neutral                     =  6.6 – 7.0',
+            data13: 'VH = Very High                =   >4.5 %OM ',
+            data14: 'H = High                            =  16-20 ppm ',
+            data15: 'Slightly alkaline       =  7.1 – 8.0',
+            data16: '',
+            data17: 'VH = Very High                =   >20 ppm',
+            data18: '',
+        },
+        'regular soil': {
+            parameter1: 'pH or soil reaction:',
+            parameter2: 'Nitrogen(N):',
+            parameter3: 'Phosphorus(P):',
+            parameter4: 'Potassium(K):',
+            data1: 'Intensely acidic       =   < 5.0',
+            data2: 'L=Low          = <2.0 % OM',
+            data3: 'L-Low           = <10 ppm',
+            data4: 'D=Deficient    = < 75 ppm',
+            data5: 'Moderately acidic  =  5.1– 5.5',
+            data6: 'M=Medium = 2.1-4.5 % OM',
+            data7: 'M=Medium = 10-20 ppm',
+            data8: 'Slightly acidic          =  5.6 ¬¬–  6.5',
+            data9: 'H-High         = >4.5 % OM',
+            data10: 'H=High         = >20 ppm',
+            data11: 'S=Sufficient    = > 75 ppm',
+            data12: 'Neutral                     =  6.6 – 7.0',
+            data13: '',
+            data14: '',
+            data15: 'Slightly alkaline       =  7.1 – 8.0',
+            data16: '',
+            data17: '',
+            data18: '',
+        }
+    }
 
     const report = {
         customerName: "",
@@ -49,52 +147,44 @@ function GenerateReport() {
             physical5: '',
             physical6: ''
         },
-        interpretation: {
-            parameter1: 'pH or Soil reaction:',
-            parameter2: 'Nitrogen(N):',
-            parameter3: 'Phosphorus(P):',
-            parameter4: 'Potassium(K):',
-            data1: 'Intensely acidic = < 5.0',
-            data2: 'L = Low = 0-2 %OM',
-            data3: 'L = Low = 0-2 ppm',
-            data4: 'D = Deficient',
-            data5: 'Moderately acidic = 5.1-5.5',
-            data6: 'ML = Moderately Low = 2.1-3.5 %OM',
-            data7: 'ML = Moderately Low = 2.1-6 ppm',
-            data8: 'Slightly acidic = 5.6-6.5',
-            data9: 'MH = Moderately High = 3.6-4.5 %OM',
-            data10: 'MH = Moderately High = 6.1-10 ppm',
-            data11: 'S = Sufficient',
-            data12: 'Neutral = 6.6-7.0',
-            data13: 'H = High = 4.6-5.5 %OM',
-            data14: 'H = High = 10.1-15 ppm',
-            data15: 'Slightly alkaline = 7.1-8.0',
-            data16: 'VH = Very High = >5.5 %OM',
-            data17: 'VH = Very High = 15.1-20 ppm',
-            data18: '',
-        },
+        interpretation: interpretationPreset['regular soil']
     }
 
 
     const analystPRC = (analyzedBy) => {
         const PrcTable = {
-            "Maryfranie I. Belano, RChT": "0004756",
-            "Krizza Ashley V. Baloloy, RChT": "0007263"
+            "MARYFRANIE I. BELANO, RChT": "0004756",
+            "KRiZZA ASHLEY V. BALOLOY, RChT": "0007263",
+            "JENNIS A. RABLANDO, RChT": "0000628",
         }
         return PrcTable[analyzedBy] || "";
     }
 
     const designation = (analyzedBy) => {
         const DesignationTable = {
-            "Maryfranie I. Belano, RChT": "Laboratory Analyst",
-            "Krizza Ashley V. Baloloy, RChT": "Laboratory Analyst"
+            "MARYFRANIE I. BELANO, RChT": "Laboratory Analyst",
+            "KRiZZA ASHLEY V. BALOLOY, RChT": "Laboratory Analyst",
+            "JENNIS A. RABLANDO, RChT": "Laboratory Analyst"
         }
         return DesignationTable[analyzedBy] || "";
     }
 
+    const methodName = (method) => {
+        const methodTable = {
+            "pH|(1 Soil: 1 H2O)": "pH - Potentiometric Method",
+            "EC|(mS/cm)": "EC - Conductometric Method",
+            "%OM": "OM/N - Walkley-Black Method",
+            "P|(STK)": "P - Olsen P Method",
+            "K|(STK)": "K - STK Method",
+            "NO3-N|(ppm)": "NO3-N - Kjeldahl Method",
+            "PO4|(ppm)": "PO4 - Vanadomolybdate Method",
+        }
+        return methodTable[method] || "";
+    }
+
 
     const [result, setResult] = useState(report);
-
+    const [interpretationType, setInterpretationType] = useState('regular soil');
     //date setState
     const [dateFrom, setDateFrom] = useState('');
     const [dateTo, setDateTo] = useState('');
@@ -134,6 +224,15 @@ function GenerateReport() {
     const location = useLocation();
     const backRoute = location.state?.from || "/Dco/Walkin/";
 
+
+    const handleInterpretationTypeChange = (e) => {
+        const newType = e.target.value;
+        setInterpretationType(newType);  // Only for UI state
+        setResult({
+            ...result,
+            interpretation: interpretationPreset[newType]  // Only send interpretation data
+        });
+    };
 
 
     const inputHandler = (e) => {
@@ -231,31 +330,59 @@ function GenerateReport() {
 
     }
 
-    const openEditModal = (index) => {
+    const openEditModal = (index, testMethod) => {
         const reportToEdit = roaReport[index];
         setReportDetails({
             customerCode: reportToEdit.customerCode,
             labCode: reportToEdit.labCode,
             sampleDescription: reportToEdit.sampleDescription,
             results: {
-                method1Results: reportToEdit.method1Results,
-                method2Results: reportToEdit.method2Results,
-                method3Results: reportToEdit.method3Results,
-                method4Results: reportToEdit.method4Results,
-                method5Results: reportToEdit.method5Results,
-                method6Results: reportToEdit.method6Results,
+                method1Results: reportToEdit.results.method1Results,
+                method2Results: reportToEdit.results.method2Results,
+                method3Results: reportToEdit.results.method3Results,
+                method4Results: reportToEdit.results.method4Results,
+                method5Results: reportToEdit.results.method5Results,
+                method6Results: reportToEdit.results.method6Results,
             },
-            testMethod: reportToEdit.testMethod
+            testMethod: testMethod || reportToEdit.testMethod
         });
         setEditingIndex(index);
         setIsEditing(true);
         setShowModal(true)
     };
 
+    const physicalEditModal = (index, testMethod) => {
+        const physicalToedit = physicalReport[index];
+        setPhysicalDetails({
+            customerCode: physicalToedit.customerCode,
+            labCode: physicalToedit.labCode,
+            sampleDescription: physicalToedit.sampleDescription,
+            results: {
+                physc1Result: physicalToedit.results.physc1Result,
+                physc2Result: physicalToedit.results.physc2Result,
+                physc3Result: physicalToedit.results.physc3Result,
+                physc4Result: physicalToedit.results.physc4Result,
+                physc5Result: physicalToedit.results.physc5Result,
+                physc6Result: physicalToedit.results.physc6Result,
+            },
+            testMethod: testMethod || physicalToedit.testMethod
+        })
+        setEditingIndex(index);
+        setIsEditing(true);
+        setPhysicalModal(true)
+    };
+
     const deleteReport = (index) => {
         if (window.confirm("Are you sure you want to delete this report?")) {
             const updatedReport = roaReport.filter((_, i) => i !== index);
             setRoaReport(updatedReport);
+        }
+    }
+
+    const deletePhysical = (index) => {
+        if (window.confirm("Are you sure you want to delete this report?")) {
+            const updatedPhysical = physicalReport.filter((_, i) => i !== index);
+            setPhysicalReport(updatedPhysical);
         }
     }
 
@@ -298,7 +425,13 @@ function GenerateReport() {
 
     const physicalResultHandler = (e) => {
         e.preventDefault();
-        setPhysicalReport([...physicalReport, physicalDetails])
+        if (isEditing && editingIndex !== null) {
+            const updatedPhysical = [...physicalReport];
+            updatedPhysical[editingIndex] = physicalDetails
+            setPhysicalReport(updatedPhysical);
+        } else {
+            setPhysicalReport([...physicalReport, physicalDetails])
+        }
         setPhysicalDetails({
             labCode: '',
             customerCode: '',
@@ -309,6 +442,8 @@ function GenerateReport() {
             testMethod: ''
         })
         setPhysicalModal(false)
+        setIsEditing(false);
+        setEditingIndex(null);
     }
 
     const submitForm = async (e) => {
@@ -436,8 +571,9 @@ function GenerateReport() {
                                     <label className='form-label'>Analyzed By: </label>
                                     <select className='form-select border-dark' name='analyzedBy' onChange={inputHandler} value={result.analyzedBy}>
                                         <option defaultValue="Choose...">Choose...</option>
-                                        <option value="Maryfranie I. Belano, RChT">Maryfranie I. Belano</option>
-                                        <option value="Krizza Ashley V. Baloloy, RChT">Krizza Ashley V. Baloloy</option>
+                                        <option value="MARYFRANIE I. BELANO, RChT">Maryfranie I. Belano</option>
+                                        <option value="KRIZZA ASHLEY V. BALOLOY, RChT">Krizza Ashley V. Baloloy</option>
+                                        <option value="JENNIS A. RABLANDO, RChT">Jennis A. Reblando</option>
                                     </select>
                                 </div>
 
@@ -450,8 +586,9 @@ function GenerateReport() {
                                     <label className='form-label'>Analyzed By: </label>
                                     <select className='form-select border-dark' name='analyzedBy2' onChange={inputHandler} value={result.analyzedBy2}>
                                         <option defaultValue="Choose...">Choose...</option>
-                                        <option value="Maryfranie I. Belano, RChT">Maryfranie I. Belano</option>
-                                        <option value="Krizza Ashley V. Baloloy, RChT">Krizza Ashley V. Baloloy</option>
+                                        <option value="MARYFRANIE I. BELANO, RChT">Maryfranie I. Belano</option>
+                                        <option value="KRIZZA ASHLEY V. BALOLOY, RChT">Krizza Ashley V. Baloloy</option>
+                                        <option value="JENNIS A. RABLANDO, RChT">Jennis A. Reblando</option>
                                     </select>
                                 </div>
 
@@ -542,49 +679,130 @@ function GenerateReport() {
                             <div className='row g-4'>
 
                                 <div className='col-md-2'>
-                                    <label className='form-label'>First Method</label>
-                                    <input type='text' className='date form-control border-dark' name='method1' data-parent='method' onChange={inputHandler} value={result.method.method1} placeholder='e.g. pH, NPK' />
+                                    <label className='form-label'>First Parameter</label>
+                                    <select className='form-select border-dark' name='method1' data-parent='method' onChange={inputHandler} value={result.method.method1}>
+                                        <option value="">Choose...</option>
+                                        <option value="pH|(1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
+                                        <option value="EC|(mS/cm)">EC (mS/cm)</option>
+                                        <option value="%OM">%OM</option>
+                                        <option value="%N">%N</option>
+                                        <option value="P|(STK)">P (STK)</option>
+                                        <option value="K|(STK)">K (STK)</option>
+                                        <option value="NO3-N|(ppm)">NO3-N (ppm)</option>
+                                        <option value="PO4|(ppm)">PO4 (ppm)</option>
+                                    </select>
                                 </div>
 
-                                {result.method.method1.trim() !== '' && (
+                                {result.method.method1?.trim() !== '' && (
                                     <div className='col-md-2'>
-                                        <label className='form-label'>Second Method</label>
-                                        <input type='text' className='date form-control border-dark' name='method2' data-parent='method' onChange={inputHandler} value={result.method.method2} placeholder='e.g. pH, NPK' />
+                                        <label className='form-label'>Second Parameter</label>
+                                        <select className='form-select border-dark' name='method2' data-parent='method' onChange={inputHandler} value={result.method.method2}>
+                                            <option value="">Choose...</option>
+                                            <option value="pH|(1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
+                                            <option value="EC|(mS/cm)">EC (mS/cm)</option>
+                                            <option value="%OM">%OM</option>
+                                            <option value="%N">%N</option>
+                                            <option value="P|(STK)">P (STK)</option>
+                                            <option value="K|(STK)">K (STK)</option>
+                                            <option value="NO3-N|(ppm)">NO3-N (ppm)</option>
+                                            <option value="PO4|(ppm)">PO4 (ppm)</option>
+                                        </select>
                                     </div>
                                 )}
 
-                                {result.method.method2.trim() !== '' && (
+                                {result.method.method2?.trim() !== '' && (
                                     <div className='col-md-2'>
-                                        <label className='form-label'>Third Method</label>
-                                        <input type='text' className='date form-control border-dark' name='method3' data-parent='method' onChange={inputHandler} value={result.method.method3} placeholder='e.g. pH, NPK' />
+                                        <label className='form-label'>Third Parameter</label>
+                                        <select className='form-select border-dark' name='method3' data-parent='method' onChange={inputHandler} value={result.method.method3}>
+                                            <option value="">Choose...</option>
+                                            <option value="pH|(1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
+                                            <option value="EC|(mS/cm)">EC (mS/cm)</option>
+                                            <option value="%OM">%OM</option>
+                                            <option value="%N">%N</option>
+                                            <option value="P|(STK)">P (STK)</option>
+                                            <option value="K|(STK)">K (STK)</option>
+                                            <option value="NO3-N|(ppm)">NO3-N (ppm)</option>
+                                            <option value="PO4|(ppm)">PO4 (ppm)</option>
+                                        </select>
                                     </div>
                                 )}
 
-                                {result.method.method3.trim() !== '' && (
+                                {result.method.method3?.trim() !== '' && (
                                     <div className='col-md-2'>
-                                        <label className='form-label'>Fourth Method</label>
-                                        <input type='text' className='date form-control border-dark' name='method4' data-parent='method' onChange={inputHandler} value={result.method.method4} placeholder='e.g. pH, NPK' />
+                                        <label className='form-label'>Fourth Parameter</label>
+                                        <select className='form-select border-dark' name='method4' data-parent='method' onChange={inputHandler} value={result.method.method4}>
+                                            <option value="">Choose...</option>
+                                            <option value="pH|(1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
+                                            <option value="EC|(mS/cm)">EC (mS/cm)</option>
+                                            <option value="%OM">%OM</option>
+                                            <option value="%N">%N</option>
+                                            <option value="P|(STK)">P (STK)</option>
+                                            <option value="K|(STK)">K (STK)</option>
+                                            <option value="NO3-N|(ppm)">NO3-N (ppm)</option>
+                                            <option value="PO4|(ppm)">PO4 (ppm)</option>
+                                        </select>
                                     </div>
                                 )}
 
 
-                                {result.method.method4.trim() !== '' && (
+                                {result.method.method4?.trim() !== '' && (
                                     <div className='col-md-2'>
-                                        <label className='form-label'>Fifth Method</label>
-                                        <input type='text' className='date form-control border-dark' name='method5' data-parent='method' onChange={inputHandler} value={result.method.method5} placeholder='e.g. pH, NPK' />
+                                        <label className='form-label'>Fifth Parameter</label>
+                                        <select className='form-select border-dark' name='method5' data-parent='method' onChange={inputHandler} value={result.method.method5}>
+                                            <option value="">Choose...</option>
+                                            <option value="pH|(1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
+                                            <option value="EC|(mS/cm)">EC (mS/cm)</option>
+                                            <option value="%OM">%OM</option>
+                                            <option value="%N">%N</option>
+                                            <option value="P|(STK)">P (STK)</option>
+                                            <option value="K|(STK)">K (STK)</option>
+                                            <option value="NO3-N|(ppm)">NO3-N (ppm)</option>
+                                            <option value="PO4|(ppm)">PO4 (ppm)</option>
+                                        </select>
                                     </div>
                                 )}
-                                {result.method.method5.trim() !== '' && (
+                                {result.method.method5?.trim() !== '' && (
                                     <div className='col-md-2'>
-                                        <label className='form-label'>Sixth Method</label>
-                                        <input type='text' className='date form-control border-dark' name='method6' data-parent='method' onChange={inputHandler} value={result.method.method6} placeholder='e.g. pH, NPK' />
+                                        <label className='form-label'>Sixth Parameter</label>
+                                        <select className='form-select border-dark' name='method6' data-parent='method' onChange={inputHandler} value={result.method.method6}>
+                                            <option value="">Choose...</option>
+                                            <option value="pH|(1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
+                                            <option value="EC|(mS/cm)">EC (mS/cm)</option>
+                                            <option value="%OM">%OM</option>
+                                            <option value="%N">%N</option>
+                                            <option value="P|(STK)">P (STK)</option>
+                                            <option value="K|(STK)">K (STK)</option>
+                                            <option value="NO3-N|(ppm)">NO3-N (ppm)</option>
+                                            <option value="PO4|(ppm)">PO4 (ppm)</option>
+                                        </select>
                                     </div>
                                 )}
                             </div>
                             <div className='d-flex mt-3'>
                                 <button
                                     type="button"
-                                    className="btn btn-primary" onClick={() => setShowModal(true)}>
+                                    className="btn btn-primary"
+                                    onClick={() => {
+                                        const methodsArray = [
+                                            result.method.method1,
+                                            result.method.method2,
+                                            result.method.method3,
+                                            result.method.method4,
+                                            result.method.method5,
+                                            result.method.method6
+                                        ].filter(method => method && method.trim() !== '');
+
+                                        // Map each method to its full name, then join
+                                        const selectedMethods = methodsArray
+                                            .map(method => methodName(method))
+                                            .join(', ');
+
+                                        setReportDetails({
+                                            ...reportDetails,
+                                            testMethod: selectedMethods
+                                        });
+                                        setShowModal(true);
+                                    }}>
                                     <i className="bi bi-plus-lg me-2 fs-6"></i>Add Sample Details
                                 </button>
                             </div>
@@ -603,12 +821,12 @@ function GenerateReport() {
                                                 <th rowSpan="2">ACTION</th>
                                             </tr>
                                             <tr className='text-center'>
-                                                <th>{result.method.method1}</th>
-                                                <th>{result.method.method2}</th>
-                                                <th>{result.method.method3}</th>
-                                                <th>{result.method.method4}</th>
-                                                <th>{result.method.method5}</th>
-                                                <th>{result.method.method6}</th>
+                                                <th>{result.method.method1.replace('|', '\n')}</th>
+                                                <th>{result.method.method2.replace('|', '\n')}</th>
+                                                <th>{result.method.method3.replace('|', '\n')}</th>
+                                                <th>{result.method.method4.replace('|', '\n')}</th>
+                                                <th>{result.method.method5.replace('|', '\n')}</th>
+                                                <th>{result.method.method6.replace('|', '\n')}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -629,7 +847,28 @@ function GenerateReport() {
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-sm btn-outline-primary me-2"
-                                                                onClick={() => openEditModal(index)}
+                                                                onClick={() => {
+                                                                    const methodsArray = [
+                                                                        result.method.method1,
+                                                                        result.method.method2,
+                                                                        result.method.method3,
+                                                                        result.method.method4,
+                                                                        result.method.method5,
+                                                                        result.method.method6
+                                                                    ].filter(method => method && method.trim() !== '');
+
+                                                                    // Map each method to its full name, then join
+                                                                    const selectedMethods = methodsArray
+                                                                        .map(method => methodName(method))
+                                                                        .join(', ');
+
+                                                                    setReportDetails({
+                                                                        ...reportDetails,
+                                                                        testMethod: selectedMethods
+                                                                    });
+                                                                    openEditModal(index, selectedMethods);
+
+                                                                }}
                                                                 title="Edit Sample"
                                                             >
                                                                 <i className="bi bi-pencil"></i>
@@ -663,51 +902,130 @@ function GenerateReport() {
                         <div className='card p-4 mb-3 mt-3 shadow-sm border'>
                             <h5 className='mb-4 text-primary fw-bold'>Physical Analysis Result</h5>
                             <div className='row g-4'>
-
                                 <div className='col-md-2'>
-                                    <label className='form-label'>First Method</label>
-                                    <input type='text' className='date form-control border-dark' name='physical1' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical1} />
+                                    <label className='form-label'>First Parameter</label>
+                                    <select type='text' className='date form-select border-dark' name='physical1' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical1}>
+                                        <option value="">Choose...</option>
+                                        <option value="pH (1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
+                                        <option value="EC (mS/cm)">EC (mS/cm)</option>
+                                        <option value="%OM">%OM</option>
+                                        <option value="%N">%N</option>
+                                        <option value="P (STK)">P (STK)</option>
+                                        <option value="K (STK)">K (STK)</option>
+                                        <option value="NO3-N (ppm)">NO3-N (ppm)</option>
+                                        <option value="PO4 (ppm)">PO4 (ppm)</option>
+                                    </select>
                                 </div>
 
                                 {result.physicalMethod.physical1.trim() !== '' && (
                                     <div className='col-md-2'>
-                                        <label className='form-label'>Second Method</label>
-                                        <input type='text' className='date form-control border-dark' name='physical2' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical2} />
+                                        <label className='form-label'>Second Parameter</label>
+                                        <select type='text' className='date form-select border-dark' name='physical2' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical2}>
+                                            <option value="">Choose...</option>
+                                            <option value="pH (1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
+                                            <option value="EC (mS/cm)">EC (mS/cm)</option>
+                                            <option value="%OM">%OM</option>
+                                            <option value="%N">%N</option>
+                                            <option value="P (STK)">P (STK)</option>
+                                            <option value="K (STK)">K (STK)</option>
+                                            <option value="NO3-N (ppm)">NO3-N (ppm)</option>
+                                            <option value="PO4 (ppm)">PO4 (ppm)</option>
+                                        </select>
                                     </div>
                                 )}
 
                                 {result.physicalMethod.physical2.trim() !== '' && (
                                     <div className='col-md-2'>
-                                        <label className='form-label'>Third Method</label>
-                                        <input type='text' className='date form-control border-dark' name='physical3' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical3} />
+                                        <label className='form-label'>Third Parameter</label>
+                                        <select type='text' className='date form-select border-dark' name='physical3' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical3}>
+                                            <option value="">Choose...</option>
+                                            <option value="pH (1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
+                                            <option value="EC (mS/cm)">EC (mS/cm)</option>
+                                            <option value="%OM">%OM</option>
+                                            <option value="%N">%N</option>
+                                            <option value="P (STK)">P (STK)</option>
+                                            <option value="K (STK)">K (STK)</option>
+                                            <option value="NO3-N (ppm)">NO3-N (ppm)</option>
+                                            <option value="PO4 (ppm)">PO4 (ppm)</option>
+                                        </select>
                                     </div>
                                 )}
 
                                 {result.physicalMethod.physical3.trim() !== '' && (
                                     <div className='col-md-2'>
-                                        <label className='form-label'>Fourth Method</label>
-                                        <input type='text' className='date form-control border-dark' name='physical4' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical4} />
+                                        <label className='form-label'>Fourth Parameter</label>
+                                        <select type='text' className='date form-select border-dark' name='physical4' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical4}>
+                                            <option value="">Choose...</option>
+                                            <option value="pH (1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
+                                            <option value="EC (mS/cm)">EC (mS/cm)</option>
+                                            <option value="%OM">%OM</option>
+                                            <option value="%N">%N</option>
+                                            <option value="P (STK)">P (STK)</option>
+                                            <option value="K (STK)">K (STK)</option>
+                                            <option value="NO3-N (ppm)">NO3-N (ppm)</option>
+                                            <option value="PO4 (ppm)">PO4 (ppm)</option>
+                                        </select>
                                     </div>
                                 )}
 
                                 {result.physicalMethod.physical4.trim() !== '' && (
                                     <div className='col-md-2'>
-                                        <label className='form-label'>Fifth Method</label>
-                                        <input type='text' className='date form-control border-dark' name='physical5' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical5} />
+                                        <label className='form-label'>Fifth Parameter</label>
+                                        <select type='text' className='date form-select border-dark' name='physical5' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical5}>
+                                            <option value="">Choose...</option>
+                                            <option value="pH (1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
+                                            <option value="EC (mS/cm)">EC (mS/cm)</option>
+                                            <option value="%OM">%OM</option>
+                                            <option value="%N">%N</option>
+                                            <option value="P (STK)">P (STK)</option>
+                                            <option value="K (STK)">K (STK)</option>
+                                            <option value="NO3-N (ppm)">NO3-N (ppm)</option>
+                                            <option value="PO4 (ppm)">PO4 (ppm)</option>
+                                        </select>
                                     </div>
                                 )}
 
                                 {result.physicalMethod.physical5.trim() !== '' && (
                                     <div className='col-md-2'>
-                                        <label className='form-label'>Sixth Method</label>
-                                        <input type='text' className='date form-control border-dark' name='physical6' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical6} />
+                                        <label className='form-label'>Sixth Parameter</label>
+                                        <select type='text' className='date form-select border-dark' name='physical6' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical6}>
+                                            <option value="">Choose...</option>
+                                            <option value="pH (1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
+                                            <option value="EC (mS/cm)">EC (mS/cm)</option>
+                                            <option value="%OM">%OM</option>
+                                            <option value="%N">%N</option>
+                                            <option value="P (STK)">P (STK)</option>
+                                            <option value="K (STK)">K (STK)</option>
+                                            <option value="NO3-N (ppm)">NO3-N (ppm)</option>
+                                            <option value="PO4 (ppm)">PO4 (ppm)</option>
+                                        </select>
                                     </div>
                                 )}
                             </div>
                             <div className='d-flex mt-3'>
                                 <button
                                     type="button"
-                                    className="btn btn-primary" onClick={() => setPhysicalModal(true)}>
+                                    className="btn btn-primary" onClick={() => {
+                                        const methodsArray = [
+                                            result.physicalMethod.physical1,
+                                            result.physicalMethod.physical2,
+                                            result.physicalMethod.physical3,
+                                            result.physicalMethod.physical4,
+                                            result.physicalMethod.physical5,
+                                            result.physicalMethod.physical6
+                                        ].filter(method => method && method.trim() !== '');
+
+                                        // Map each method to its full name, then join
+                                        const selectedMethods = methodsArray
+                                            .map(method => methodName(method))
+                                            .join(', ');
+
+                                        setPhysicalDetails({
+                                            ...physicalDetails,
+                                            testMethod: selectedMethods
+                                        });
+                                        setPhysicalModal(true);
+                                    }}>
                                     <i className="bi bi-plus-lg me-2 fs-6"></i>Add Sample Details
                                 </button>
                             </div>
@@ -752,7 +1070,27 @@ function GenerateReport() {
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-sm btn-outline-primary me-2"
-                                                                onClick={() => openEditModal(index)}
+                                                                onClick={() => {
+                                                                    const methodsArray = [
+                                                                        result.physicalMethod.physical1,
+                                                                        result.physicalMethod.physical2,
+                                                                        result.physicalMethod.physical3,
+                                                                        result.physicalMethod.physical4,
+                                                                        result.physicalMethod.physical5,
+                                                                        result.physicalMethod.physical6
+                                                                    ].filter(method => method && method.trim() !== '');
+
+                                                                    // Map each method to its full name, then join
+                                                                    const selectedMethods = methodsArray
+                                                                        .map(method => methodName(method))
+                                                                        .join(', ');
+
+                                                                    setPhysicalDetails({
+                                                                        ...physicalDetails,
+                                                                        testMethod: selectedMethods
+                                                                    });
+                                                                    physicalEditModal(index, selectedMethods);
+                                                                }}
                                                                 title="Edit Sample"
                                                             >
                                                                 <i className="bi bi-pencil"></i>
@@ -760,7 +1098,7 @@ function GenerateReport() {
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-sm btn-outline-danger"
-                                                                onClick={() => deleteReport(index)}
+                                                                onClick={() => deletePhysical(index)}
                                                                 title="Delete Sample"
                                                             >
                                                                 <i className="bi bi-trash"></i>
@@ -783,6 +1121,15 @@ function GenerateReport() {
 
                         <div className='card p-4 mb-3 mt-3 shadow-sm border'>
                             <h5 className='mb-4 text-primary fw-bold'>Interpretation Table</h5>
+                            <div>
+                                <label className='form-label'>Select result interpretation</label>
+                                <select className='form-select border-dark' value={interpretationType} onChange={handleInterpretationTypeChange}>
+                                    <option value='water'>Water</option>
+                                    <option value='rice and corn'>Rice and Corn</option>
+                                    <option value='high value'>High Value</option>
+                                    <option value='regular soil'>Regular Soil</option>
+                                </select>
+                            </div>
                             <div className='row mt-2'>
                                 <div className='col-12'>
                                     <table className='table table-bordered border-dark'>
@@ -855,12 +1202,12 @@ function GenerateReport() {
                 reportDetails={reportDetails}
                 onChange={reportInputHandler}
                 onSubmit={reportSubmit}
-                inputLabel={result.method.method1}
-                inputLabel2={result.method.method2}
-                inputLabel3={result.method.method3}
-                inputLabel4={result.method.method4}
-                inputLabel5={result.method.method5}
-                inputLabel6={result.method.method6}
+                inputLabel={result.method.method1.replace('|', ' ')}
+                inputLabel2={result.method.method2.replace('|', ' ')}
+                inputLabel3={result.method.method3.replace('|', ' ')}
+                inputLabel4={result.method.method4.replace('|', ' ')}
+                inputLabel5={result.method.method5.replace('|', ' ')}
+                inputLabel6={result.method.method6.replace('|', ' ')}
                 inputData1={result.method.method1}
                 inputData2={result.method.method2}
                 inputData3={result.method.method3}

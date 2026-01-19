@@ -21,7 +21,6 @@ export default function ReleasedRoa() {
         const fetchData = async () => {
             try {
                 const response = await axios.get("http://localhost:8002/api/dbcontrol/released", {
-                    withCredentials: true,
                 });
                 setclient(response.data);
                 setFilteredData(response.data); // Initialize the table with fetched data
@@ -76,17 +75,9 @@ export default function ReleasedRoa() {
             sortable: true,
         },
         {
-            name: "Sample Description",
-            cell: (row) => (
-                <div style={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap", // This is the key change: prevents text from wrapping
-                    maxWidth: "200px"
-                }}>
-                    {row.roaDetails.map(param => param.sampleDescription)}
-                </div>
-            ),
+            name: "User",
+            selector: (row) => row.userName,
+            sortable: true,
         },
         {
             name: "Test Method",
@@ -117,8 +108,8 @@ export default function ReleasedRoa() {
             name: "Action",
             cell: (row) => (
                 <div className="d-flex align-items-center gap-2">
-                    
-                    <GenerateRoa roaId={row._id} 
+
+                    <GenerateRoa roaId={row._id}
                         icon={<i className="bi bi-box-arrow-down text-primary"></i>}
                         disabledIcon={<i className="bi bi-box-arrow-down text-secondary"></i>}
                     />

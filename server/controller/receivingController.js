@@ -1,11 +1,16 @@
 import Client from "../model/clientModel.js";
 import Activities from "../model/recentActModel.js";
+import User from "../model/userModel.js";
 
 export const createClient = async (req, res) => {
     try {
+
+        const userExist = await User.findOne({ name: req.user.name });
+
         const newClient = new Client({
             ...req.body,
-            user: req.user.id
+            user: req.user.id,
+            userName: userExist.name
         });
         const savedData = await newClient.save();
         const newActivity = new Activities({
@@ -13,6 +18,7 @@ export const createClient = async (req, res) => {
             action: "Create new",
             fileType: "Arf",
             itemId: savedData.requestId,
+            userName: userExist.name
         })
         await newActivity.save();
         res.status(201).json({ message: "New client created" });
@@ -53,8 +59,7 @@ export const getClientId = async (req, res) => {
 //Fetch Arf data based on user id
 export const userRequest = async (req, res) => {
     try {
-        const userid = req.user.id;
-        const requestData = await Client.find({ user: userid });
+        const requestData = await Client.find();
         if (!requestData || requestData.length === 0) {
             return res.status(404).json({ message: "Request data not found." })
         }

@@ -24,7 +24,6 @@ export default function Walkin() {
         const fetchData = async () => {
             try {
                 const response = await axios.get("http://localhost:8002/api/client/userRequest", {
-                    withCredentials: true,
                 });
 
                 const walkinOnly = response.data.filter(clientData => clientData.clientType === "Student" || clientData.clientType === "Private" || clientData.clientType === "Farmer");
@@ -79,17 +78,9 @@ export default function Walkin() {
             sortable: true,
         },
         {
-            name: "Sample Description",
-            cell: (row) => (
-                <div style={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap", // This is the key change: prevents text from wrapping
-                    maxWidth: "200px"
-                }}>
-                    {row.sampleDetails.map(s => s.sampleDescription)}
-                </div>
-            ),
+            name: "Created By",
+            selector: (row) => row.userName,
+            sortable: true,
         },
 
         {

@@ -206,7 +206,7 @@ function ArfData() {
                                         <th>Customer Code</th>
                                         <th>Lab Code</th>
                                         <th>Sample Description</th>
-                                        <th>Test Method Requested</th>
+                                        <th>Test Requested</th>
                                     </tr>
                                 </thead>
                                 <tbody>

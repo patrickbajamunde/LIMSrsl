@@ -20,7 +20,6 @@ export default function Dashboard() {
         const fetchData = async () => {
             try {
                 const response = await axios.get("http://localhost:8002/api/activity/recentActivities", {
-                    withCredentials: true,
                 });
                 setActivities(response.data);   
                 setFilteredData(response.data);
@@ -55,6 +54,11 @@ export default function Dashboard() {
             sortable: true,
         },
 
+        {
+            name: "User",
+            selector: (row) => row.userName,
+            sortable: true,
+        },
         {
             name: "Status",
             selector: (row) => row.action,

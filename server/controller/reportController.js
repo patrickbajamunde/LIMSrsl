@@ -1,12 +1,16 @@
 import Report from '../model/reportModel.js';
 import Activities from "../model/recentActModel.js";
+import User from "../model/userModel.js";
 
 
 export const createReport = async (req, res) => {
     try {
+
+        const userExist = await User.findOne({ name: req.user.name });
         const newReport = new Report({
             ...req.body,
-            user: req.user.id
+            user: req.user.id,
+            userName: userExist.name
         })
         const savedData = await newReport.save();
 
@@ -14,7 +18,8 @@ export const createReport = async (req, res) => {
             user: req.user.id,
             action: "Create new",
             fileType: "ROA",
-            itemId: savedData.reportId
+            itemId: savedData.reportId,
+            userName: userExist.name
         })
 
         await newActivity.save();
@@ -52,8 +57,7 @@ export const getReportsId = async (req, res) => {
 
 export const userReports = async (req, res) => {
     try {
-        const userId = req.user.id;
-        const reportData = await Report.find({user: userId});
+        const reportData = await Report.find();
         if(!reportData || reportData.length === 0){
             return res.status(404).json({message: "Report data not found."})
         }

@@ -158,12 +158,12 @@ function RoaData() {
 
                                     {reportDetails && reportDetails.method ? (
                                         <tr className='text-center'>
-                                            <th>{reportDetails.method.method1}</th>
-                                            <th>{reportDetails.method.method2}</th>
-                                            <th>{reportDetails.method.method3}</th>
-                                            <th>{reportDetails.method.method4}</th>
-                                            <th>{reportDetails.method.method5}</th>
-                                            <th>{reportDetails.method.method6}</th>
+                                            <th>{reportDetails.method.method1.replace('|', '\n')}</th>
+                                            <th>{reportDetails.method.method2.replace('|', '\n')}</th>
+                                            <th>{reportDetails.method.method3.replace('|', '\n')}</th>
+                                            <th>{reportDetails.method.method4.replace('|', '\n')}</th>
+                                            <th>{reportDetails.method.method5.replace('|', '\n')}</th>
+                                            <th>{reportDetails.method.method6.replace('|', '\n')}</th>
                                         </tr>
                                     ) : (
                                         <tr>
@@ -254,6 +254,67 @@ function RoaData() {
                         </div>
                     </div>
 
+                    <div className='row p-3 pb-0'>
+                        <span className='fs-3 px-1 d-flex justify-items-center'>
+                            <i className='bi bi-table fs-2 me-2 text-success' />
+                            Interpretation Table
+                        </span>
+                    </div>
+                    <div className='col-12 p-4'>
+                        <div className='table-responsive border rounded shadow-sm'>
+                            <table className='table table-striped table-borderless table-hover'>
+                                <thead className='table-primary border-dark'>
+                                    {reportDetails && reportDetails.interpretation ? (
+                                        <tr className='text-center'>
+                                            <th>{reportDetails.interpretation.parameter1}</th>
+                                            <th>{reportDetails.interpretation.parameter2}</th>
+                                            <th>{reportDetails.interpretation.parameter3}</th>
+                                            <th>{reportDetails.interpretation.parameter4}</th>
+                                        </tr>
+                                    ) : (
+                                        <td colSpan="10" className="text-center">'-'</td>
+                                    )}
+                                </thead>
+                                {reportDetails && reportDetails.interpretation ? (
+                                    <tbody>
+                                        <tr className='text-center'>
+                                            <td>{reportDetails.interpretation.data1}</td>
+                                            <td>{reportDetails.interpretation.data2}</td>
+                                            <td>{reportDetails.interpretation.data3}</td>
+                                            <td>{reportDetails.interpretation.data4}</td>
+                                        </tr>
+                                        <tr className='text-center'>
+                                            <td>{reportDetails.interpretation.data5}</td>
+                                            <td>{reportDetails.interpretation.data6}</td>
+                                            <td>{reportDetails.interpretation.data7}</td>
+                                        </tr>
+                                        <tr className='text-center'>
+                                            <td>{reportDetails.interpretation.data8}</td>
+                                            <td>{reportDetails.interpretation.data9}</td>
+                                            <td>{reportDetails.interpretation.data10}</td>
+                                            <td>{reportDetails.interpretation.data11}</td>
+                                        </tr>
+                                        <tr className='text-center'>
+                                            <td>{reportDetails.interpretation.data12}</td>
+                                            <td>{reportDetails.interpretation.data13}</td>
+                                            <td>{reportDetails.interpretation.data14}</td>
+                                        </tr>
+                                        <tr className='text-center'>
+                                            <td>{reportDetails.interpretation.data15}</td>
+                                            <td>{reportDetails.interpretation.data16}</td>
+                                            <td>{reportDetails.interpretation.data17}</td>
+                                            <td>{reportDetails.interpretation.data18}</td>
+                                        </tr>
+                                    </tbody>
+                                ) : (
+                                    <tr>
+                                        <td colSpan="10" className="text-center">No data available</td>
+                                    </tr>
+                                )}
+                            </table>
+                        </div>
+                    </div>
+
                     <div className="d-flex flex-wrap gap-2 justify-content-center pb-4">
                         <GenerateRoa roaId={reportDetails ? reportDetails._id : null}
                             copyType="CUSTOMER COPY"
@@ -267,9 +328,9 @@ function RoaData() {
                         />
                         {reportDetails && reportDetails.status === 'For release' && (
                             <button type='button' className="btn btn-success text-white fw-bold" onClick={() => navigate(`/Dco/updateRoa/${id}`, { state: { from: `/Dco/reportDetails/${id}` } })}>
-                                Edit Request
+                                Edit Report
                             </button>
-                        )}  
+                        )}
 
                         <button type='button' className="btn btn-danger text-white fw-bold" onClick={() => navigate(backRoute)}>
                             <span className='text-white fw-bold ps-4 pe-4'>Back</span>

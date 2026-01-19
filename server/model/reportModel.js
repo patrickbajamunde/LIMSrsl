@@ -179,6 +179,9 @@ const reportSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
+    userName: {
+        type: String,
+    },
 
 
 })
