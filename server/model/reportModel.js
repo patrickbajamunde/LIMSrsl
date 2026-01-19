@@ -182,6 +182,12 @@ const reportSchema = new mongoose.Schema({
     userName: {
         type: String,
     },
+    url:{
+        type: String,
+    },
+    qrCode: {
+        type: String,
+    }
 
 
 })

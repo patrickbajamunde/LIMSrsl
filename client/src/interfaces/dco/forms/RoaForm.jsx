@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { RoaModal } from '../components/modal/Modal';
 import { PhysicalModal } from '../components/modal/PhysicalModal';
+import QRCode from 'qrcode';
 
 
 function RoaForm() {
@@ -130,6 +131,8 @@ function RoaForm() {
     analyzedBy: "",
     status: "For release",
     sampleSource: "",
+    url: '',
+    qrCode: '',
     method: {
       method1: '',
       method2: '',
@@ -194,7 +197,6 @@ function RoaForm() {
   const [showModal, setShowModal] = useState(false)
   const [physicalModal, setPhysicalModal] = useState(false)
 
-
   const [roaReport, setRoaReport] = useState([]) //holds sample details in an array
   const [physicalReport, setPhysicalReport] = useState([])
 
@@ -230,6 +232,27 @@ function RoaForm() {
     });
   };
 
+  const qrGenerator = async (url) => {
+    if (!url || url.trim() === '') return;
+
+    try {
+      const qrDataUrl = await QRCode.toDataURL(url, {
+        width: 200,
+        margin: 2,
+        color: {
+          dark: '#000000',
+        }
+      });
+
+      setResult(prev => ({
+        ...prev,
+        qrCode: qrDataUrl
+      }));
+    } catch (error) {
+      console.error('Error generating QR code:', error);
+    }
+  }
+
   const inputHandler = (e) => {
     const { name, value, dataset } = e.target;
     if (name === 'analyzedBy' || name === 'datePerformed') {
@@ -264,6 +287,11 @@ function RoaForm() {
           [name]: value
         }
       });
+    } else if (name === 'url') {
+      setResult({ ...result, [name]: value });
+      if (value.trim() !== '') {
+        qrGenerator(value);  // Generate QR code when URL is entered
+      }
     }
     else {
       setResult({ ...result, [name]: value });
@@ -296,15 +324,6 @@ function RoaForm() {
     }
   };
 
-  const formatMethods = () => {
-    const method = result.method.map()
-
-    const formatedMethod = method.split('|').join('\n');
-    setReportDetails({
-      ...reportDetails,
-      testMethod: formatedMethod
-    })
-  }
 
   const addDateRange = () => {
     if (dateFrom && dateTo) {
@@ -396,6 +415,8 @@ function RoaForm() {
           analyzedBy: "",
           analyzedBy2: "",
           sampleSource: "",
+          url: '',
+          qrCode: '',
           method: {
             method1: '',
             method2: '',
@@ -458,6 +479,9 @@ function RoaForm() {
           </div>
 
           <form className='mt-4 mb-4' onSubmit={submitForm}>
+            <div className='card p-4 mb-3 shadow-sm border'>
+              <input type="text" className="form-control border-dark" name='url' onChange={inputHandler} value={result.url} placeholder="Enter link here" />
+            </div>
             <div className='card p-4 mb-3 shadow-sm border'>
               <h5 className='mb-4 text-primary fw-bold'>Report Details</h5>
               <div className='row g-4'>

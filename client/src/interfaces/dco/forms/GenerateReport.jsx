@@ -5,6 +5,7 @@ import { useState, useEffect, } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import { RoaModal } from '../components/modal/Modal';
 import { PhysicalModal } from '../components/modal/PhysicalModal';
+import QRCode from 'qrcode';
 
 
 
@@ -131,6 +132,8 @@ function GenerateReport() {
         analyzedBy: "",
         status: "For release",
         sampleSource: "",
+        url: "",
+        qrCode: "",
         method: {
             method1: '',
             method2: '',
@@ -234,6 +237,27 @@ function GenerateReport() {
         });
     };
 
+    const qrGenerator = async (url) => {
+        if (!url || url.trim() === '') return;
+
+        try {
+            const qrDataUrl = await QRCode.toDataURL(url, {
+                width: 200,
+                margin: 2,
+                color: {
+                    dark: '#000000',
+                }
+            });
+
+            setResult(prev => ({
+                ...prev,
+                qrCode: qrDataUrl
+            }));
+        } catch (error) {
+            console.error('Error generating QR code:', error);
+        }
+    }
+
 
     const inputHandler = (e) => {
         const { name, value, dataset } = e.target;
@@ -269,6 +293,11 @@ function GenerateReport() {
                     [name]: value
                 }
             });
+        } else if (name === 'url') {
+            setResult({ ...result, [name]: value });
+            if (value.trim() !== '') {
+                qrGenerator(value);  // Generate QR code when URL is entered
+            }
         }
         else {
             setResult({ ...result, [name]: value });
@@ -337,12 +366,12 @@ function GenerateReport() {
             labCode: reportToEdit.labCode,
             sampleDescription: reportToEdit.sampleDescription,
             results: {
-                method1Results: reportToEdit.results.method1Results,
-                method2Results: reportToEdit.results.method2Results,
-                method3Results: reportToEdit.results.method3Results,
-                method4Results: reportToEdit.results.method4Results,
-                method5Results: reportToEdit.results.method5Results,
-                method6Results: reportToEdit.results.method6Results,
+                method1Results: reportToEdit.results?.method1Results,
+                method2Results: reportToEdit.results?.method2Results,
+                method3Results: reportToEdit.results?.method3Results,
+                method4Results: reportToEdit.results?.method4Results,
+                method5Results: reportToEdit.results?.method5Results,
+                method6Results: reportToEdit.results?.method6Results,
             },
             testMethod: testMethod || reportToEdit.testMethod
         });
@@ -559,6 +588,9 @@ function GenerateReport() {
                     </div>
 
                     <form className='mt-4 mb-4' onSubmit={submitForm}>
+                        <div className='card p-4 mb-3 shadow-sm border'>
+                            <input type="text" className="form-control border-dark" name='url' onChange={inputHandler} value={result.url} placeholder="Enter link here" />
+                        </div>
                         <div className='card p-4 mb-3 shadow-sm border'>
                             <h5 className='mb-4 text-primary fw-bold'>Report Details</h5>
                             <div className='row g-4'>

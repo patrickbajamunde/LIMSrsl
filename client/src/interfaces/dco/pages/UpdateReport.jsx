@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { RoaModal } from '../components/modal/Modal';
 import { PhysicalModal } from '../components/modal/PhysicalModal';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import QRCode from 'qrcode';
 
 function UpdateReport() {
 
@@ -230,6 +231,27 @@ function UpdateReport() {
   const backRoute = location.state?.from || "/Dco/ForRelease/"
   const navigate = useNavigate()
 
+  const qrGenerator = async (url) => {
+    if (!url || url.trim() === '') return;
+
+    try {
+      const qrDataUrl = await QRCode.toDataURL(url, {
+        width: 200,
+        margin: 2,
+        color: {
+          dark: '#000000',
+        }
+      });
+
+      setResult(prev => ({
+        ...prev,
+        qrCode: qrDataUrl
+      }));
+    } catch (error) {
+      console.error('Error generating QR code:', error);
+    }
+  }
+
   const inputHandler = (e) => {
     const { name, value, dataset } = e.target;
     if (name === 'analyzedBy' || name === 'datePerformed') {
@@ -264,6 +286,11 @@ function UpdateReport() {
           [name]: value
         }
       });
+    } else if (name === 'url') {
+      setResult({ ...result, [name]: value });
+      if (value.trim() !== '') {
+        qrGenerator(value);  // Generate QR code when URL is entered
+      }
     }
     else {
       setResult({ ...result, [name]: value });
@@ -558,6 +585,9 @@ function UpdateReport() {
           </div>
           <form className='mt-4 mb-4' onSubmit={submitForm}>
             <div className='card p-4 mb-3 shadow-sm border'>
+              <input type="text" className="form-control border-dark" name='url' onChange={inputHandler} value={result.url} placeholder="Enter link here" />
+            </div>
+            <div className='card p-4 mb-3 shadow-sm border'>
               <h5 className='mb-4 text-primary fw-bold'>Report Details</h5>
               <div className="row g-4">
 
@@ -834,12 +864,12 @@ function UpdateReport() {
                         <th rowSpan="2">ACTION</th>
                       </tr>
                       <tr className='text-center'>
-                        <th>{result.method?.method1?.replace('|',' ')}</th>
-                        <th>{result.method?.method2?.replace('|',' ')}</th>
-                        <th>{result.method?.method3?.replace('|',' ')}</th>
-                        <th>{result.method?.method4?.replace('|',' ')}</th>
-                        <th>{result.method?.method5?.replace('|',' ')}</th>
-                        <th>{result.method?.method6?.replace('|',' ')}</th>
+                        <th>{result.method?.method1?.replace('|', ' ')}</th>
+                        <th>{result.method?.method2?.replace('|', ' ')}</th>
+                        <th>{result.method?.method3?.replace('|', ' ')}</th>
+                        <th>{result.method?.method4?.replace('|', ' ')}</th>
+                        <th>{result.method?.method5?.replace('|', ' ')}</th>
+                        <th>{result.method?.method6?.replace('|', ' ')}</th>
                       </tr>
                     </thead>
                     <tbody>

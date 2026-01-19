@@ -64,6 +64,7 @@ export default function ForRelease() {
             if (!confirmDelete) return;
 
             await axios.delete(`http://localhost:8002/api/report/delete/report/${roaDataId}`, {
+                withCredentials: true,
             })
 
             setclient(prev => prev.filter(item => item._id !== roaDataId));
