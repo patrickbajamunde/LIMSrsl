@@ -23,12 +23,7 @@ export default function Walkin() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-<<<<<<< HEAD
-                const response = await axios.get("http://192.168.100.177:8002/api/client/userRequest", {
-                    withCredentials: true,
-=======
                 const response = await axios.get("http://localhost:8002/api/client/userRequest", {
->>>>>>> refs/remotes/origin/main
                 });
 
                 const walkinOnly = response.data.filter(clientData => clientData.clientType === "Student" || clientData.clientType === "Private" || clientData.clientType === "Farmer");

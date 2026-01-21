@@ -21,12 +21,7 @@ export default function Lgu() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-<<<<<<< HEAD
-                const response = await axios.get("http://192.168.100.177:8002/api/client/userRequest",{
-                    withCredentials: true,
-=======
                 const response = await axios.get("http://localhost:8002/api/client/userRequest",{
->>>>>>> refs/remotes/origin/main
                 });
 
                 const regOnly = response.data.filter(clientData => clientData.clientType === "LGU");

@@ -20,12 +20,7 @@ export default function ReleasedRoa() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-<<<<<<< HEAD
-                const response = await axios.get("http://192.168.100.177:8002/api/dbcontrol/released", {
-                    withCredentials: true,
-=======
                 const response = await axios.get("http://localhost:8002/api/dbcontrol/released", {
->>>>>>> refs/remotes/origin/main
                 });
                 setclient(response.data);
                 setFilteredData(response.data); // Initialize the table with fetched data
