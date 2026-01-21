@@ -71,7 +71,8 @@ export const deleteReports = async (req, res) => {
     try {
         const reportId = req.params.id
         const userId = req.user.id
-        
+        const userExist = await User.findOne({name: req.user.name})
+
         const reportExists = await Report.findOne({
             user: userId,
             _id: reportId
@@ -87,7 +88,8 @@ export const deleteReports = async (req, res) => {
             user: req.user.id,
             action: "Deleted",
             fileType: "ROA",
-            itemId: deletedReport.reportId
+            itemId: deletedReport.reportId,
+            userName: userExist.name
         })
 
         await newActivity.save();
@@ -102,6 +104,7 @@ export const updateReports = async (req, res) => {
     try {
         const reportId = req.params.id
         const userId = req.user.id
+        const userExist = await User.findOne({name: req.user.name})
 
         const reportExists = await Report.findOne({
             user: userId,
@@ -120,7 +123,8 @@ export const updateReports = async (req, res) => {
             user: userId,
             action: "Updated",
             fileType: "ROA",
-            itemId: newReportData.reportId
+            itemId: newReportData.reportId,
+            userName: userExist.name
         })
 
         await newActivity.save();

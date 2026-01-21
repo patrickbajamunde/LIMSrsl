@@ -589,6 +589,7 @@ function GenerateReport() {
 
                     <form className='mt-4 mb-4' onSubmit={submitForm}>
                         <div className='card p-4 mb-3 shadow-sm border'>
+                            <label className='form-label'>G-drive Folder URL:</label>
                             <input type="text" className="form-control border-dark" name='url' onChange={inputHandler} value={result.url} placeholder="Enter link here" />
                         </div>
                         <div className='card p-4 mb-3 shadow-sm border'>

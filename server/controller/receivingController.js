@@ -67,16 +67,19 @@ export const userRequest = async (req, res) => {
     } catch (error) {
         res.status(500).json({ errorMessage: error.message })
     }
-}
+} 
 
 export const deleteRequest = async (req, res) => {
     try {
+
+        const userExist = await User.findOne({ name: req.user.name})
         const requestId = req.params.id;
         const userId = req.user.id;
 
         const requestExist = await Client.findOne({
             user: userId,
-            _id: requestId
+            _id: requestId,
+            userName: userExist.name
         })
 
         if (!requestExist) {
@@ -89,7 +92,9 @@ export const deleteRequest = async (req, res) => {
             user: req.user.id,
             action: "Deleted",
             fileType: "Arf",
-            itemId: deletedRequest.requestId
+            itemId: deletedRequest.requestId,
+            userName: userExist.name
+
         })
 
         await newActivity.save();
@@ -103,6 +108,7 @@ export const updateRequest = async (req, res) => {
     try {
         const requestId = req.params.id;
         const userId = req.user.id;
+        const userExist = await User.findOne({name: req.user.name})
 
         const requestExist = await Client.findOne({
             user: userId,
@@ -122,6 +128,7 @@ export const updateRequest = async (req, res) => {
             action: "Updated",
             fileType: "Arf",
             itemId: newRequestData.requestId,
+            userName: userExist.name
         })
         await newActivity.save();
 
