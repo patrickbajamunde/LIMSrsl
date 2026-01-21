@@ -21,8 +21,12 @@ export default function Research() {
     useEffect(() => {
         const fetchData = async () => {
             try {
+<<<<<<< HEAD
                 const response = await axios.get("http://192.168.100.177:8002/api/client/userRequest",{
                     withCredentials: true,
+=======
+                const response = await axios.get("http://localhost:8002/api/client/userRequest",{
+>>>>>>> refs/remotes/origin/main
                 });
 
                 const regOnly = response.data.filter(clientData => clientData.clientType === "Research");
@@ -76,15 +80,9 @@ export default function Research() {
             sortable: true,
         },
         {
-            name: "Sample Description",
-            cell: (row) => (
-                <div style={{overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap", // This is the key change: prevents text from wrapping
-                    maxWidth: "200px"}}>
-                    {row.sampleDetails.map(sample => sample.sampleDescription)}
-                </div>
-            ),
+            name: "Created By",
+            selector: (row) => row.userName,
+            sortable: true,
         },
         {
             name: "Test Method",

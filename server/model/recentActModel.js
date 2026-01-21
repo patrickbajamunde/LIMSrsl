@@ -19,6 +19,9 @@ const activitiesSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    userName:{
+        type: String,
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

@@ -17,7 +17,8 @@ export const PhysicalModal = ({
     inputData3,
     inputData4,
     inputData5,
-    inputData6
+    inputData6,
+    isEditing
 }) => {
     if (!show) return null;
 
@@ -168,7 +169,7 @@ export const PhysicalModal = ({
                                 Cancel
                             </button>
                             <button type="submit" className="btn btn-primary">
-                                Add
+                                {isEditing ? 'Update' : 'Add'}
                             </button>
                         </div>
                     </form>

@@ -1,4 +1,4 @@
-import React, { use, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import './styles/arf.css'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -71,6 +71,8 @@ function Arf() {
       "Manganese": 100.00,
       "NITRATE": 100.00,
       "PHOSPHATE": 100.00,
+      "pH EC OM NPK": 350.00,
+      "pH EC OM NPK TEXTURE": 550.00
     }
 
     return methodPriceMap[methodReq] || 0;
@@ -87,7 +89,7 @@ function Arf() {
     customerCode: "",
     noOfSample: "",
     unitCost: "",
-    totalCost: ""
+    totalCost: "",
   }); // State to hold current state of sample details in the modal
 
   const [successMessage, setSuccessMessage] = useState("")
@@ -122,12 +124,25 @@ function Arf() {
     return `${year}-${month}-${rfcal}-${ar}-${defaultSequence}-${getCategoryId}`;
   }
 
-  const computeCost = (unitCost, noOfSample) => {
-    const getUnitCost = testMethodPrice(unitCost);
-    const getSampleQuantity = parseInt(noOfSample);
 
-    const totalCost = getUnitCost * getSampleQuantity;
+  useEffect(() => {
+    const total = sample.map(index => parseFloat(index.totalCost || 0)).reduce((startingValue, item) => startingValue + item, 0);
 
+    const discountedTotal = request.discount
+      ? computeDiscount(total, request.discount)
+      : total;
+
+    setRequest(prevRequest => ({
+      ...prevRequest,
+      totalPhp: discountedTotal.toFixed(2)
+    }));
+  }, [sample, request.discount]);
+
+
+  const computeDiscount = (totalCost, discount) => {
+    if (discount === "20%") {
+      return totalCost * 0.8;
+    }
     return totalCost;
   }
 
@@ -242,7 +257,7 @@ function Arf() {
       sampleDescription: sampleDetail.sampleDescription,
       methodReq: methodsString,
       unitCost: unitCostsString,
-      totalCost: grandTotal.toString()
+      totalCost: grandTotal.toString(),
     };
 
     setSample([...sample, newSample]);
@@ -252,8 +267,12 @@ function Arf() {
       sampleDescription: "",
       labCode: "",
       customerCode: "",
-      noOfSample: ""
+      noOfSample: "",
+      totalCost: "",
+      unitCost: "",
+      methodReq: "",
     });
+
 
     setTextField([{ id: 1, methodReq: '', unitCost: '', totalCost: '' }]);
     setNextInput(2);
@@ -299,8 +318,8 @@ function Arf() {
           amountPaid: "",
           unpaidBalance: "",
           subTotal: "",
-          discount: "",
-          totalPhp: ""
+          totalPhp: "",
+          discount: ""
 
         }); // Reset request form
         setSuccessMessage("Form submitted successfully!");
@@ -373,10 +392,17 @@ function Arf() {
                   <label className='form-label'>Location of Farm</label>
                   <input type="text" className="form-control border border-dark" id="locOfFarm" name='locOfFarm' value={request.locOfFarm} onChange={inputHandler} placeholder="Barangay, Municipality, Province" />
                 </div>
+
                 <div className='col-md-6'>
                   <label className='form-label'>Topography</label>
-                  <input type="text" className="form-control border border-dark" id="topography" name="topography" onChange={inputHandler} value={request.topography} placeholder="e.g. Upland, Lowland" />
+                  <select className="form-select border border-dark" id="topography" name="topography" onChange={inputHandler} value={request.topography}>
+                    <option value="">Choose...</option>
+                    <option value="Plain">Plain</option>
+                    <option value="Rolling">Rolling</option>
+                    <option value="Hilly">Hilly</option>
+                  </select>
                 </div>
+
                 <div className='col-md-6'>
                   <label className='form-label'>Crops Planted</label>
                   <input type="text" className="form-control border border-dark" id="cropsPlanted" name='cropsPlanted' value={request.cropsPlanted} onChange={inputHandler} placeholder="e.g. Rice, Corn" />
@@ -442,18 +468,8 @@ function Arf() {
               <h5 className='mb-4 text-primary fw-bold'>Laboratory Services</h5>
               <div className="row g-4">
                 <div className='col-md-6'>
-                  <label className='form-label'>Date of Sample Disposal:</label>
-                  <input type="date" className="form-control border border-dark" id="sampleDisposal" name='sampleDisposal' value={request.sampleDisposal} onChange={inputHandler} placeholder="" />
-                </div>
-
-                <div className='col-md-6'>
                   <label className='form-label'>Report Due Date:</label>
                   <input type="date" className="form-control border border-dark" id="reportDue" name='reportDue' value={request.reportDue} onChange={inputHandler} placeholder="" />
-                </div>
-
-                <div className='col-md-6'>
-                  <label className='form-label'>Sample Disposed By:</label>
-                  <input type="text" className="form-control border border-dark" id="sampleDisposedBy " name='sampleDisposedBy' value={request.sampleDisposedBy} onChange={inputHandler} placeholder="" />
                 </div>
               </div>
               <div className="row g-4 mt-1">
@@ -464,27 +480,30 @@ function Arf() {
 
                 <div className="col-md-6">
                   <label className='form-label'>Amount Paid:</label>
-                  <input type='text' className='form-control border border-dark' id="amountPaid" name='amountPaid' onChange={inputHandler}></input>
+                  <input type='text' className='form-control border border-dark' id="amountPaid" name='amountPaid' value={request.amountPaid} onChange={inputHandler}></input>
                 </div>
 
                 <div className="col-md-6">
                   <label className='form-label'>Unpaid Balance:</label>
-                  <input type='text' className='form-control border border-dark' id="unPaidBalance" name='unPaidBalance' onChange={inputHandler}></input>
+                  <input type='text' className='form-control border border-dark' id="unPaidBalance" name='unPaidBalance' value={request.unPaidBalance} onChange={inputHandler}></input>
                 </div>
 
                 <div className="col-md-6">
                   <label className='form-label'>Sub-Total:</label>
-                  <input type='text' className='form-control border border-dark' id="subTotal" name='subTotal' onChange={inputHandler}></input>
+                  <input type='text' className='form-control border border-dark' id="subTotal" name='subTotal' value={request.subTotal} onChange={inputHandler}></input>
                 </div>
 
                 <div className="col-md-6">
                   <label className='form-label'>Discount:</label>
-                  <input type='text' className='form-control border border-dark' id="discount" name='discount' onChange={inputHandler}></input>
+                  <select type='text' className='form-select border border-dark' id="discount" name='discount' value={request.discount} onChange={inputHandler}>
+                    <option value="">Choose...</option>
+                    <option value="20%">20%</option>
+                  </select>
                 </div>
 
                 <div className="col-md-6">
                   <label className='form-label'>Total Php:</label>
-                  <input type='text' className='form-control border border-dark' id="totalPhp" name='totalPhp' onChange={inputHandler}></input>
+                  <input type='text' className='form-control border border-dark' id="totalPhp" name='totalPhp' value={request.totalPhp} onChange={inputHandler} readOnly style={{ backgroundColor: '#e9ecef' }}></input>
                 </div>
               </div>
               <div className='d-flex justify-content-between align-items-center mb-3 mt-4'>
@@ -600,11 +619,11 @@ function Arf() {
 
                       <div className="col-md-6">
                         <label className="form-label">Sample Description</label>
-                        <input type="text" className="form-control border border-dark" name="sampleDescription" value={sampleDetail.sampleDescription} onChange={sampleInputHandler} required />
+                        <input type="text" className="form-control border border-dark" name="sampleDescription" value={sampleDetail.sampleDescription} onChange={sampleInputHandler} />
                       </div>
 
                       <div className="col-md-6 d-flex align-items-center">
-                        <h5 className='fw-bold'>Text Methods</h5>
+                        <h5 className='fw-bold'>Test Methods</h5>
                       </div>
 
                       <div className="col-md-6 align-items-center d-flex justify-content-end">
@@ -633,6 +652,8 @@ function Arf() {
                               <option value="Manganese">Manganese</option>
                               <option value="NITRATE">NITRATE</option>
                               <option value="PHOSPHATE">PHOSPHATE</option>
+                              <option value="pH EC OM NPK">pH, EC, OM, NPK</option>
+                              <option value="pH EC OM NPK TEXTURE">pH, EC, OM, NPK, TEXTURE</option>
                             </select>
                           </div>
 
@@ -648,6 +669,8 @@ function Arf() {
                         </div>
                       ))}
                     </div>
+
+
                     <div className="mb-3 mt-3">
                       <label className="form-label">Total Cost</label>
                       <input
@@ -672,13 +695,15 @@ function Arf() {
                     setShowModal(false);
                     setSampleDetail({
                       sampleDescription: "",
-                      methodReq: "",
                       labCode: "",
                       customerCode: "",
                       noOfSample: "",
+                      totalCost: "",
                       unitCost: "",
-                      totalCost: ""
+                      methodReq: "",
                     });
+                    setTextField([{ id: 1, methodReq: '', unitCost: '', totalCost: '' }]);
+                    setNextInput(2);
                   }}>
                     Cancel
                   </button>
