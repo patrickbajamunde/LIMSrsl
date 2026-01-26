@@ -71,16 +71,14 @@ export const userRequest = async (req, res) => {
 
 export const deleteRequest = async (req, res) => {
     try {
-
         const userExist = await User.findOne({ name: req.user.name})
         const requestId = req.params.id;
-        const userId = req.user.id;
 
-        const requestExist = await Client.findOne({
-            user: userId,
-            _id: requestId,
-            userName: userExist.name
-        })
+        if(!userExist){
+            return res.status(404).json({message: "user not found!"})
+        }
+
+        const requestExist = await Client.findById(requestId)
 
         if (!requestExist) {
             return res.status(404).json({ message: "Arf data not found" })
@@ -94,7 +92,6 @@ export const deleteRequest = async (req, res) => {
             fileType: "Arf",
             itemId: deletedRequest.requestId,
             userName: userExist.name
-
         })
 
         await newActivity.save();
@@ -110,10 +107,7 @@ export const updateRequest = async (req, res) => {
         const userId = req.user.id;
         const userExist = await User.findOne({name: req.user.name})
 
-        const requestExist = await Client.findOne({
-            user: userId,
-            _id: requestId
-        })
+        const requestExist = await Client.findById(requestId)
 
         if (!requestExist) {
             return res.status(404).json({ message: "Arf data not found" })
