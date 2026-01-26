@@ -70,13 +70,13 @@ export const userReports = async (req, res) => {
 export const deleteReports = async (req, res) => {
     try {
         const reportId = req.params.id
-        const userId = req.user.id
         const userExist = await User.findOne({name: req.user.name})
 
-        const reportExists = await Report.findOne({
-            user: userId,
-            _id: reportId
-        });
+        if(!userExist){
+            return res.status(404).json({message: "user not found!"})
+        }
+
+        const reportExists = await Report.findById(reportId);
 
         if(!reportExists){
             return res.status(404).json({message: "Report data not found. Access denied!"})
@@ -106,10 +106,7 @@ export const updateReports = async (req, res) => {
         const userId = req.user.id
         const userExist = await User.findOne({name: req.user.name})
 
-        const reportExists = await Report.findOne({
-            user: userId,
-            _id: reportId
-        })
+        const reportExists = await Report.findById(reportId)
 
         if(!reportExists){
             return res.status(404).json({message:"Report data not found. Access denied!"})
