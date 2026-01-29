@@ -96,7 +96,7 @@ export default function ForRelease() {
             sortable: true,
         },
         {
-            name: "User",
+            name: "Created By",
             selector: (row) => row.userName,
             sortable: true,
         },
