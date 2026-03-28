@@ -66,10 +66,35 @@ function UpdateRequest() {
       "NITRATE": 100.00,
       "PHOSPHATE": 100.00,
       "pH EC OM NPK": 350.00,
-      "pH EC OM NPK TEXTURE": 550.00
+      "pH EC OM NPK TEXTURE": 550.00,
+      "pH EC OM NPK TEXTURE WHC MC": 700.00
     }
 
     return methodPriceMap[methodReq] || 0;
+  }
+
+  const testMethodTable = (methodReq) => {
+    const methodTable = {
+      "pH": "pH - Potentiometric Method",
+      "OM": "OC/OM/N - Walkley and Black Mmethod",
+      "NPK": " N- Walkley-Black Method, P- Olsen Method, K- STK Method",
+      "EC": "EC- Conductimetric Method",
+      "SOIL TEXTURE": "TEXTURE - Hydrometer Method",
+      "WATER HOLDING CAPACITY": "%WHC-Tapping Method",
+      "Moisture Content": "%MC - Gravimetric Method",
+      "pH, Npk": " STK Method",
+      "Copper": "DTPA Method using AAS",
+      "Iron": "DTPA Method using AAS",
+      "Zinc": "DTPA Method using AAS",
+      "Manganese": "DTPA Method using AAS",
+      "NITRATE": "NO3-N Kjeldhal Method",
+      "PHOSPHATE": "PO4 - Vanadomolybdate Method",
+      "pH EC OM NPK": "pH - Potentiometric Method, EC- Conductimetric Method, OC/OM/N - Walkley and Black Mmethod, P - Olsen Method, K - STK method",
+      "pH EC OM NPK TEXTURE": "pH - Potentiometric Method, EC- Conductimetric Method, OC/OM/N - Walkley and Black Method, P - Olsen Method, K - STK method, TEXTURE - Hydrometer Method",
+      "pH EC OM NPK TEXTURE WHC MC": "pH - Potentiometric Method, EC- Conductimetric Method, OC/OM/N - Walkley and Black Method, P - Olsen Method, K - STK method, TEXTURE - Hydrometer Method, %WHC-Tapping Method, %MC-Gravimetric Method"
+
+    }
+    return methodTable[methodReq] || "";
   }
 
   const requestIdGenerator = (clientType) => {
@@ -99,7 +124,8 @@ function UpdateRequest() {
     customerCode: "",
     noOfSample: "",
     unitCost: "",
-    totalCost: ""
+    totalCost: "",
+    method: "",
   });// State to hold current state of sample details in the modal
   const [successMessage, setSuccessMessage] = useState("")
   const [textField, setTextField] = useState([{ id: 1, methodReq: '', unitCost: '', totalCost: '' }]);
@@ -185,6 +211,7 @@ function UpdateRequest() {
     // FOR TEST METHOD FIELDS
     if (name === 'methodReq' && fieldId) {
       const unitPrice = testMethodPrice(value);  // Get price
+      const method = testMethodTable(value);
       const numSamples = parseInt(sampleDetail.noOfSample) || 0;
       const total = unitPrice * numSamples;  // Calculate total
 
@@ -195,7 +222,8 @@ function UpdateRequest() {
               ...field,
               methodReq: value,
               unitCost: unitPrice,
-              totalCost: total
+              totalCost: total,
+              method: method
             }
             : field
         )
@@ -267,7 +295,8 @@ function UpdateRequest() {
       id: idx + 1,
       methodReq: method,
       unitCost: unitCosts[idx] || '',
-      totalCost: (parseFloat(unitCosts[idx] || 0) * numSamples).toString()
+      totalCost: (parseFloat(unitCosts[idx] || 0) * numSamples).toString(),
+      method: testMethodTable(method)
     }));
 
     // Set the textField state with reconstructed data
@@ -282,6 +311,7 @@ function UpdateRequest() {
       noOfSample: sampleToEdit.noOfSample,
       unitCost: sampleToEdit.unitCost,
       totalCost: sampleToEdit.totalCost,
+      method: sampleToEdit.method
     });
 
     setEditingIndex(index);
@@ -303,6 +333,8 @@ function UpdateRequest() {
   // Enhanced submit handler for both adding and editing
   const sampleSubmit = (e) => {
     e.preventDefault();
+
+    const methodList = textField.map(field => field.method).join(', ');
 
     // Aggregate test method data from textField array
     const methodsString = textField
@@ -328,7 +360,8 @@ function UpdateRequest() {
       sampleDescription: sampleDetail.sampleDescription,
       methodReq: methodsString,
       unitCost: unitCostsString,
-      totalCost: grandTotal.toString()
+      totalCost: grandTotal.toString(),
+      method: methodList
     };
 
     if (isEditing && editingIndex !== null) {
@@ -359,7 +392,8 @@ function UpdateRequest() {
       customerCode: "",
       noOfSample: "",
       unitCost: "",
-      totalCost: ""
+      totalCost: "",
+      method: "",
     });
     setTextField([{ id: 1, methodReq: '', unitCost: '', totalCost: '' }]);
     setNextInput(2);
@@ -608,7 +642,7 @@ function UpdateRequest() {
 
                   <div className="col-md-6">
                     <label className='form-label'>Total Php:</label>
-                    <input type='text' className='form-control border border-dark' id="totalPhp" name='totalPhp' value={request.totalPhp} onChange={inputHandler} readOnly style={{ backgroundColor: '#e9ecef' }}></input>
+                    <input type='text' className='form-control border border-dark' id="totalPhp" name='totalPhp' value={request.totalPhp} onChange={inputHandler} style={{ backgroundColor: '#e9ecef' }}></input>
                   </div>
                 </div>
               </div>
@@ -631,7 +665,7 @@ function UpdateRequest() {
                         <th>Customer Code</th>
                         <th>Lab Code</th>
                         <th>Sample Description</th>
-                        <th>Test Requested - Test Method</th>
+                        <th colSpan="2">Test Requested - Test Method</th>
                         <th>Unit Cost</th>
                         <th>Total Cost</th>
                         <th>Actions</th>
@@ -645,14 +679,19 @@ function UpdateRequest() {
                             <td>{sampleItem.customerCode}</td>
                             <td>{sampleItem.labCode}</td>
                             <td>{sampleItem.sampleDescription}</td>
-                            <td>{sampleItem.methodReq}</td>
+                            <td className='text-center align-middle'>{sampleItem.methodReq}</td>
+                            <td className='methodReq'>
+                              {testMethodTable(sampleItem.methodReq).split(',').map((item, index) => (
+                                <div key={index}>{item.trim()}</div>
+                              ))}
+                            </td>
                             <td>{sampleItem.unitCost}</td>
                             <td>{sampleItem.totalCost}</td>
                             <td>
                               <button
                                 type="button"
                                 className="btn btn-sm btn-outline-primary me-2"
-                                onClick={() => {openEditModal(index)}}
+                                onClick={() => { openEditModal(index) }}
                                 title="Edit Sample"
                               >
                                 <i className="bi bi-pencil"></i>
@@ -785,12 +824,13 @@ function UpdateRequest() {
                               <option value="PHOSPHATE">PHOSPHATE</option>
                               <option value="pH EC OM NPK">pH, EC, OM, NPK</option>
                               <option value="pH EC OM NPK TEXTURE">pH, EC, OM, NPK, TEXTURE</option>
+                              <option value="pH EC OM NPK TEXTURE WHC MC">pH, EC, OM, NPK, TEXTURE, WHC, MC</option>
                             </select>
                           </div>
 
                           <div className="col-md-4">
                             <label className="form-label">Unit Cost</label>
-                            <input type="text" className="form-control border border-dark" name="unitCost" value={index.unitCost} onChange={(e) => sampleInputHandler(e, index.id)} required />
+                            <input type="text" className="form-control border border-dark" name="unitCost" value={index.unitCost} onChange={(e) => sampleInputHandler(e, index.id)} />
                           </div>
 
                           <div className="col-auto align-items-center d-flex mt-4">

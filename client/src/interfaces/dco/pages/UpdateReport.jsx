@@ -153,7 +153,7 @@ function UpdateReport() {
   const analystPRC = (analyzedBy) => {
     const PrcTable = {
       "MARYFRANIE I. BELANO, RChT": "0004756",
-      "KRiZZA ASHLEY V. BALOLOY, RChT": "0007263",
+      "KRIZZA ASHLEY V. BALOLOY, RChT": "0007263",
       "JENNIS A. RABLANDO, RChT": "0000628",
     }
     return PrcTable[analyzedBy] || "";
@@ -162,27 +162,125 @@ function UpdateReport() {
   const designation = (analyzedBy) => {
     const DesignationTable = {
       "MARYFRANIE I. BELANO, RChT": "Laboratory Analyst",
-      "KRiZZA ASHLEY V. BALOLOY, RChT": "Laboratory Analyst",
+      "KRIZZA ASHLEY V. BALOLOY, RChT": "Laboratory Analyst",
       "JENNIS A. RABLANDO, RChT": "Laboratory Analyst"
     }
     return DesignationTable[analyzedBy] || "";
   }
 
-  const methodName = (method) => {
-    const methodTable = {
+
+  const ParameterName = (method) => {
+    const parameterTable = {
       "pH|(1 Soil: 1 H2O)": "pH - Potentiometric Method",
       "EC|(mS/cm)": "EC - Conductometric Method",
       "%OM": "OM/N - Walkley-Black Method",
-      "P|(STK)": "P - Olsen P Method",
+      "%N": "OM/N - Walkley-Black Method",
+      "P|(ppm)": "P - Olsen P Method",
+      "N|(STK)": "N - STK Method",
+      "P|(STK)": "P - STK Method",
       "K|(STK)": "K - STK Method",
       "NO3-N|(ppm)": "NO3-N - Kjeldahl Method",
       "PO4|(ppm)": "PO4 - Vanadomolybdate Method",
+      "%MC": "MC - Gravimetric Method",
+      "Cu|(ppm)": "DTPA Method using AAS",
+      "Zn|(ppm)": "DTPA Method using AAS",
+      "Fe|(ppm)": "DTPA Method using AAS",
+      "Mn|(ppm)": "DTPA Method using AAS",
+      "%WHC": "WHC - Tapping Method",
+      "%SAND": "TEXTURE - Hydrometer Method",
+      "%SILT": "TEXTURE - Hydrometer Method",
+      "%CLAY": "TEXTURE - Hydrometer Method",
     }
-    return methodTable[method] || "";
+    return parameterTable[method] || "";
   }
+
+
+  const methodName = (testMethod) => {
+    const methodTable = {
+      'NPK - STK Method': 'NPK - STK Method',
+      'DTPA Method using AAS': 'DTPA Method using AAS',
+      'pH, EC, OM, NPK': 'pH - Potentiometric Method, EC - Conductometric Method, OM/N - Walkley-Black Method, P - Olsen P Method, K - STK Method',
+      'Water Analysis': 'NO3-N - Kjeldahl Method, PO4 - Vanadomolybdate Method',
+      'TEXTURE': 'TEXTURE - Hydrometer Method',
+      '%MC, %WHC, TEXTURE': 'MC - Gravimetric Method, WHC - Tapping Method, TEXTURE - Hydrometer Method'
+    }
+
+    return methodTable[testMethod] || "";
+  }
+
+  const methodGroup = {
+    '': {
+      method1: '',
+      method2: '',
+      method3: '',
+      method4: '',
+      method5: '',
+      method6: ''
+    },
+    'NPK - STK Method': {
+      method1: 'pH|(1 Soil: 1 H2O)',
+      method2: 'N|(STK)',
+      method3: 'P|(STK)',
+      method4: 'K|(STK)',
+      method5: '',
+      method6: ''
+    },
+    'DTPA Method using AAS': {
+      method1: 'Cu|(ppm)',
+      method2: 'Zn|(ppm)',
+      method3: 'Fe|(ppm)',
+      method4: 'Mn|(ppm)',
+      method5: '',
+      method6: '',
+    },
+    'pH, EC, OM, NPK': {
+      method1: 'pH|(1 Soil: 1 H2O)',
+      method2: 'EC|(mS/cm)',
+      method3: '%OM',
+      method4: '%N',
+      method5: 'P|(ppm)',
+      method6: 'K|(STK)'
+    },
+    '': {
+      physical1: '',
+      physical2: '',
+      physical3: '',
+      physical4: '',
+      physical5: '',
+      physical6: ''
+    },
+    'Water Analysis': {
+      method1: 'NO3-N|(ppm)',
+      method2: 'PO4|(ppm)',
+      method3: '',
+      method4: '',
+      method5: '',
+      method6: ''
+    },
+    'TEXTURE': {
+      physical1: '%SAND',
+      physical2: '%SILT',
+      physical3: '%CLAY',
+      physical4: 'CLASSIFICATION',
+      physical5: '',
+      physical6: ''
+    },
+    '%MC, %WHC, TEXTURE': {
+      physical1: '%MC',
+      physical2: '%WHC',
+      physical3: '%SAND',
+      physical4: '%SILT',
+      physical5: '%CLAY',
+      physical6: 'CLASSIFICATION'
+    }
+  }
+
 
   const [result, setResult] = useState(report);
   const [interpretationType, setInterpretationType] = useState('regular soil');
+  const [ChemMethodSets, SetChemMethodSets] = useState('')
+  const [PhysMethodSets, SetPhysMethodSets] = useState('')
+
   //date setState
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
@@ -203,6 +301,25 @@ function UpdateReport() {
     },
     testMethod: ''
   });// state of report details before change in the modal
+
+
+  const handleMethodSets = (e) => {
+    const newType = e.target.value;
+    SetChemMethodSets(newType);
+    setResult({
+      ...result,
+      method: methodGroup[newType]
+    })
+  }
+
+  const handlePhysMethodSets = (e) => {
+    const newType = e.target.value;
+    SetPhysMethodSets(newType);
+    setResult({
+      ...result,
+      physicalMethod: methodGroup[newType]
+    })
+  }
 
   const handleInterpretationTypeChange = (e) => {
     const newType = e.target.value;
@@ -254,7 +371,7 @@ function UpdateReport() {
 
   const inputHandler = (e) => {
     const { name, value, dataset } = e.target;
-    if (name === 'analyzedBy' || name === 'datePerformed') {
+    if (name === 'analyzedBy') {
       const prc = analystPRC(value);
       const position = designation(value);
       setResult({
@@ -373,12 +490,12 @@ function UpdateReport() {
       labCode: reportToEdit.labCode,
       sampleDescription: reportToEdit.sampleDescription,
       results: {
-        method1Results: reportToEdit.results.method1Results,
-        method2Results: reportToEdit.results.method2Results,
-        method3Results: reportToEdit.results.method3Results,
-        method4Results: reportToEdit.results.method4Results,
-        method5Results: reportToEdit.results.method5Results,
-        method6Results: reportToEdit.results.method6Results,
+        method1Results: reportToEdit.results?.method1Results || '',
+        method2Results: reportToEdit.results?.method2Results || '',
+        method3Results: reportToEdit.results?.method3Results || '',
+        method4Results: reportToEdit.results?.method4Results || '',
+        method5Results: reportToEdit.results?.method5Results || '',
+        method6Results: reportToEdit.results?.method6Results || '',
       },
       testMethod: testMethod || reportToEdit.testMethod
     });
@@ -394,12 +511,12 @@ function UpdateReport() {
       labCode: physicalReport.labCode,
       sampleDescription: physicalReport.sampleDescription,
       results: {
-        physc1Result: physicalReport.results.physc1Result,
-        physc2Result: physicalReport.results.physc2Result,
-        physc3Result: physicalReport.results.physc3Result,
-        physc4Result: physicalReport.results.physc4Result,
-        physc5Result: physicalReport.results.physc5Result,
-        physc6Result: physicalReport.results.physc6Result,
+        physc1Result: physicalReport.results?.physc1Result || '',
+        physc2Result: physicalReport.results?.physc2Result || '',
+        physc3Result: physicalReport.results?.physc3Result || '',
+        physc4Result: physicalReport.results?.physc4Result || '',
+        physc5Result: physicalReport.results?.physc5Result || '',
+        physc6Result: physicalReport.results?.physc6Result || '',
       },
       testMethod: testMethod || physicalReport.testMethod
     })
@@ -721,8 +838,19 @@ function UpdateReport() {
 
             <div className='card p-4 mb-3 mt-3 shadow-sm border'>
               <h5 className='mb-4 text-primary fw-bold'>Chemical Analysis Result</h5>
+              <div className='row g-4 mb-3'>
+                <div className='col-md-2'>
+                  <label className='form-label'>Test Method</label>
+                  <select className='form-select border-dark' value={ChemMethodSets} onChange={handleMethodSets}>
+                    <option value="">Choose...</option>
+                    <option value="NPK - STK Method">NPK - STK Method</option>
+                    <option value="DTPA Method using AAS">DTPA Method using AAS</option>
+                    <option value="pH, EC, OM, NPK">pH, EC, OM, NPK</option>
+                    <option value="Water Analysis">Water Analysis</option>
+                  </select>
+                </div>
+              </div>
               <div className='row g-4'>
-
                 <div className='col-md-2'>
                   <label className='form-label'>First Parameter</label>
                   <select className='form-select border-dark' name='method1' data-parent='method' onChange={inputHandler} value={result.method.method1}>
@@ -731,10 +859,17 @@ function UpdateReport() {
                     <option value="EC|(mS/cm)">EC (mS/cm)</option>
                     <option value="%OM">%OM</option>
                     <option value="%N">%N</option>
+                    <option value="P|(ppm)">P (ppm)</option>
+                    <option value="N|(STK)">N (STK)</option>
                     <option value="P|(STK)">P (STK)</option>
                     <option value="K|(STK)">K (STK)</option>
                     <option value="NO3-N|(ppm)">NO3-N (ppm)</option>
                     <option value="PO4|(ppm)">PO4 (ppm)</option>
+                    <option value="%MC">%MC</option>
+                    <option value="Cu|(ppm)">Cu (ppm)</option>
+                    <option value="Zn|(ppm)">Zn (ppm)</option>
+                    <option value="Fe|(ppm)">Fe (ppm)</option>
+                    <option value="Mn|(ppm)">Mn (ppm)</option>
                   </select>
                 </div>
 
@@ -747,10 +882,17 @@ function UpdateReport() {
                       <option value="EC|(mS/cm)">EC (mS/cm)</option>
                       <option value="%OM">%OM</option>
                       <option value="%N">%N</option>
+                      <option value="P|(ppm)">P (ppm)</option>
+                      <option value="N|(STK)">N (STK)</option>
                       <option value="P|(STK)">P (STK)</option>
                       <option value="K|(STK)">K (STK)</option>
                       <option value="NO3-N|(ppm)">NO3-N (ppm)</option>
                       <option value="PO4|(ppm)">PO4 (ppm)</option>
+                      <option value="%MC">%MC</option>
+                      <option value="Cu|(ppm)">Cu (ppm)</option>
+                      <option value="Zn|(ppm)">Zn (ppm)</option>
+                      <option value="Fe|(ppm)">Fe (ppm)</option>
+                      <option value="Mn|(ppm)">Mn (ppm)</option>
                     </select>
                   </div>
                 )}
@@ -764,10 +906,17 @@ function UpdateReport() {
                       <option value="EC|(mS/cm)">EC (mS/cm)</option>
                       <option value="%OM">%OM</option>
                       <option value="%N">%N</option>
+                      <option value="P|(ppm)">P (ppm)</option>
+                      <option value="N|(STK)">N (STK)</option>
                       <option value="P|(STK)">P (STK)</option>
                       <option value="K|(STK)">K (STK)</option>
                       <option value="NO3-N|(ppm)">NO3-N (ppm)</option>
                       <option value="PO4|(ppm)">PO4 (ppm)</option>
+                      <option value="%MC">%MC</option>
+                      <option value="Cu|(ppm)">Cu (ppm)</option>
+                      <option value="Zn|(ppm)">Zn (ppm)</option>
+                      <option value="Fe|(ppm)">Fe (ppm)</option>
+                      <option value="Mn|(ppm)">Mn (ppm)</option>
                     </select>
                   </div>
                 )}
@@ -781,10 +930,17 @@ function UpdateReport() {
                       <option value="EC|(mS/cm)">EC (mS/cm)</option>
                       <option value="%OM">%OM</option>
                       <option value="%N">%N</option>
+                      <option value="P|(ppm)">P (ppm)</option>
+                      <option value="N|(STK)">N (STK)</option>
                       <option value="P|(STK)">P (STK)</option>
                       <option value="K|(STK)">K (STK)</option>
                       <option value="NO3-N|(ppm)">NO3-N (ppm)</option>
                       <option value="PO4|(ppm)">PO4 (ppm)</option>
+                      <option value="%MC">%MC</option>
+                      <option value="Cu|(ppm)">Cu (ppm)</option>
+                      <option value="Zn|(ppm)">Zn (ppm)</option>
+                      <option value="Fe|(ppm)">Fe (ppm)</option>
+                      <option value="Mn|(ppm)">Mn (ppm)</option>
                     </select>
                   </div>
                 )}
@@ -799,10 +955,17 @@ function UpdateReport() {
                       <option value="EC|(mS/cm)">EC (mS/cm)</option>
                       <option value="%OM">%OM</option>
                       <option value="%N">%N</option>
+                      <option value="P|(ppm)">P (ppm)</option>
+                      <option value="N|(STK)">N (STK)</option>
                       <option value="P|(STK)">P (STK)</option>
                       <option value="K|(STK)">K (STK)</option>
                       <option value="NO3-N|(ppm)">NO3-N (ppm)</option>
                       <option value="PO4|(ppm)">PO4 (ppm)</option>
+                      <option value="%MC">%MC</option>
+                      <option value="Cu|(ppm)">Cu (ppm)</option>
+                      <option value="Zn|(ppm)">Zn (ppm)</option>
+                      <option value="Fe|(ppm)">Fe (ppm)</option>
+                      <option value="Mn|(ppm)">Mn (ppm)</option>
                     </select>
                   </div>
                 )}
@@ -815,10 +978,17 @@ function UpdateReport() {
                       <option value="EC|(mS/cm)">EC (mS/cm)</option>
                       <option value="%OM">%OM</option>
                       <option value="%N">%N</option>
+                      <option value="P|(ppm)">P (ppm)</option>
+                      <option value="N|(STK)">N (STK)</option>
                       <option value="P|(STK)">P (STK)</option>
                       <option value="K|(STK)">K (STK)</option>
                       <option value="NO3-N|(ppm)">NO3-N (ppm)</option>
                       <option value="PO4|(ppm)">PO4 (ppm)</option>
+                      <option value="%MC">%MC</option>
+                      <option value="Cu|(ppm)">Cu (ppm)</option>
+                      <option value="Zn|(ppm)">Zn (ppm)</option>
+                      <option value="Fe|(ppm)">Fe (ppm)</option>
+                      <option value="Mn|(ppm)">Mn (ppm)</option>
                     </select>
                   </div>
                 )}
@@ -827,6 +997,7 @@ function UpdateReport() {
                 <button
                   type="button"
                   className="btn btn-primary" onClick={() => {
+                    const testMethod = methodName(ChemMethodSets)
                     const methodsArray = [
                       result.method.method1,
                       result.method.method2,
@@ -838,12 +1009,12 @@ function UpdateReport() {
 
                     // Map each method to its full name, then join
                     const selectedMethods = methodsArray
-                      .map(method => methodName(method))
+                      .map(method => ParameterName(method))
                       .join(', ');
 
                     setReportDetails({
                       ...reportDetails,
-                      testMethod: selectedMethods
+                      testMethod: testMethod || selectedMethods
                     });
                     setShowModal(true);
                   }}>
@@ -893,6 +1064,7 @@ function UpdateReport() {
                                 type="button"
                                 className="btn btn-sm btn-outline-primary me-2"
                                 onClick={() => {
+                                  const testMethod = methodName(ChemMethodSets)
                                   const methodsArray = [
                                     result.method.method1,
                                     result.method.method2,
@@ -904,12 +1076,12 @@ function UpdateReport() {
 
                                   // Map each method to its full name, then join
                                   const selectedMethods = methodsArray
-                                    .map(method => methodName(method))
+                                    .map(method => ParameterName(method))
                                     .join(', ');
 
                                   setReportDetails({
                                     ...reportDetails,
-                                    testMethod: selectedMethods
+                                    testMethod: testMethod || selectedMethods
                                   });
                                   openEditModal(index, selectedMethods);
                                 }}
@@ -941,19 +1113,27 @@ function UpdateReport() {
 
             <div className='card p-4 mb-3 mt-3 shadow-sm border'>
               <h5 className='mb-4 text-primary fw-bold'>Physical Analysis Result</h5>
+              <div className='row g-4 mb-3'>
+                <div className='col-md-2'>
+                  <label className='form-label'>Test Method</label>
+                  <select className='form-select border-dark' value={PhysMethodSets} onChange={handlePhysMethodSets}>
+                    <option value="">Choose...</option>
+                    <option value="TEXTURE">TEXTURE</option>
+                    <option value="%MC, %WHC, TEXTURE">%MC, %WHC, TEXTURE</option>
+                  </select>
+                </div>
+              </div>
               <div className='row g-4'>
                 <div className='col-md-2'>
                   <label className='form-label'>First Parameter</label>
                   <select type='text' className='date form-select border-dark' name='physical1' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical1}>
                     <option value="">Choose...</option>
-                    <option value="pH (1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
-                    <option value="EC (mS/cm)">EC (mS/cm)</option>
-                    <option value="%OM">%OM</option>
-                    <option value="%N">%N</option>
-                    <option value="P (STK)">P (STK)</option>
-                    <option value="K (STK)">K (STK)</option>
-                    <option value="NO3-N (ppm)">NO3-N (ppm)</option>
-                    <option value="PO4 (ppm)">PO4 (ppm)</option>
+                    <option value="%MC">%MC</option>
+                    <option value="%WHC">%WHC</option>
+                    <option value="%SAND">%SAND</option>
+                    <option value="%SILT">%SILT</option>
+                    <option value="%CLAY">%CLAY</option>
+                    <option value="CLASSIFICATION">CLASSIFICATION</option>
                   </select>
                 </div>
 
@@ -962,14 +1142,12 @@ function UpdateReport() {
                     <label className='form-label'>Second Parameter</label>
                     <select type='text' className='date form-select border-dark' name='physical2' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical2}>
                       <option value="">Choose...</option>
-                      <option value="pH (1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
-                      <option value="EC (mS/cm)">EC (mS/cm)</option>
-                      <option value="%OM">%OM</option>
-                      <option value="%N">%N</option>
-                      <option value="P (STK)">P (STK)</option>
-                      <option value="K (STK)">K (STK)</option>
-                      <option value="NO3-N (ppm)">NO3-N (ppm)</option>
-                      <option value="PO4 (ppm)">PO4 (ppm)</option>
+                      <option value="%MC">%MC</option>
+                      <option value="%WHC">%WHC</option>
+                      <option value="%SAND">%SAND</option>
+                      <option value="%SILT">%SILT</option>
+                      <option value="%CLAY">%CLAY</option>
+                      <option value="CLASSIFICATION">CLASSIFICATION</option>
                     </select>
                   </div>
                 )}
@@ -979,14 +1157,12 @@ function UpdateReport() {
                     <label className='form-label'>Third Parameter</label>
                     <select type='text' className='date form-select border-dark' name='physical3' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical3}>
                       <option value="">Choose...</option>
-                      <option value="pH (1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
-                      <option value="EC (mS/cm)">EC (mS/cm)</option>
-                      <option value="%OM">%OM</option>
-                      <option value="%N">%N</option>
-                      <option value="P (STK)">P (STK)</option>
-                      <option value="K (STK)">K (STK)</option>
-                      <option value="NO3-N (ppm)">NO3-N (ppm)</option>
-                      <option value="PO4 (ppm)">PO4 (ppm)</option>
+                      <option value="%MC">%MC</option>
+                      <option value="%WHC">%WHC</option>
+                      <option value="%SAND">%SAND</option>
+                      <option value="%SILT">%SILT</option>
+                      <option value="%CLAY">%CLAY</option>
+                      <option value="CLASSIFICATION">CLASSIFICATION</option>
                     </select>
                   </div>
                 )}
@@ -996,14 +1172,12 @@ function UpdateReport() {
                     <label className='form-label'>Fourth Parameter</label>
                     <select type='text' className='date form-select border-dark' name='physical4' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical4}>
                       <option value="">Choose...</option>
-                      <option value="pH (1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
-                      <option value="EC (mS/cm)">EC (mS/cm)</option>
-                      <option value="%OM">%OM</option>
-                      <option value="%N">%N</option>
-                      <option value="P (STK)">P (STK)</option>
-                      <option value="K (STK)">K (STK)</option>
-                      <option value="NO3-N (ppm)">NO3-N (ppm)</option>
-                      <option value="PO4 (ppm)">PO4 (ppm)</option>
+                      <option value="%MC">%MC</option>
+                      <option value="%WHC">%WHC</option>
+                      <option value="%SAND">%SAND</option>
+                      <option value="%SILT">%SILT</option>
+                      <option value="%CLAY">%CLAY</option>
+                      <option value="CLASSIFICATION">CLASSIFICATION</option>
                     </select>
                   </div>
                 )}
@@ -1013,14 +1187,12 @@ function UpdateReport() {
                     <label className='form-label'>Fifth Parameter</label>
                     <select type='text' className='date form-select border-dark' name='physical5' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical5}>
                       <option value="">Choose...</option>
-                      <option value="pH (1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
-                      <option value="EC (mS/cm)">EC (mS/cm)</option>
-                      <option value="%OM">%OM</option>
-                      <option value="%N">%N</option>
-                      <option value="P (STK)">P (STK)</option>
-                      <option value="K (STK)">K (STK)</option>
-                      <option value="NO3-N (ppm)">NO3-N (ppm)</option>
-                      <option value="PO4 (ppm)">PO4 (ppm)</option>
+                      <option value="%MC">%MC</option>
+                      <option value="%WHC">%WHC</option>
+                      <option value="%SAND">%SAND</option>
+                      <option value="%SILT">%SILT</option>
+                      <option value="%CLAY">%CLAY</option>
+                      <option value="CLASSIFICATION">CLASSIFICATION</option>
                     </select>
                   </div>
                 )}
@@ -1030,14 +1202,12 @@ function UpdateReport() {
                     <label className='form-label'>Sixth Parameter</label>
                     <select type='text' className='date form-select border-dark' name='physical6' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical6}>
                       <option value="">Choose...</option>
-                      <option value="pH (1 Soil: 1 H2O)">pH (1 Soil: 1 H2O)</option>
-                      <option value="EC (mS/cm)">EC (mS/cm)</option>
-                      <option value="%OM">%OM</option>
-                      <option value="%N">%N</option>
-                      <option value="P (STK)">P (STK)</option>
-                      <option value="K (STK)">K (STK)</option>
-                      <option value="NO3-N (ppm)">NO3-N (ppm)</option>
-                      <option value="PO4 (ppm)">PO4 (ppm)</option>
+                      <option value="%MC">%MC</option>
+                      <option value="%WHC">%WHC</option>
+                      <option value="%SAND">%SAND</option>
+                      <option value="%SILT">%SILT</option>
+                      <option value="%CLAY">%CLAY</option>
+                      <option value="CLASSIFICATION">CLASSIFICATION</option>
                     </select>
                   </div>
                 )}
@@ -1046,6 +1216,7 @@ function UpdateReport() {
                 <button
                   type="button"
                   className="btn btn-primary" onClick={() => {
+                    const testMethod = methodName(PhysMethodSets)
                     const methodsArray = [
                       result.physicalMethod.physical1,
                       result.physicalMethod.physical2,
@@ -1057,12 +1228,12 @@ function UpdateReport() {
 
                     // Map each method to its full name, then join
                     const selectedMethods = methodsArray
-                      .map(method => methodName(method))
+                      .map(method => ParameterName(method))
                       .join(', ');
 
                     setPhysicalDetails({
                       ...physicalDetails,
-                      testMethod: selectedMethods
+                      testMethod: testMethod || selectedMethods
                     });
                     setPhysicalModal(true);
                   }}>
@@ -1112,6 +1283,7 @@ function UpdateReport() {
                                 type="button"
                                 className="btn btn-sm btn-outline-primary me-2"
                                 onClick={() => {
+                                  const testMethod = methodName(PhysMethodSets)
                                   const methodsArray = [
                                     result.physicalMethod.physical1,
                                     result.physicalMethod.physical2,
@@ -1123,14 +1295,16 @@ function UpdateReport() {
 
                                   // Map each method to its full name, then join
                                   const selectedMethods = methodsArray
-                                    .map(method => methodName(method))
+                                    .map(method => ParameterName(method))
                                     .join(', ');
+                                  
+                                  const resolvedMethod = testMethod || selectedMethods;
 
                                   setPhysicalDetails({
                                     ...physicalDetails,
-                                    testMethod: selectedMethods
+                                    testMethod: resolvedMethod
                                   });
-                                  physicalEditModal(index, selectedMethods);
+                                  physicalEditModal(index, resolvedMethod);
                                 }}
                                 title="Edit Sample"
                               >

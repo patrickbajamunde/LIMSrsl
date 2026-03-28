@@ -27,10 +27,36 @@ const styles = StyleSheet.create({
         gap: 117,
     },
 
+    headerContainer3: {
+        fontFamily: 'Cambria',
+        borderStyle: 'solid',
+        display: 'table',
+        borderWidth: 1,
+    },
+
+    headerOffice: {
+        flexDirection: 'row', // horizontal layout
+        alignItems: 'center', // vertical alignment       
+    },
+
+    headerCell: {
+        fontFamily: 'Cambria',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderTopWidth: 0,
+        borderLeftWidth: 0,
+        borderBottomWidth: 0,
+    },
+
+    formTitle: {
+        textAlign: 'center',
+        justifyContent: 'center'
+    },
+
     boldFont:{
         fontFamily: 'Cambria',
         fontWeight: 'bold',
-        fontSize: 10
+        fontSize: 11
     },
     italicFont:{
         fontFamily:'Cambria',
@@ -44,7 +70,7 @@ const styles = StyleSheet.create({
         fontFamily:'Cambria',
         fontWeight: 'bold',
         fontSize:11,
-        backgroundColor: '#d8d8d8',
+        
     },
     contentNormal:{
         fontFamily:'Cambria',
@@ -64,10 +90,9 @@ const styles = StyleSheet.create({
         fontFamily: 'Times-Roman',
         padding: 72,
     },
-    image:{
-        marginLeft:28,
-        width: 64,
-        height: 54,
+    image: {
+        width: 54.93,
+        height: 51,
     },
     header:{
         fontFamily:'Cambria',
@@ -85,13 +110,12 @@ const styles = StyleSheet.create({
         fontFamily:'Cambria',
         fontSize:11,
         width: '20%', // You can adjust widths here
-        height:154,
+        //height:154,
         borderStyle: 'solid',
         borderWidth: 1,
         borderLeftWidth: 0,
         borderTopWidth: 0,
         borderBottomWidth:1,
-        textAlign:'center',
     },
     cellTwo:{
         fontFamily:'Cambria',
@@ -129,9 +153,9 @@ const styles = StyleSheet.create({
 
     },
     checkbox: {
-        width: 13,
+        width: 10,
         height: 10,
-        borderWidth: 1.5,
+        borderWidth: 1,
         borderColor: '#000',
         marginRight: 5,
     },
@@ -220,7 +244,14 @@ const styles = StyleSheet.create({
 
     specificCell:{
         borderLeftWidth: 1
+    },
+
+    testPdfpage: {
+        fontFamily: 'Cambria',
+        fontSize: 10,
+        paddingLeft: 18
     }
+
 
 });
 

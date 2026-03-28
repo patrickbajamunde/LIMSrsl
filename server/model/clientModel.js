@@ -23,6 +23,10 @@ const sampleModel = new mongoose.Schema({
     totalCost: {
         type: Number,
     },
+
+    method: {
+        type: String,
+    }
 });
 
 const coordinatesModel = new mongoose.Schema({
@@ -147,7 +151,7 @@ const clientSchema = new mongoose.Schema({
     },
 
     totalPhp: {
-        type: Number,
+        type: String,
     },
 
     user: {
