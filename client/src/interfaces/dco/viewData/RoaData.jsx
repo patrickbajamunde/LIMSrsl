@@ -14,7 +14,7 @@ function RoaData() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get(`http://localhost:8002/api/report/reportData/${id}`)
+        axios.get(`http://192.168.100.177:8002/api/report/reportData/${id}`)
             .then((response) => {
                 setReportDetails(response.data)
             })
@@ -318,11 +318,13 @@ function RoaData() {
                     <div className="d-flex flex-wrap gap-2 justify-content-center pb-4">
                         <GenerateRoa roaId={reportDetails ? reportDetails._id : null}
                             copyType="CUSTOMER COPY"
+                            copyCode='C'
                             fileType='_Customer_Copy'
                             icon={<button type='button' className='btn btn-primary text-white fw-bold'>Customer Copy</button>}
                         />
                         <GenerateRoa roaId={reportDetails ? reportDetails._id : null}
                             copyType="LABORATORY COPY"
+                            copyCode='L'
                             fileType='_Laboratory_Copy'
                             icon={<button type='button' className='btn btn-primary text-white fw-bold'>Laboratory Copy</button>}
                         />

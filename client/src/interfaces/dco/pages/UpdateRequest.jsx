@@ -405,7 +405,7 @@ function UpdateRequest() {
   const submitForm = async (e) => {
     e.preventDefault();
     const form = { ...request };
-    await axios.put(`http://localhost:8002/api/client/update/arf/${id}`, form,
+    await axios.put(`http://192.168.100.177:8002/api/client/update/arf/${id}`, form,
       {
         withCredentials: true,
       }
@@ -421,7 +421,7 @@ function UpdateRequest() {
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:8002/api/client/getClient/${id}`)
+    axios.get(`http://192.168.100.177:8002/api/client/getClient/${id}`)
       .then((response) => {
         setRequest(response.data)
       })

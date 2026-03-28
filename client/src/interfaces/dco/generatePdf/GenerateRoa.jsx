@@ -6,12 +6,12 @@ import image2 from '../../dco/components/images/unnamed.png'
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { useEffect, useState } from 'react';
 
-const GenerateRoa = ({ roaId, icon, disabledIcon, copyType, fileType }) => {
+const GenerateRoa = ({ roaId, icon, disabledIcon, copyType, fileType, copyCode }) => {
 
     const [report, setReport] = useState(null)
 
     useEffect(() => {
-        axios.get(`http://localhost:8002/api/report/reportData/${roaId}`)
+        axios.get(`http://192.168.100.177:8002/api/report/reportData/${roaId}`)
             .then((response) => {
                 setReport(response.data);
             })
@@ -86,7 +86,7 @@ const GenerateRoa = ({ roaId, icon, disabledIcon, copyType, fileType }) => {
                                 <Text>Customer Name: <Text style={{ fontWeight: 'normal' }}></Text>{report.customerName}</Text>
                             </View>
                             <View style={{ width: '40%' }}>
-                                <Text>Report ID: <Text style={{ fontWeight: 'normal' }}></Text>{report.reportId}</Text>
+                                <Text>Report ID: <Text style={{ fontWeight: 'normal' }}></Text>{report.reportId}-{copyCode}</Text>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row' }}>

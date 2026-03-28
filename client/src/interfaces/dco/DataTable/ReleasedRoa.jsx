@@ -20,7 +20,7 @@ export default function ReleasedRoa() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:8002/api/dbcontrol/released", {
+                const response = await axios.get("http://192.168.100.177:8002/api/dbcontrol/released", {
                 });
                 setclient(response.data);
                 setFilteredData(response.data); // Initialize the table with fetched data
@@ -39,7 +39,7 @@ export default function ReleasedRoa() {
 
             // Call the API to update the status to "Released"
             const response = await axios.put(
-                `http://localhost:8002/api/report/update/report/${roaId}`,
+                `http://192.168.100.177:8002/api/report/update/report/${roaId}`,
                 { status: "Released" },
                 { withCredentials: true }
             );
@@ -75,7 +75,7 @@ export default function ReleasedRoa() {
             sortable: true,
         },
         {
-            name: "User",
+            name: "Created By",
             selector: (row) => row.userName,
             sortable: true,
         },
