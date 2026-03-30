@@ -59,9 +59,9 @@ function GenerateReport() {
             data5: 'Moderately acidic  =  5.1– 5.5',
             data6: 'ML = Moderately Low  =    2.1 – 3.5 %OM',
             data7: 'ML = Moderately Low  =   2.1-6 ppm',
-            data8: 'Slightly acidic          =  5.6 ¬¬–  6.5',
-            data9: 'MH=  Moderately High = 3.6-4.5 %OM  ',
-            data10: 'MH=  Moderately High =   6.1-10 ppm',
+            data8: 'Slightly acidic          =  5.6 –  6.5',
+            data9: 'MH =  Moderately High = 3.6-4.5 %OM  ',
+            data10: 'MH =  Moderately High =   6.1-10 ppm',
             data11: 'S = Sufficient    ',
             data12: 'Neutral                     =  6.6 – 7.0',
             data13: 'H = High                            =   4.6-5.5 %OM',
@@ -83,9 +83,9 @@ function GenerateReport() {
             data5: 'Moderately acidic  =  5.1– 5.5',
             data6: 'ML = Moderately Low  =    2.1 – 3.5 %OM',
             data7: 'ML = Moderately Low  =   7-10 ppm',
-            data8: 'Slightly acidic          =  5.6 ¬¬–  6.5',
-            data9: 'H=  High                         = 3.6-4.5 %OM',
-            data10: 'MH=  Moderately High =   11-15 ppm',
+            data8: 'Slightly acidic          =  5.6 –  6.5',
+            data9: 'H =  High                         = 3.6-4.5 %OM',
+            data10: 'MH =  Moderately High =   11-15 ppm',
             data11: 'S = Sufficient    ',
             data12: 'Neutral                     =  6.6 – 7.0',
             data13: 'VH = Very High                =   >4.5 %OM ',
@@ -101,16 +101,16 @@ function GenerateReport() {
             parameter3: 'Phosphorus(P):',
             parameter4: 'Potassium(K):',
             data1: 'Intensely acidic       =   < 5.0',
-            data2: 'L=Low          = <2.0 % OM',
-            data3: 'L-Low           = <10 ppm',
-            data4: 'D=Deficient    = < 75 ppm',
+            data2: 'L = Low          = <2.0 % OM',
+            data3: 'L = Low           = <10 ppm',
+            data4: 'D = Deficient    = < 75 ppm',
             data5: 'Moderately acidic  =  5.1– 5.5',
-            data6: 'M=Medium = 2.1-4.5 % OM',
-            data7: 'M=Medium = 10-20 ppm',
-            data8: 'Slightly acidic          =  5.6 ¬¬–  6.5',
-            data9: 'H-High         = >4.5 % OM',
-            data10: 'H=High         = >20 ppm',
-            data11: 'S=Sufficient    = > 75 ppm',
+            data6: 'M = Medium = 2.1-4.5 % OM',
+            data7: 'M = Medium = 10-20 ppm',
+            data8: 'Slightly acidic          =  5.6 –  6.5',
+            data9: 'H = High         = >4.5 % OM',
+            data10: 'H = High         = >20 ppm',
+            data11: 'S = Sufficient    = > 75 ppm',
             data12: 'Neutral                     =  6.6 – 7.0',
             data13: '',
             data14: '',
@@ -590,7 +590,7 @@ function GenerateReport() {
     const submitForm = async (e) => {
         e.preventDefault();
         const form = { ...result, roaDetails: roaReport, physicalDetails: physicalReport };
-        await axios.post("http://192.168.100.177:8002/api/report/newReport", form, {
+        await axios.post("http://localhost:8002/api/report/newReport", form, {
             withCredentials: true,
         })
             .then((response) => {
@@ -656,7 +656,7 @@ function GenerateReport() {
     }
 
     useEffect(() => {
-        axios.get(`http://192.168.100.177:8002/api/client/getClient/${id}`)
+        axios.get(`http://localhost:8002/api/client/getClient/${id}`)
             .then((response) => {
                 const clientData = response.data;
 

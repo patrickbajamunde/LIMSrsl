@@ -187,7 +187,14 @@ const reportSchema = new mongoose.Schema({
     },
     qrCode: {
         type: String,
-    }
+    },
+
+    PhysMethodSelected : {
+        type: String,
+    },
+    ChemSelectedMethod : {
+        type: String,
+    },
 
 
 })

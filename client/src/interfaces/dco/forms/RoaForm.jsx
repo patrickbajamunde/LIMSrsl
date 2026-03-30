@@ -22,103 +22,103 @@ function RoaForm() {
   }
 
   const interpretationPreset = {
-    'water': {
-      parameter1: '',
-      parameter2: '',
-      parameter3: '',
-      parameter4: '',
-      data1: '',
-      data2: '',
-      data3: '',
-      data4: '',
-      data5: '',
-      data6: '',
-      data7: '',
-      data8: '',
-      data9: '',
-      data10: '',
-      data11: '',
-      data12: '',
-      data13: '',
-      data14: '',
-      data15: '',
-      data16: '',
-      data17: '',
-      data18: '',
-    },
-    'rice and corn': {
-      parameter1: 'pH or soil reaction:',
-      parameter2: 'Nitrogen(N):',
-      parameter3: 'Phosphorus(P):',
-      parameter4: 'Potassium(K):',
-      data1: 'Intensely acidic       =   < 5.0',
-      data2: 'L =  Low                           =     0-2 %OM',
-      data3: 'L = Low                           =     0-2 ppm',
-      data4: 'D = Deficient    ',
-      data5: 'Moderately acidic  =  5.1– 5.5',
-      data6: 'ML = Moderately Low  =    2.1 – 3.5 %OM',
-      data7: 'ML = Moderately Low  =   2.1-6 ppm',
-      data8: 'Slightly acidic          =  5.6 – 6.5',
-      data9: 'MH=  Moderately High = 3.6-4.5 %OM  ',
-      data10: 'MH=  Moderately High =   6.1-10 ppm',
-      data11: 'S = Sufficient    ',
-      data12: 'Neutral                     =  6.6 – 7.0',
-      data13: 'H = High                            =   4.6-5.5 %OM',
-      data14: 'H = High                            =  10.1-15 ppm',
-      data15: 'Slightly alkaline       =  7.1 – 8.0',
-      data16: 'VH = Very High                =   >5.5 %OM',
-      data17: 'VH = Very High              =   15.1->20 ppm',
-      data18: '',
-    },
-    'high value': {
-      parameter1: 'pH or soil reaction:',
-      parameter2: 'Nitrogen(N):',
-      parameter3: 'Phosphorus(P):',
-      parameter4: 'Potassium(K):',
-      data1: 'Intensely acidic       =   < 5.0',
-      data2: 'L =  Low                           =     0-2 %OM',
-      data3: 'L = Low                           =     0-6 ppm',
-      data4: 'D = Deficient    ',
-      data5: 'Moderately acidic  =  5.1– 5.5',
-      data6: 'ML = Moderately Low  =    2.1 – 3.5 %OM',
-      data7: 'ML = Moderately Low  =   7-10 ppm',
-      data8: 'Slightly acidic          =  5.6 – 6.5',
-      data9: 'H=  High                         = 3.6-4.5 %OM',
-      data10: 'MH=  Moderately High =   11-15 ppm',
-      data11: 'S = Sufficient    ',
-      data12: 'Neutral                     =  6.6 – 7.0',
-      data13: 'VH = Very High                =   >4.5 %OM ',
-      data14: 'H = High                            =  16-20 ppm ',
-      data15: 'Slightly alkaline       =  7.1 – 8.0',
-      data16: '',
-      data17: 'VH = Very High                =   >20 ppm',
-      data18: '',
-    },
-    'regular soil': {
-      parameter1: 'pH or soil reaction:',
-      parameter2: 'Nitrogen(N):',
-      parameter3: 'Phosphorus(P):',
-      parameter4: 'Potassium(K):',
-      data1: 'Intensely acidic       =   < 5.0',
-      data2: 'L=Low          = <2.0 % OM',
-      data3: 'L=Low           = <10 ppm',
-      data4: 'D=Deficient    = < 75 ppm',
-      data5: 'Moderately acidic  =  5.1– 5.5',
-      data6: 'M=Medium = 2.1-4.5 % OM',
-      data7: 'M=Medium = 10-20 ppm',
-      data8: 'Slightly acidic          =  5.6 – 6.5',
-      data9: 'H-High         = >4.5 % OM',
-      data10: 'H=High         = >20 ppm',
-      data11: 'S=Sufficient    = > 75 ppm',
-      data12: 'Neutral                     =  6.6 – 7.0',
-      data13: '',
-      data14: '',
-      data15: 'Slightly alkaline       =  7.1 – 8.0',
-      data16: '',
-      data17: '',
-      data18: '',
+        'water': {
+            parameter1: '',
+            parameter2: '',
+            parameter3: '',
+            parameter4: '',
+            data1: '',
+            data2: '',
+            data3: '',
+            data4: '',
+            data5: '',
+            data6: '',
+            data7: '',
+            data8: '',
+            data9: '',
+            data10: '',
+            data11: '',
+            data12: '',
+            data13: '',
+            data14: '',
+            data15: '',
+            data16: '',
+            data17: '',
+            data18: '',
+        },
+        'rice and corn': {
+            parameter1: 'pH or soil reaction:',
+            parameter2: 'Nitrogen(N):',
+            parameter3: 'Phosphorus(P):',
+            parameter4: 'Potassium(K):',
+            data1: 'Intensely acidic       =   < 5.0',
+            data2: 'L =  Low                           =     0-2 %OM',
+            data3: 'L = Low                           =     0-2 ppm',
+            data4: 'D = Deficient    ',
+            data5: 'Moderately acidic  =  5.1– 5.5',
+            data6: 'ML = Moderately Low  =    2.1 – 3.5 %OM',
+            data7: 'ML = Moderately Low  =   2.1-6 ppm',
+            data8: 'Slightly acidic          =  5.6 –  6.5',
+            data9: 'MH =  Moderately High = 3.6-4.5 %OM  ',
+            data10: 'MH =  Moderately High =   6.1-10 ppm',
+            data11: 'S = Sufficient    ',
+            data12: 'Neutral                     =  6.6 – 7.0',
+            data13: 'H = High                            =   4.6-5.5 %OM',
+            data14: 'H = High                            =  10.1-15 ppm',
+            data15: 'Slightly alkaline       =  7.1 – 8.0',
+            data16: 'VH = Very High                =   >5.5 %OM',
+            data17: 'VH = Very High              =   15.1->20 ppm',
+            data18: '',
+        },
+        'high value': {
+            parameter1: 'pH or soil reaction:',
+            parameter2: 'Nitrogen(N):',
+            parameter3: 'Phosphorus(P):',
+            parameter4: 'Potassium(K):',
+            data1: 'Intensely acidic       =   < 5.0',
+            data2: 'L =  Low                           =     0-2 %OM',
+            data3: 'L = Low                           =     0-6 ppm',
+            data4: 'D = Deficient    ',
+            data5: 'Moderately acidic  =  5.1– 5.5',
+            data6: 'ML = Moderately Low  =    2.1 – 3.5 %OM',
+            data7: 'ML = Moderately Low  =   7-10 ppm',
+            data8: 'Slightly acidic          =  5.6 –  6.5',
+            data9: 'H =  High                         = 3.6-4.5 %OM',
+            data10: 'MH =  Moderately High =   11-15 ppm',
+            data11: 'S = Sufficient    ',
+            data12: 'Neutral                     =  6.6 – 7.0',
+            data13: 'VH = Very High                =   >4.5 %OM ',
+            data14: 'H = High                            =  16-20 ppm ',
+            data15: 'Slightly alkaline       =  7.1 – 8.0',
+            data16: '',
+            data17: 'VH = Very High                =   >20 ppm',
+            data18: '',
+        },
+        'regular soil': {
+            parameter1: 'pH or soil reaction:',
+            parameter2: 'Nitrogen(N):',
+            parameter3: 'Phosphorus(P):',
+            parameter4: 'Potassium(K):',
+            data1: 'Intensely acidic       =   < 5.0',
+            data2: 'L = Low          = <2.0 % OM',
+            data3: 'L = Low           = <10 ppm',
+            data4: 'D = Deficient    = < 75 ppm',
+            data5: 'Moderately acidic  =  5.1– 5.5',
+            data6: 'M = Medium = 2.1-4.5 % OM',
+            data7: 'M = Medium = 10-20 ppm',
+            data8: 'Slightly acidic          =  5.6 –  6.5',
+            data9: 'H = High         = >4.5 % OM',
+            data10: 'H = High         = >20 ppm',
+            data11: 'S = Sufficient    = > 75 ppm',
+            data12: 'Neutral                     =  6.6 – 7.0',
+            data13: '',
+            data14: '',
+            data15: 'Slightly alkaline       =  7.1 – 8.0',
+            data16: '',
+            data17: '',
+            data18: '',
+        }
     }
-  }
 
   const report = {
     customerName: "",
@@ -150,7 +150,9 @@ function RoaForm() {
       physical6: ''
     },
 
-    interpretation: interpretationPreset['regular soil']
+    interpretation: interpretationPreset['regular soil'],
+    PhysMethodSelected: '',
+    ChemSelectedMethod: '',
   }
 
 
@@ -404,6 +406,20 @@ function RoaForm() {
       if (value.trim() !== '') {
         qrGenerator(value);  // Generate QR code when URL is entered
       }
+    } else if (name === 'PhysMethodSelected' ) {
+      const method = methodGroup[value];
+      setResult({
+        ...result,
+        [name]: value,
+        physicalMethod: method
+      });
+    } else if ( name === 'ChemSelectedMethod' ) {
+      const method = methodGroup[value];
+      setResult({
+        ...result,
+        [name]: value,
+        method: method
+      })
     }
     else {
       setResult({ ...result, [name]: value });
@@ -510,7 +526,7 @@ function RoaForm() {
   const submitForm = async (e) => {
     e.preventDefault();
     const form = { ...result, roaDetails: roaReport, physicalDetails: physicalReport };
-    await axios.post("http://192.168.100.177:8002/api/report/newReport", form, {
+    await axios.post("http://localhost:8002/api/report/newReport", form, {
       withCredentials: true,
     })
       .then((response) => {
@@ -732,7 +748,7 @@ function RoaForm() {
               <div className='row g-4 mb-3'>
                 <div className='col-md-2'>
                   <label className='form-label'>Test Method</label>
-                  <select className='form-select border-dark' value={ChemMethodSets} onChange={handleMethodSets}>
+                  <select className='form-select border-dark' name='ChemSelectedMethod' value={result.ChemSelectedMethod} onChange={inputHandler}>
                     <option value="">Choose...</option>
                     <option value="NPK - STK Method">NPK - STK Method</option>
                     <option value="DTPA Method using AAS">DTPA Method using AAS</option>
@@ -900,7 +916,7 @@ function RoaForm() {
                   className="btn btn-primary"
                   onClick={() => {
 
-                    const testMethod = methodName(ChemMethodSets)
+                    const testMethod = methodName(result.ChemSelectedMethod)
 
                     const methodsArray = [
                       result.method.method1,
@@ -983,7 +999,7 @@ function RoaForm() {
               <div className='row g-4 mb-3'>
                 <div className='col-md-2'>
                   <label className='form-label'>Test Method</label>
-                  <select className='form-select border-dark' value={PhysMethodSets} onChange={handlePhysMethodSets}>
+                  <select className='form-select border-dark' name='PhysMethodSelected' value={result.PhysMethodSelected} onChange={inputHandler}>
                     <option value="">Choose...</option>
                     <option value="TEXTURE">TEXTURE</option>
                     <option value="%MC, %WHC, TEXTURE">%MC, %WHC, TEXTURE</option>
@@ -1006,7 +1022,7 @@ function RoaForm() {
                   </select>
                 </div>
 
-                {result.physicalMethod.physical1.trim() !== '' && (
+                {result.physicalMethod?.physical1?.trim() !== '' && (
                   <div className='col-md-2'>
                     <label className='form-label'>Second Parameter</label>
                     <select type='text' className='date form-select border-dark' name='physical2' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical2}>
@@ -1022,7 +1038,7 @@ function RoaForm() {
                   </div>
                 )}
 
-                {result.physicalMethod.physical2.trim() !== '' && (
+                {result.physicalMethod?.physical2?.trim() !== '' && (
                   <div className='col-md-2'>
                     <label className='form-label'>Third Parameter</label>
                     <select type='text' className='date form-select border-dark' name='physical3' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical3}>
@@ -1038,7 +1054,7 @@ function RoaForm() {
                   </div>
                 )}
 
-                {result.physicalMethod.physical3.trim() !== '' && (
+                {result.physicalMethod?.physical3?.trim() !== '' && (
                   <div className='col-md-2'>
                     <label className='form-label'>Fourth Parameter</label>
                     <select type='text' className='date form-select border-dark' name='physical4' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical4}>
@@ -1054,7 +1070,7 @@ function RoaForm() {
                   </div>
                 )}
 
-                {result.physicalMethod.physical4.trim() !== '' && (
+                {result.physicalMethod?.physical4?.trim() !== '' && (
                   <div className='col-md-2'>
                     <label className='form-label'>Fifth Parameter</label>
                     <select type='text' className='date form-select border-dark' name='physical5' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical5}>
@@ -1070,7 +1086,7 @@ function RoaForm() {
                   </div>
                 )}
 
-                {result.physicalMethod.physical5.trim() !== '' && (
+                {result.physicalMethod?.physical5?.trim() !== '' && (
                   <div className='col-md-2'>
                     <label className='form-label'>Sixth Parameter</label>
                     <select type='text' className='date form-select border-dark' name='physical6' data-parent='physicalMethod' onChange={inputHandler} value={result.physicalMethod.physical6}>
@@ -1090,7 +1106,7 @@ function RoaForm() {
                 <button
                   type="button"
                   className="btn btn-primary" onClick={() => {
-                     const testMethod = methodName(PhysMethodSets)
+                     const testMethod = methodName(result.PhysMethodSelected)
 
                     const methodsArray = [
                       result.physicalMethod.physical1,
