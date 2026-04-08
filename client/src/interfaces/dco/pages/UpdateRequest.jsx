@@ -112,6 +112,19 @@ function UpdateRequest() {
     return `${year}-${month}-${rfcal}-${ar}-${defaultSequence}-${getCategoryId}`;
   }
 
+  const recordIdGenerator = (clientType) => {
+    const now = new Date();
+    const year = now.getFullYear();
+
+    const rsl = 'RSL';
+    const fr = 'FR';
+
+    const formCode = '001'
+    const defaultSequence = '0000';
+
+    return `${year}-${rsl}-${fr}-${formCode}-${defaultSequence}`;
+  }
+
   const navigate = useNavigate();
 
   const [request, setRequest] = useState(client);// State to hold request data
@@ -193,10 +206,12 @@ function UpdateRequest() {
       });
     } else if (name === 'clientType') {
       const categoryId = requestIdGenerator(value);
+      const recordId = recordIdGenerator(value);
       setRequest({
         ...request,
         clientType: value,
         requestId: categoryId,
+        recordId: recordId
       });
 
     } else {
@@ -461,12 +476,11 @@ function UpdateRequest() {
             {/*Reques Details*/}
             <div className='card p-4 mb-3 shadow-sm border'>
               <h5 className='mb-4 text-primary fw-bold'>Request Details</h5>
-              <div className="row g-4">
-
-                <div className="col-md-6">
-                  <label className='form-label '>Type Of Client: </label>
-                  <select id='clientType' name="clientType" onChange={inputHandler} value={request.clientType} className='form-select border border-dark'>
-                    <option selected>Choose...</option>
+              <div className="row g-4 mb-4">
+                <div className='col-md-6'>
+                  <label className='form-label'>Type Of Customer</label>
+                  <select id='clientType' name="clientType" onChange={inputHandler} value={request.clientType} className='form-select border-dark'>
+                    <option value="">Choose...</option>
                     <option value="Regulatory">Regulatory</option>
                     <option value="Corn Program">Corn Program</option>
                     <option value="Rice Program">Rice Program</option>
@@ -480,9 +494,16 @@ function UpdateRequest() {
                   </select>
                 </div>
 
+              </div>
+              <div className="row g-4">
+
                 <div className="col-md-6">
-                  <label className='form-label'>Request ID: </label>
-                  <input type="text" className="form-control border border-dark" id="requestId" name="requestId" onChange={inputHandler} value={request.requestId} placeholder="" />
+                  <label className='form-label'>Record ID</label>
+                  <input type="text" className="form-control border border-dark" id="recordId" name="recordId" onChange={inputHandler} value={request.recordId} placeholder="Auto-generated" />
+                </div>
+                <div className='col-md-6'>
+                  <label className='form-label'>Request ID</label>
+                  <input type="text" className="form-control border border-dark" id="requestId" name="requestId" onChange={inputHandler} value={request.requestId} placeholder="Auto-generated" />
                 </div>
 
                 <div className='col-md-6'>

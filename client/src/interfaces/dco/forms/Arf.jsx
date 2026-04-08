@@ -81,13 +81,13 @@ function Arf() {
 
   const testMethodTable = (methodReq) => {
     const methodTable = {
-      "pH":"pH - Potentiometric Method",
-      "OM" : "OC/OM/N - Walkley and Black Mmethod",
-      "NPK" : " N- Walkley-Black Method, P- Olsen Method, K- STK Method",
-      "EC" : "EC- Conductimetric Method",
-      "SOIL TEXTURE" : "TEXTURE - Hydrometer Method",
-      "WATER HOLDING CAPACITY" : "%WHC-Tapping Method",
-      "Moisture Content" : "%MC - Gravimetric Method",
+      "pH": "pH - Potentiometric Method",
+      "OM": "OC/OM/N - Walkley and Black Mmethod",
+      "NPK": " N- Walkley-Black Method, P- Olsen Method, K- STK Method",
+      "EC": "EC- Conductimetric Method",
+      "SOIL TEXTURE": "TEXTURE - Hydrometer Method",
+      "WATER HOLDING CAPACITY": "%WHC-Tapping Method",
+      "Moisture Content": "%MC - Gravimetric Method",
       "pH, Npk": " STK Method",
       "Copper": "DTPA Method using AAS",
       "Iron": "DTPA Method using AAS",
@@ -98,7 +98,7 @@ function Arf() {
       "pH EC OM NPK": "pH - Potentiometric Method, EC- Conductimetric Method, OC/OM/N - Walkley and Black Mmethod, P - Olsen Method, K - STK method",
       "pH EC OM NPK TEXTURE": "pH - Potentiometric Method, EC- Conductimetric Method, OC/OM/N - Walkley and Black Method, P - Olsen Method, K - STK method, TEXTURE - Hydrometer Method",
       "pH, EC, OM, NPK, TEXTURE, WHC, MC": "pH - Potentiometric Method, EC- Conductimetric Method, OC/OM/N - Walkley and Black Method, P - Olsen Method, K - STK method, TEXTURE - Hydrometer Method, %WHC-Tapping Method, %MC-Gravimetric Method"
-      
+
     }
     return methodTable[methodReq] || "";
   }
@@ -150,6 +150,19 @@ function Arf() {
     return `${year}-${month}-${rfcal}-${ar}-${defaultSequence}-${getCategoryId}`;
   }
 
+  const recordIdGenerator = (clientType) => {
+    const now = new Date();
+    const year = now.getFullYear();
+
+    const rsl = 'RSL';
+    const fr = 'FR';
+
+    const formCode = '001'
+    const defaultSequence = '0000';
+
+    return `${year}-${rsl}-${fr}-${formCode}-${defaultSequence}`;
+  }
+
 
   useEffect(() => {
     const total = sample.map(index => parseFloat(index.totalCost || 0)).reduce((startingValue, item) => startingValue + item, 0);
@@ -187,10 +200,12 @@ function Arf() {
       });
     } else if (name === 'clientType') {
       const categoryId = requestIdGenerator(value);
+      const recordId = recordIdGenerator(value);
       setRequest({
         ...request,
         clientType: value,
         requestId: categoryId,
+        recordId: recordId
       });
 
     } else {
@@ -387,7 +402,7 @@ function Arf() {
             {/* --- Request Details --- */}
             <div className='card p-4 mb-3 shadow-sm border'>
               <h5 className='mb-4 text-primary fw-bold'>Request Details</h5>
-              <div className='row g-4'>
+              <div className="row g-4 mb-4">
                 <div className='col-md-6'>
                   <label className='form-label'>Type Of Customer</label>
                   <select id='clientType' name="clientType" onChange={inputHandler} value={request.clientType} className='form-select border-dark'>
@@ -403,6 +418,14 @@ function Arf() {
                     <option value="High Value Crops Program">High Value Crops Program</option>
                     <option value="Research">Research</option>
                   </select>
+                </div>
+
+              </div>
+              <div className='row g-4'>
+
+                <div className="col-md-6">
+                  <label className='form-label'>Record ID</label>
+                  <input type="text" className="form-control border border-dark" id="recordId" name="recordId" onChange={inputHandler} value={request.recordId} placeholder="Auto-generated" />
                 </div>
                 <div className='col-md-6'>
                   <label className='form-label'>Request ID</label>
@@ -696,7 +719,7 @@ function Arf() {
 
                           <div className="col-md-4">
                             <label className="form-label">Unit Cost</label>
-                            <input type="text" className="form-control border border-dark" name="unitCost" value={index.unitCost} onChange={(e) => sampleInputHandler(e, index.id)}/>
+                            <input type="text" className="form-control border border-dark" name="unitCost" value={index.unitCost} onChange={(e) => sampleInputHandler(e, index.id)} />
                           </div>
 
                           <div className="col-auto align-items-center d-flex mt-4">

@@ -111,7 +111,7 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
 
         return (
             <Document>
-                <Page style={[styles.body, { marginTop: 5 }]} size="A4">
+                <Page style={[styles.body, { marginTop: 10 }]} size="A4">
                     <View style={[styles.headerContainer3, styles.row, { marginLeft: 14, marginRight: 14 }]} fixed>
                         <View style={[styles.headerCell, { justifyContent: 'center', paddingRight: 5 }]}>
                             <Image style={styles.image} src={image1} />
@@ -135,7 +135,7 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                             <Text style={[styles.boldFont, { fontSize: 10, borderBottom: 1, paddingLeft: 15 }]}>Document Code</Text>
                             <Text style={[styles.normalFont, { fontSize: 10, borderBottom: 1, padding: 5 }]}>ILD5-RSL-FR-001-0</Text>
                             <Text style={[styles.boldFont, { fontSize: 10, borderBottom: 1, paddingLeft: 25 }]}>Record ID</Text>
-                            <Text style={[styles.normalFont, { fontSize: 8, paddingRight: 2, paddingLeft: 2 }]}>{request.requestId}</Text>
+                            <Text style={[styles.normalFont, { fontSize: 8, paddingRight: 2, paddingLeft: 2 }]}>{request.recordId}</Text>
                         </View>
 
                         <View style={[styles.headerCell, { flexDirection: 'column', borderRightWidth: 0 }]}>
@@ -810,7 +810,7 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                             <Text>DA ILD RSL V. THIS ALSO SERVES AS AUTHORIZATION FOR ____________________________________________________________, TO CLAIM TEST REPORT OF THE  </Text>
                         </View>
                         <View style={styles.row}>
-                            <Text>REQUESTED ANALYSIS ENTERED WITH LAB REQUEST CODE</Text> <Text style={{ fontSize: 9, fontWeight: 'bold', borderBottom: 0.5, paddingHorizontal: 20 }}>{request.requestId}</Text> <Text>INDICATED IN THE ANALYSIS REQUEST FORM</Text>
+                            <Text>REQUESTED ANALYSIS ENTERED WITH LAB REQUEST ID</Text> <Text style={{ fontSize: 9, fontWeight: 'bold', borderBottom: 0.5, paddingHorizontal: 20 }}>{request.requestId}</Text> <Text>INDICATED IN THE ANALYSIS REQUEST FORM</Text>
                         </View>
                     </View>
                     <View style={[styles.row]}>

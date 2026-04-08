@@ -46,6 +46,10 @@ const clientSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+
+    recordId:{
+        type: String,
+    },
     clientType: {
         type: String,
     },

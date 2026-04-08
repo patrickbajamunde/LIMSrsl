@@ -45,6 +45,8 @@ const GenerateRoa = ({ roaId, icon, disabledIcon, copyType, fileType, copyCode }
     }
 
     const resultFormat = (result) => {
+        if(!result) return '';
+        
         const resultArray = result.split(' ');
 
         const resultIndex1 = resultArray[0]
