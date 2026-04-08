@@ -838,7 +838,7 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
 
                 </Page>
 
-                <Page style={[{ marginTop: 5 }]}>
+                <Page style={[{ marginTop: 10 }]}>
                     <View style={[styles.headerContainer3, styles.row, { marginHorizontal: 14 }]} fixed>
                         <View style={[styles.headerCell, { justifyContent: 'center', paddingRight: 5 }]}>
                             <Image style={styles.image} src={image1} />
@@ -862,7 +862,7 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                             <Text style={[styles.boldFont, { fontSize: 10, borderBottom: 1, paddingLeft: 15 }]}>Document Code</Text>
                             <Text style={[styles.normalFont, { fontSize: 10, borderBottom: 1, padding: 5 }]}>ILD5-RSL-FR-001-0</Text>
                             <Text style={[styles.boldFont, { fontSize: 10, borderBottom: 1, paddingLeft: 25 }]}>Record ID</Text>
-                            <Text style={[styles.normalFont, { fontSize: 8, paddingRight: 2, paddingLeft: 2 }]}>{request.requestId}</Text>
+                            <Text style={[styles.normalFont, { fontSize: 8, paddingRight: 2, paddingLeft: 2 }]}>{request.recordId}</Text>
                         </View>
 
                         <View style={[styles.headerCell, { flexDirection: 'column', borderRightWidth: 0 }]}>
