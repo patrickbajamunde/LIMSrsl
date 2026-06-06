@@ -1091,7 +1091,7 @@ function UpdateReport() {
                                   // Map each method to its full name, then join
                                   const selectedMethods = methodsArray
                                     .map(method => ParameterName(method))
-                                    .join(', ');
+                                    .join(', ');  
 
                                   const resolvedMethod = testMethod || selectedMethods
                                   setReportDetails({

@@ -161,15 +161,6 @@ function UpdateRequest() {
   const location = useLocation();
   const backRoute = location.state?.from || "/Dco/Walkin/";
 
-  const computeCost = (unitCost, noOfSample) => {
-    const getUnitCost = testMethodPrice(unitCost);
-    const getSampleQuantity = parseInt(noOfSample);
-
-    const totalCost = getUnitCost * getSampleQuantity;
-
-    return totalCost;
-  }
-
   useEffect(() => {
 
     if (!request.sampleDetails) return;
@@ -228,7 +219,7 @@ function UpdateRequest() {
       const unitPrice = testMethodPrice(value);  // Get price
       const method = testMethodTable(value);
       const numSamples = parseInt(sampleDetail.noOfSample) || 0;
-      const total = unitPrice * numSamples;  // Calculate total
+      const total = unitPrice   // Calculate total
 
       setTextField(
         textField.map((field) =>
@@ -246,7 +237,7 @@ function UpdateRequest() {
     }
     else if (name === 'unitCost' && fieldId) {
       const numSamples = parseInt(sampleDetail.noOfSample) || 0;
-      const total = parseFloat(value) * numSamples;
+      const total = parseFloat(value) 
 
       setTextField(
         textField.map((field) =>
@@ -270,7 +261,7 @@ function UpdateRequest() {
       setTextField(
         textField.map((field) => ({
           ...field,
-          totalCost: (parseFloat(field.unitCost) || 0) * numSamples
+          totalCost: (parseFloat(field.unitCost) || 0) 
         }))
       );
     }
@@ -671,8 +662,16 @@ function UpdateRequest() {
               <div className='d-flex justify-content-between align-items-center mb-3 mt-4'>
                 <button
                   type="button"
-                  className="btn btn-primary"
-                  onClick={openAddModal}>
+                  className="btn btn-primary" onClick={() => {
+                    if (!isEditing) {
+                      setSampleDetail({
+                        ...sampleDetail,
+                        noOfSample: request.sampleDetails.length + 1
+                      })
+                    }
+                    setShowModal(true)
+
+                  }}>
                   <i className="bi bi-plus-lg me-2 fs-6"></i>Add Sample Details
                 </button>
               </div>
@@ -795,7 +794,7 @@ function UpdateRequest() {
                     <div className="row g-4">
                       <div className="col-md-6">
                         <label className='form-label'>No. of Samples:</label>
-                        <input type="text" className="form-control border-dark" id="noOfSample" name='noOfSample' value={sampleDetail.noOfSample} onChange={sampleInputHandler} placeholder="" />
+                        <input type="text" className="form-control border-dark" id="noOfSample" name='noOfSample' value={sampleDetail.noOfSample} onChange={sampleInputHandler} disabled />
                       </div>
 
                       <div className="col-md-6">
@@ -881,7 +880,7 @@ function UpdateRequest() {
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" onClick={() => {
-                    setShowModal(false)
+                    
                     setSampleDetail({
                       sampleDescription: "",
                       labCode: "",
@@ -893,6 +892,9 @@ function UpdateRequest() {
                     });
                     setTextField([{ id: 1, methodReq: '', unitCost: '', totalCost: '' }]);
                     setNextInput(2);
+                    setEditingIndex(null);
+                    setIsEditing(false)
+                    setShowModal(false)
                   }}>
                     Cancel
                   </button>

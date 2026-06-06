@@ -122,6 +122,8 @@ function Arf() {
 
   const [textField, setTextField] = useState([{ id: 1, methodReq: '', unitCost: '', totalCost: '' }]);
   const [nextInput, setNextInput] = useState(2);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingIndex, setEditingIndex] = useState(null);
 
   const addTextField = () => {
     setTextField([...textField, { id: nextInput, methodReq: '', unitCost: '', totalCost: '' }]);
@@ -131,6 +133,48 @@ function Arf() {
   const deleteTextField = (id) => {
     if (textField.length > 1) {
       setTextField(textField.filter((itemField) => itemField.id !== id));
+    }
+  }
+
+  const openEditModal = (index) => {
+    const fieldToEdit = sample[index];
+
+    // Rebuild textField from the saved methodReq and unitCost strings
+    const methods = fieldToEdit.methodReq.split(', ');
+    const costs = fieldToEdit.unitCost.split(', ');
+
+    const restoredFields = methods.map((method, i) => ({
+      id: i + 1,
+      methodReq: method,
+      unitCost: costs[i] || '',
+      totalCost: parseFloat(costs[i]) || 0,
+      method: testMethodTable(method),
+    }));
+
+    setTextField(restoredFields);
+    setNextInput(restoredFields.length + 1);
+
+    setSampleDetail({
+      sampleDescription: fieldToEdit.sampleDescription,
+      methodReq: fieldToEdit.methodReq,
+      labCode: fieldToEdit.labCode,
+      customerCode: fieldToEdit.customerCode,
+      noOfSample: fieldToEdit.noOfSample,
+      unitCost: fieldToEdit.unitCost,
+      totalCost: fieldToEdit.totalCost,
+      method: fieldToEdit.method,
+    });
+
+    setIsEditing(true);
+    setEditingIndex(index);
+    setShowModal(true);
+  };
+
+
+  const deleteEntry = (index) => {
+    if (window.confirm("Are you sure you want to delete this entry?")) {
+      const newSampleDetail = sample.filter((_, entry) => entry !== index);
+      setSample(newSampleDetail);
     }
   }
 
@@ -162,6 +206,7 @@ function Arf() {
 
     return `${year}-${rsl}-${fr}-${formCode}-${defaultSequence}`;
   }
+
 
 
   useEffect(() => {
@@ -222,7 +267,7 @@ function Arf() {
       const unitPrice = testMethodPrice(value);  // Get price
       const method = testMethodTable(value);
       const numSamples = parseInt(sampleDetail.noOfSample) || 0;
-      const total = unitPrice * numSamples;  // Calculate total
+      const total = unitPrice   // Calculate total
 
       setTextField(
         textField.map((field) =>
@@ -240,7 +285,7 @@ function Arf() {
     }
     else if (name === 'unitCost' && fieldId) {
       const numSamples = parseInt(sampleDetail.noOfSample) || 0;
-      const total = parseFloat(value) * numSamples;
+      const total = parseFloat(value)
 
       setTextField(
         textField.map((field) =>
@@ -264,7 +309,7 @@ function Arf() {
       setTextField(
         textField.map((field) => ({
           ...field,
-          totalCost: (parseFloat(field.unitCost) || 0) * numSamples
+          totalCost: (parseFloat(field.unitCost) || 0)
         }))
       );
     }
@@ -280,7 +325,6 @@ function Arf() {
 
     const methodList = textField.map(field => field.method).join(', ');
 
-    // Combine all methods into comma-separated strings
     const methodsString = textField
       .map(field => field.methodReq)
       .join(', ');
@@ -289,12 +333,10 @@ function Arf() {
       .map(field => field.unitCost)
       .join(', ');
 
-    // Calculate grand total
     const grandTotal = textField.reduce((sum, field) => {
       return sum + (parseFloat(field.totalCost) || 0);
     }, 0);
 
-    // Create ONE sample entry
     const newSample = {
       noOfSample: sampleDetail.noOfSample,
       customerCode: sampleDetail.customerCode,
@@ -306,7 +348,17 @@ function Arf() {
       method: methodList
     };
 
-    setSample([...sample, newSample]);
+    // ✅ Check if editing or adding
+    if (isEditing && editingIndex !== null) {
+      const updatedSamples = sample.map((item, index) =>
+        index === editingIndex ? newSample : item
+      );
+      setSample(updatedSamples);
+      setIsEditing(false);
+      setEditingIndex(null);
+    } else {
+      setSample([...sample, newSample]);
+    }
 
     // Reset
     setSampleDetail({
@@ -320,11 +372,10 @@ function Arf() {
       method: "",
     });
 
-
     setTextField([{ id: 1, methodReq: '', unitCost: '', totalCost: '' }]);
     setNextInput(2);
     setShowModal(false);
-  }
+  };
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -564,7 +615,15 @@ function Arf() {
               <div className='d-flex justify-content-between align-items-center mb-3 mt-4'>
                 <button
                   type="button"
-                  className="btn btn-primary" onClick={() => setShowModal(true)}>
+                  className="btn btn-primary" onClick={() => {
+                    const modifySampleDetail = {
+                      ...sampleDetail,
+                      noOfSample: sample.length + 1
+                    }
+
+                    setSampleDetail(modifySampleDetail);
+                    setShowModal(true)
+                  }}>
                   <i className="bi bi-plus-lg me-2 fs-6"></i>Add Sample Details
                 </button>
               </div>
@@ -580,6 +639,7 @@ function Arf() {
                         <th colSpan="2">Test Requested - Test Method</th>
                         <th>Unit Cost</th>
                         <th>Total Cost</th>
+                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -598,11 +658,19 @@ function Arf() {
                             </td>
                             <td>{sampleItem.unitCost}</td>
                             <td>{sampleItem.totalCost}</td>
+                            <td>
+                              <button type='button' className="btn btn-sm btn-outline-primary me-2" onClick={() => openEditModal(index)}>
+                                <i className="bi bi-pencil"></i>
+                              </button>
+                              <button type='button' className="btn btn-sm btn-outline-danger" onClick={() => deleteEntry(index)}>
+                                <i className="bi bi-trash"></i>
+                              </button>
+                            </td>
                           </tr>
                         ))
                       ) : (
                         <tr>
-                          <td colSpan="8" className="text-center">No samples added yet.</td>
+                          <td colSpan="9" className="text-center">No samples added yet.</td>
                         </tr>
                       )}
                     </tbody>
@@ -664,7 +732,7 @@ function Arf() {
                     <div className="row g-4">
                       <div className="col-md-6">
                         <label className='form-label'>No. of Samples:</label>
-                        <input type="text" className="form-control border-dark" id="noOfSample" name='noOfSample' value={sampleDetail.noOfSample} onChange={sampleInputHandler} placeholder="" />
+                        <input type="text" className="form-control border-dark" id="noOfSample" name='noOfSample' value={sampleDetail.noOfSample} onChange={sampleInputHandler} disabled />
                       </div>
 
                       <div className="col-md-6">
@@ -764,11 +832,13 @@ function Arf() {
                     });
                     setTextField([{ id: 1, methodReq: '', unitCost: '', totalCost: '' }]);
                     setNextInput(2);
+                    setEditingIndex(null)
+                    setIsEditing(false)
                   }}>
                     Cancel
                   </button>
                   <button type="submit" className="btn btn-primary">
-                    Add
+                    {isEditing ? 'Update' : 'Add'}
                   </button>
                 </div>
               </form>
