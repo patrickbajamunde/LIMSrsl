@@ -95,7 +95,7 @@ function Arf() {
       "Manganese": "DTPA Method using AAS",
       "NITRATE": "NO3-N Kjeldhal Method",
       "PHOSPHATE": "PO4 - Vanadomolybdate Method",
-      "pH EC OM NPK": "pH - Potentiometric Method, EC- Conductimetric Method, OC/OM/N - Walkley and Black Mmethod, P - Olsen Method, K - STK method",
+      "pH EC OM NPK": "pH - Potentiometric Method, EC- Conductometric Method, OC/OM/N - Walkley and Black Method, P - Olsen Method, K - STK method",
       "pH EC OM NPK TEXTURE": "pH - Potentiometric Method, EC- Conductimetric Method, OC/OM/N - Walkley and Black Method, P - Olsen Method, K - STK method, TEXTURE - Hydrometer Method",
       "pH, EC, OM, NPK, TEXTURE, WHC, MC": "pH - Potentiometric Method, EC- Conductimetric Method, OC/OM/N - Walkley and Black Method, P - Olsen Method, K - STK method, TEXTURE - Hydrometer Method, %WHC-Tapping Method, %MC-Gravimetric Method"
 
@@ -125,7 +125,7 @@ function Arf() {
   const [isEditing, setIsEditing] = useState(false);
   const [editingIndex, setEditingIndex] = useState(null);
 
-  const addTextField = () => {
+  const addTextField = () => {  
     setTextField([...textField, { id: nextInput, methodReq: '', unitCost: '', totalCost: '' }]);
     setNextInput(nextInput + 1);
   }
@@ -562,6 +562,11 @@ function Arf() {
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                   </select>
+                </div>
+
+                <div className='col-md-6'>
+                  <label className='form-label'>Submitted By</label>
+                  <input type="text" className="form-control border border-dark" id="submittedBy" name='submittedBy' value={request.submittedBy} onChange={inputHandler} placeholder="Full Name" />
                 </div>
               </div>
             </div>

@@ -74,6 +74,10 @@ const clientSchema = new mongoose.Schema({
         type: String,
     },
 
+    submittedBy : {
+        type: String,
+    },
+
     sampleDisposal: {
         type: Date,
     },

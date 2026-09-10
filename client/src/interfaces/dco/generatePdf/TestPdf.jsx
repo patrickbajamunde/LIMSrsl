@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Image, pdf } from '@react-pdf/renderer';
 import styles from './Styles';
 import image1 from '../../analysts/components/images/DA5.jpg';
 import image2 from '../../dco/components/images/unnamed.png'
@@ -93,6 +93,7 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
         }
 
         const checkHeight2 = (index) => {
+            c
             const method = request.sampleDetails[index]?.methodReq?.trim();
             if (!method) return { minHeight: 20 };
 
@@ -406,7 +407,6 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                                     </View>
                                 ) : request.sampleDetails.length > 1 && request.sampleDetails.every(sample => sample.methodReq?.trim() === request.sampleDetails[0].methodReq?.trim()) ? (
                                     <View style={[styles.row, { alignItems: 'stretch' }]}>
-
                                         {/* SINGLE MAP - all per-row columns together */}
                                         <View style={{ width: '100%' }}>
                                             {request.sampleDetails.map((row, index) => (
@@ -761,7 +761,7 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                         <View style={[styles.row, { height: 25 }]}>
                             <View style={[styles.cellTwo, { width: "93.5%", fontSize: 9 }]}>
                                 <Text>Submitted By:</Text>
-                                <Text style={[{ fontSize: 10, textAlign: 'center', justifyContent: 'flex-end', }]}>{request.clientName}, {numericDate(request.transactionDate)}</Text>
+                                <Text style={[{ fontSize: 10, textAlign: 'center', justifyContent: 'flex-end', }]}>{request.submittedBy}, {numericDate(request.transactionDate)}</Text>
                             </View>
                             <View style={[styles.cellTwo, { width: "95%", textAlign: 'center', justifyContent: 'flex-end', }]}>
                                 <Text>{request.receivedBy}, {numericDate(request.transactionDate)}</Text>
@@ -875,15 +875,15 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                                 fixed />
                         </View>
                     </View>
-                    <View style={[styles.headerContainer3, {marginHorizontal: 14, backgroundColor: '#D9EAD3', borderTop: 0}]}>
-                        <Text style={[styles.termsBold, {textAlign: 'center', fontSize: 10, padding: 3}]}>Terms & Conditions</Text>
+                    <View style={[styles.headerContainer3, { marginHorizontal: 14, backgroundColor: '#D9EAD3', borderTop: 0 }]}>
+                        <Text style={[styles.termsBold, { textAlign: 'center', fontSize: 10, padding: 3 }]}>Terms & Conditions</Text>
                     </View>
 
                     {terms.map((term, index) => (
-                        <View key={index} style={{ marginHorizontal: 14, marginTop: 5}}>
-                            <Text style={[styles.row, { flexWrap: 'wrap'}]}>
-                                <Text style={[styles.termsBold, {fontSize: 9} ]}>{`${term.title}`}</Text>
-                                <Text style={[styles.termsNormal, {fontSize: 9} ]}>{`${term.content}`}</Text>
+                        <View key={index} style={{ marginHorizontal: 14, marginTop: 5 }}>
+                            <Text style={[styles.row, { flexWrap: 'wrap' }]}>
+                                <Text style={[styles.termsBold, { fontSize: 9 }]}>{`${term.title}`}</Text>
+                                <Text style={[styles.termsNormal, { fontSize: 9 }]}>{`${term.content}`}</Text>
                             </Text>
                         </View>
                     ))}
@@ -895,14 +895,22 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
         )
     }
 
+    const handleDownload = async () => {
+        const blob = await pdf(generatePdf()).toBlob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${request.requestId}.pdf`;
+        link.click();
+        URL.revokeObjectURL(url);
+    }
+
     return (
         <>
             {request ? (
-                <PDFDownloadLink document={generatePdf()} fileName={request.requestId} style={{ padding: 0 }}>
-                    <button className="btn p-0 border-0">
-                        {icon}
-                    </button>
-                </PDFDownloadLink>
+                <button className="btn p-0 border-0" onClick={handleDownload}>
+                    {icon}
+                </button>
             ) : (
                 <button className="btn p-0 border-0" disabled>
                     {disabledIcon}

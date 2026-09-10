@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Page, Text, View, Document, Image } from '@react-pdf/renderer';
+import { Page, Text, View, Document, Image, pdf } from '@react-pdf/renderer';
 import styles from './Styles';
 import image1 from '../../analysts/components/images/DA5.jpg';
 import image2 from '../../dco/components/images/unnamed.png'
@@ -45,7 +45,7 @@ const GenerateRoa = ({ roaId, icon, disabledIcon, copyType, fileType, copyCode }
     }
 
     const resultFormat = (result) => {
-        if(!result) return '';
+        if (!result) return '';
 
         const resultArray = result?.split(' ');
 
@@ -68,15 +68,15 @@ const GenerateRoa = ({ roaId, icon, disabledIcon, copyType, fileType, copyCode }
     }
 
     const interPretationColor = (str) => {
-       const str1 = str.substring(0, 4);
-       const str2 = str.substring(4);
-       
-       return (
-        <View style={styles.row}>
-            <Text style={[styles.normalFont, {fontSize: 8, color: 'red'}]}>{str1}</Text>
-            <Text style={[styles.normalFont, {fontSize: 8}]}>{str2}</Text>
-        </View>
-       )
+        const str1 = str.substring(0, 4);
+        const str2 = str.substring(4);
+
+        return (
+            <View style={styles.row}>
+                <Text style={[styles.normalFont, { fontSize: 8, color: 'red' }]}>{str1}</Text>
+                <Text style={[styles.normalFont, { fontSize: 8 }]}>{str2}</Text>
+            </View>
+        )
     }
 
 
@@ -252,7 +252,7 @@ const GenerateRoa = ({ roaId, icon, disabledIcon, copyType, fileType, copyCode }
                                             <View style={[styles.roaCell, colorChanger(report.method?.method5), { width: '16.74%', textAlign: 'center', borderTop: 0, fontSize: 10 }]}>
                                                 {resultFormat(row.results?.method5Results)}
                                             </View>
-                                            <View style={[styles.roaCell,  colorChanger(report.method?.method6), { width: '16.98%', textAlign: 'center', borderTop: 0, fontSize: 10 }]} >
+                                            <View style={[styles.roaCell, colorChanger(report.method?.method6), { width: '16.98%', textAlign: 'center', borderTop: 0, fontSize: 10 }]} >
                                                 {resultFormat(row.results?.method6Results)}
                                             </View>
                                         </View>
@@ -677,14 +677,22 @@ const GenerateRoa = ({ roaId, icon, disabledIcon, copyType, fileType, copyCode }
         )
     }
 
+    const handleDownload = async () => {
+        const blob = await pdf(generatePdf()).toBlob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${report.reportId}${fileType}.pdf`;
+        link.click();
+        URL.revokeObjectURL(url);
+    };
+
     return (
         <>
             {report ? (
-                <PDFDownloadLink document={generatePdf()} fileName={`${report.reportId}${fileType}`} style={{ padding: 0 }}>
-                    <button className="btn p-0 border-0">
-                        {icon}
-                    </button>
-                </PDFDownloadLink>
+                <button className="btn p-0 border-0" onClick={handleDownload}>
+                    {icon}
+                </button>
             ) : (
                 <button className="btn p-0 border-0" disabled>
                     {disabledIcon}
