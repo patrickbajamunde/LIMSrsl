@@ -93,7 +93,6 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
         }
 
         const checkHeight2 = (index) => {
-            c
             const method = request.sampleDetails[index]?.methodReq?.trim();
             if (!method) return { minHeight: 20 };
 
@@ -109,10 +108,9 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
 
 
 
-
         return (
             <Document>
-                <Page style={[styles.body, { marginTop: 10 }]} size="A4">
+                <Page style={[styles.body, { marginTop: 10, paddingBottom: 25 }]} size="A4">
                     <View style={[styles.headerContainer3, styles.row, { marginLeft: 14, marginRight: 14 }]} fixed>
                         <View style={[styles.headerCell, { justifyContent: 'center', paddingRight: 5 }]}>
                             <Image style={styles.image} src={image1} />
@@ -364,7 +362,7 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                                 request.sampleDetails.length === 1 ? (
                                     <View>
                                         {request.sampleDetails.map((row, index) => (
-                                            <View style={[styles.row]} key={index}>
+                                            <View style={[styles.row]} key={index} >
                                                 <View style={[styles.cell, { width: "18%", textAlign: "center" }]}>
                                                     <Text>{row.noOfSample}</Text>
                                                 </View>
@@ -385,20 +383,16 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                                                         <Text>{row.sampleDescription}</Text>
                                                     </View>
                                                 </View>
-                                                <View style={[styles.cell, { width: "30%", fontSize: 10, borderRight: 0, fontWeight: 'bold', textAlign: 'center', justifyContent: 'center' }]}>
-                                                    <View>
-                                                        <Text hyphenationCallback={word => [word]}>
-                                                            {row.methodReq}
-                                                        </Text>
-                                                    </View>
+                                                <View style={[styles.cell, { width: "30%", fontSize: 10, borderRight: 0, fontWeight: 'bold', textAlign: 'center', justifyContent: 'center' }]} fixed>
+                                                    <Text hyphenationCallback={word => [word]} >
+                                                        {row.methodReq}
+                                                    </Text>
                                                 </View>
 
-                                                <View style={[styles.cell, { width: "30%", fontSize: 8, fontWeight: 'bold' }]}>
-                                                    <View>
-                                                        <Text hyphenationCallback={word => [word]}>
-                                                            {row.method.replace(/,\s*/g, '\n')}
-                                                        </Text>
-                                                    </View>
+                                                <View style={[styles.cell, { width: "30%", fontSize: 8, fontWeight: 'bold' }]} fixed>
+                                                    <Text hyphenationCallback={word => [word]} >
+                                                        {row.method.replace(/,\s*/g, '\n')}
+                                                    </Text>
                                                 </View>
                                                 <Text style={[styles.cell, { width: "20%", fontSize: 10 }]}>{row.unitCost?.trim().replace(/,\s*/g, '\n')}</Text>
                                                 <Text style={[styles.cell, { width: "20%", fontSize: 10 }]}>{row.totalCost}</Text>
@@ -406,11 +400,12 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                                         ))}
                                     </View>
                                 ) : request.sampleDetails.length > 1 && request.sampleDetails.every(sample => sample.methodReq?.trim() === request.sampleDetails[0].methodReq?.trim()) ? (
-                                    <View style={[styles.row, { alignItems: 'stretch' }]}>
+                                 
+                                    <View style={[styles.row, { position: 'relative' }]} >
                                         {/* SINGLE MAP - all per-row columns together */}
                                         <View style={{ width: '100%' }}>
                                             {request.sampleDetails.map((row, index) => (
-                                                <View style={[styles.row, { flexGrow: 1, alignItems: 'stretch' }]} key={index}>
+                                                <View style={[styles.row, { flexGrow: 1 }]} key={index} wrap={false}>
                                                     <View style={[styles.cell, { width: "18%", textAlign: "center", justifyContent: 'center' }]}>
                                                         <Text>{row.noOfSample}</Text>
                                                     </View>
@@ -439,14 +434,14 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                                                 </View>
                                             ))}
 
-                                            <View style={{ width: '30.3%', flexDirection: 'row', alignSelf: 'stretch', position: 'absolute', right: '20.2%', top: 0, bottom: 0, }}>
-                                                <View style={[styles.cell, { flex: 1, justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', fontSize: 10, textAlign: 'center', borderRight: 0, backgroundColor: 'white', }]}>
-                                                    <Text style={{ fontWeight: 'bold' }}>
+                                            <View style={{ width: '30.3%', flexDirection: 'row', position: 'absolute', right: '20.2%', top: 0, bottom: 0, }} fixed>
+                                                <View style={[styles.cell, { flex: 1, justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', fontSize: 10, textAlign: 'center', borderRight: 0, backgroundColor: 'white', }]} >
+                                                    <Text style={{ fontWeight: 'bold' }} >
                                                         {allForOneParameter(request.sampleDetails[0], 0)}
                                                     </Text>
                                                 </View>
-                                                <View style={[styles.cell, { flex: 1, justifyContent: 'center', fontSize: 8, backgroundColor: 'white' }]}>
-                                                    <Text>{allForOne(request.sampleDetails[0], 0)}</Text>
+                                                <View style={[styles.cell, { flex: 1, justifyContent: 'center', fontSize: 8, backgroundColor: 'white' }]} >
+                                                    <Text >{allForOne(request.sampleDetails[0], 0)}</Text>
                                                 </View>
                                             </View>
                                         </View>
@@ -456,7 +451,7 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                                 ) ? (
                                     <View style={{ width: '100%' }}>
                                         {request.sampleDetails.map((row, index) => (
-                                            <View style={[styles.row]} key={index}>
+                                            <View style={[styles.row]} key={index} >
                                                 <View style={[styles.cell, { width: "18%", textAlign: "center" }]}>
                                                     <Text>{row.noOfSample}</Text>
                                                 </View>
@@ -471,13 +466,13 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                                                 <View style={[styles.cell, { width: "30%", textAlign: "left", fontSize: 10 }]}>
                                                     <Text style={{ flexWrap: 'wrap' }}>{row.sampleDescription}</Text>
                                                 </View>
-                                                <View style={[styles.cell, { width: "30%", fontSize: 10, borderRight: 0, fontWeight: 'bold', textAlign: 'center', justifyContent: 'center' }]}>
-                                                    <Text hyphenationCallback={word => [word]}>
+                                                <View style={[styles.cell, { width: "30%", fontSize: 10, borderRight: 0, fontWeight: 'bold', textAlign: 'center', justifyContent: 'center' }]} fixed>
+                                                    <Text hyphenationCallback={word => [word]} >
                                                         {row.methodReq?.replace(/,\s*/g, '\n')}
                                                     </Text>
                                                 </View>
-                                                <View style={[styles.cell, { width: "30%", fontSize: 8 }]}>
-                                                    <Text hyphenationCallback={word => [word]}>
+                                                <View style={[styles.cell, { width: "30%", fontSize: 8 }]} fixed>
+                                                    <Text hyphenationCallback={word => [word]} >
                                                         {row.method?.replace(/,\s*/g, '\n')}
                                                     </Text>
                                                 </View>
@@ -496,7 +491,7 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                                     <View style={{ width: '100%', position: 'relative' }}>
                                         {/* Main rows - leave method columns as empty placeholders */}
                                         {request.sampleDetails.map((row, index) => (
-                                            <View style={[styles.row, { flexGrow: 1, alignItems: 'stretch' }]} key={index}>
+                                            <View style={[styles.row, { flexGrow: 1 }]} key={index} >
                                                 <View style={[styles.cell, { width: "18%", textAlign: "center" }]}>
                                                     <Text>{row.noOfSample}</Text>
                                                 </View>
@@ -581,16 +576,16 @@ const TestPdf = ({ requestId, icon, disabledIcon }) => {
                                                             width: '30.3%',
                                                             left: '49.5%',
                                                             flexDirection: 'row',
-                                                            flexGrow: 1
+                                                            flexGrow: 1,
                                                         }}
                                                     >
-                                                        <View style={[styles.cell, { flex: 1, justifyContent: 'center', alignItems: 'center', fontSize: 10, fontWeight: 'bold', textAlign: 'center', borderRight: 0, backgroundColor: 'white' }]}>
-                                                            <Text style={{ fontWeight: 'bold' }}>
+                                                        <View style={[styles.cell, { flex: 1, justifyContent: 'center', alignItems: 'center', fontSize: 10, fontWeight: 'bold', textAlign: 'center', borderRight: 0, backgroundColor: 'white' }]} fixed>
+                                                            <Text style={{ fontWeight: 'bold' }} >
                                                                 {group.methodReq.replace(/,\s*/g, '\n')}
                                                             </Text>
                                                         </View>
-                                                        <View style={[styles.cell, { flex: 1, justifyContent: 'center', fontSize: 8, backgroundColor: 'white' }]}>
-                                                            <Text>{group.method.replace(/,\s*/g, '\n')}</Text>
+                                                        <View style={[styles.cell, { flex: 1, justifyContent: 'center', fontSize: 8, backgroundColor: 'white' }]} fixed>
+                                                            <Text >{group.method.replace(/,\s*/g, '\n')}</Text>
                                                         </View>
                                                     </View>
                                                 );

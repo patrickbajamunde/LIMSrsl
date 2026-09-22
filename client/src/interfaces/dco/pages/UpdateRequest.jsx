@@ -608,6 +608,11 @@ function UpdateRequest() {
                     <option value="Female">Female</option>
                   </select>
                 </div>
+
+                <div className='col-md-6'>
+                  <label className='form-label'>Submitted By</label>
+                  <input type="text" className="form-control border border-dark" id="submittedBy" name='submittedBy' value={request.submittedBy} onChange={inputHandler} placeholder="Full Name" />
+                </div>
               </div>
             </div>
 
